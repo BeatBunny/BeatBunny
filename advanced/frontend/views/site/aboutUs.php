@@ -9,7 +9,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-about">
     <h1><?= Html::encode($this->title) ?></h1>
-    <div class="row">
+    <div class="row" style="margin-top: 5%;">
         <div class="col-md-4 centerThemBitches">
             <span class="userImage"><?= Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]); ?></span>
             <h2>
