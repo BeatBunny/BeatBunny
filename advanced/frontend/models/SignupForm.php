@@ -3,6 +3,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
+use frontend\models\Profile;
 use common\models\User;
 
 /**
@@ -13,6 +14,8 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $nome;
+    public $nif;
 
 
     /**
@@ -34,6 +37,13 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+
+            ['nome', 'trim'],
+            ['nome', 'required'],
+            ['nome', 'string', 'min' => 2, 'max' => 255],
+
+            ['nif', 'required'],
+            ['nif', 'integer'],
         ];
     }
 
@@ -44,19 +54,35 @@ class SignupForm extends Model
      */
     public function signup()
     {
-        if (!$this->validate()) {
-            return null;
-        }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
+        if ($this->validate()) {
+            $user = new User();
+            $user->username = $this->username;
+            $user->email = $this->email;
+            $user->setPassword($this->password);
+            $user->generateAuthKey();
 
+            // COMEÇA AQUI A PARTE DA TABELA PROFILES, ANTES DISTO FOI CRIADO AUTOMATICAMENTE
+
+            $profile = new Profile();
+            $profile->nome = $this->nome;
+            $profile->nif = $this->nif;
+            $profile->saldo = 0;
+
+            $user->save(false);
+            $profile->id_user = $user->getId();
+            $profile->save(false);
+
+            // the following three lines were added:
+            $auth = \Yii::$app->authManager;
+            $authorRole = $auth->getRole('author');
+            $auth->assign($authorRole, $user->getId());
+
+            return $user;
+        }
+
+        return null;
     }
+
 
     /**
      * Sends confirmation email to user

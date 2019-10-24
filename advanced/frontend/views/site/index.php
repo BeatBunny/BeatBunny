@@ -13,7 +13,7 @@ $this->title = 'beatBunny';
 
         <p class="lead" style="visibility: hidden;">Welcome to beatBunny</p>
 
-        <p><a class="btn btn-lg btn-success" href="#">Get the App</a></p>
+        <p><a class="btn btn-lg getTheAppClass" href="#" style="width: 100%"><?= Html::img('@web/images/logo_horizontal_white.png', ['alt'=>""],[ "id"=>"userImage"]); ?>Get the App<?= Html::img('@web/images/logo_horizontal_white.png', ['alt'=>""],[ "id"=>"userImage"]); ?></a></p>
     </div>
 
     <div class="body-content" style="display: block;">
@@ -44,7 +44,7 @@ $this->title = 'beatBunny';
                 <br>
                 </div>
                 <div class="col-lg-12">
-                    <p><?php echo Html::a('Yes, show me your music list!', Url::toRoute(['', '']), ['class' => 'btn btn-default'] )?></p>
+                    <p><?php echo Html::a('Yes, show me your music list!', Url::toRoute(['site/musics']), ['class' => 'btn btn-default'] )?></p>
                 </div>
             </div>
             <div class="col-lg-4">
