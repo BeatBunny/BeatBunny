@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace frontend\controllers;
 
 use Yii;
-use app\models\Linhavenda;
-use app\models\SearchLinhavenda;
+use frontend\models\Linhavenda;
+use frontend\models\SearchLinhavenda;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

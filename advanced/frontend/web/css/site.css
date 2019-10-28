@@ -211,3 +211,128 @@ a.desc:after {
     background-color: #222;
     border-color: #fff;
 }
+
+.width100{
+    width: 100%;
+}
+
+
+.padding5{
+    padding: 5%;
+}
+
+@media(max-width: 1199px){
+    .padding5{
+        padding: 1%;
+    }
+}
+
+
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: transparent;
+    color: #9d9d9d;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: black;
+    min-width: 160px;
+    padding-left: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content > li {
+    color: #9d9d9d;
+    padding: 12px;
+    display: block; 
+    list-style-type: none;
+    margin: 5px;
+}
+
+
+.dropbtn > a{
+    color:#9d9d9d;
+}
+
+.dropbtn > a:hover{
+    color:white;
+}
+
+.dropdown-content > li > a{
+    color:#9d9d9d;
+}
+
+.dropdown-content > li > a:hover{
+    color:white;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content > li:hover {background-color: black; color: white; cursor: pointer;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: transparent; color: white;}
+
+.textAlignCenter{ text-align: center; }
+
+.userProfileCol{
+    border-right: 1px solid black;
+}
+.marginTop2Percent{ margin-top: 2%; }
+
+.textAlignRight{ text-align: right; }
+
+.borderTopBlack{ border-top: 1px solid black; }
+
+.userImageProfile > img { width: 30%; }
+
+.borderBottomBlack{ border-bottom: 1px solid black;  }
+
+h2, .h2, h3, .h3{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.borderLeftBlack
+{
+    border-left: 1px solid black;
+}
+.borderRightBlack{
+    border-right: 1px solid black;
+}
+
+button > a {
+    color: #333;
+}
+
+
+button > a:hover {
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+a:focus {
+    color: black;
+    text-decoration: none;
+}

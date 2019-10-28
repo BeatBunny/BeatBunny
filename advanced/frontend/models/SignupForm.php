@@ -42,8 +42,9 @@ class SignupForm extends Model
             ['nome', 'required'],
             ['nome', 'string', 'min' => 2, 'max' => 255],
 
+            ['nif', 'trim'],
             ['nif', 'required'],
-            ['nif', 'integer'],
+            ['nif', 'string', 'min' => 9, 'max' => 9],
         ];
     }
 

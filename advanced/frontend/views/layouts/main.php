@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 ?>
@@ -37,6 +38,12 @@ AppAsset::register($this);
 
         <!-- /FAVICON -->
 
+        <!-- FONT AWESOME -->
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- /FONT AWESOME -->
+
         
     <?php $this->head() ?>
 </head>
@@ -61,15 +68,19 @@ AppAsset::register($this);
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
+    } else {/*
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
+            . Html::submitButton('Logout (' . Yii::$app->user->identity->username . ')',['class' => 'btn btn-link logout']). Html::endForm(). '</li>';*/
+        $menuItems[] = '<div class="dropdown">
+                            <button class="dropbtn"><a href="'.Url::toRoute(['/user/index']).'">Profile</a></button>
+                            <ul class="dropdown-content">
+                                <li><a href="#">Settings</a></li>
+                                
+                                <li><a href="'. Url::toRoute(['/site/logout']) .'">Logout</a></li>
+                            </ul>
+                        </div>';
+        $menuItems[] = ['label' => 'My Stuff', 'url' => ['/user/index']];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -77,7 +88,8 @@ AppAsset::register($this);
     ]);
     NavBar::end();
     ?>
-
+<!-- /*'<li>'. Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton('Logout (' . Yii::$app->user->identity->username . ')',['class' => 'btn btn-link logout']). Html::endForm(). '</li>'*/ -->
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],

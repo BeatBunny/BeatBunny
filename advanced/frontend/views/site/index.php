@@ -32,7 +32,7 @@ $this->title = 'beatBunny';
                     <br>
                 </div>
                 <div class="col-lg-12">
-                    <p><?php echo Html::a('I want to know more!', Url::toRoute(['site/about']), ['class' => 'btn btn-default'] )?></p>
+                    <p><?php echo Html::a('I want to know more!', Url::toRoute(['site/about']), ['class' => 'btn btn-default width100 padding5'] )?></p>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -44,7 +44,7 @@ $this->title = 'beatBunny';
                 <br>
                 </div>
                 <div class="col-lg-12">
-                    <p><?php echo Html::a('Yes, show me your music list!', Url::toRoute(['site/musics']), ['class' => 'btn btn-default'] )?></p>
+                    <p><?php echo Html::a('Yes, show me your music list!', Url::toRoute(['musics/index']), ['class' => 'btn btn-default width100 padding5'] )?></p>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -53,7 +53,7 @@ $this->title = 'beatBunny';
                 <p>We are a group of friends from <i>Instituto Politécnico de Leiria</i> - <i>Escola de Tecnologia e Gestão</i> from the course <i>Programação de Sistemas de Informação</i></p>
 
                 <br>
-                <p><?php echo Html::a('Know more about you? Yes please!', Url::toRoute(['site/about-us']), ['class' => 'btn btn-default'] )?></p>
+                <p><?php echo Html::a('Know more about you? Yes please!', Url::toRoute(['site/about-us']), ['class' => 'btn btn-default width100 padding5'] )?></p>
             </div>
         </div>
         <div class="row">

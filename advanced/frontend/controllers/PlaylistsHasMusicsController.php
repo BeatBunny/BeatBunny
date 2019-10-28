@@ -1,10 +1,10 @@
 <?php
 
-namespace app\controllers;
+namespace frontend\controllers;
 
 use Yii;
-use app\models\PlaylistsHasMusics;
-use app\models\SearchPlaylistsHasMusics;
+use frontend\models\PlaylistsHasMusics;
+use frontend\models\SearchPlaylistsHasMusics;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

@@ -84,7 +84,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getAlbums()
     {
-        return $this->hasMany(Album::className(), ['id' => 'albums_id'])->viaTable('{{%profile_has_albums}}', ['profile_id' => 'id']);
+        return $this->hasMany(Albums::className(), ['id' => 'albums_id'])->viaTable('{{%profile_has_albums}}', ['profile_id' => 'id']);
     }
 
     /**
@@ -100,7 +100,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Music::className(), ['id' => 'musics_id'])->viaTable('{{%profile_has_musics}}', ['profile_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('{{%profile_has_musics}}', ['profile_id' => 'id']);
     }
 
     /**
@@ -116,7 +116,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getPlaylists()
     {
-        return $this->hasMany(Playlist::className(), ['id' => 'playlists_id'])->viaTable('{{%profile_has_playlists}}', ['profile_id' => 'id']);
+        return $this->hasMany(Playlists::className(), ['id' => 'playlists_id'])->viaTable('{{%profile_has_playlists}}', ['profile_id' => 'id']);
     }
 
     /**
