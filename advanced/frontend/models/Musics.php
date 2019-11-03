@@ -18,13 +18,13 @@ use Yii;
  * @property int $iva_id
  *
  * @property Linhavenda[] $linhavendas
- * @property Albums $albums
- * @property Genres $genres
+ * @property Album $albums
+ * @property Genre $genres
  * @property Iva $iva
- * @property Playlists[] $playlists
- * @property PlaylistsHasMusics[] $playlistsHasMusics
- * @property Playlists[] $playlists0
- * @property ProfileHasMusics[] $profileHasMusics
+ * @property Playlist[] $playlists
+ * @property PlaylistsHasMusic[] $playlistsHasMusics
+ * @property Playlist[] $playlists0
+ * @property ProfileHasMusic[] $profileHasMusics
  * @property Profile[] $profiles
  */
 class Musics extends \yii\db\ActiveRecord
@@ -49,8 +49,8 @@ class Musics extends \yii\db\ActiveRecord
             [['lyrics'], 'string'],
             [['genres_id', 'albums_id', 'iva_id'], 'integer'],
             [['title'], 'string', 'max' => 64],
-            [['albums_id'], 'exist', 'skipOnError' => true, 'targetClass' => Albums::className(), 'targetAttribute' => ['albums_id' => 'id']],
-            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genres::className(), 'targetAttribute' => ['genres_id' => 'id']],
+            [['albums_id'], 'exist', 'skipOnError' => true, 'targetClass' => Album::className(), 'targetAttribute' => ['albums_id' => 'id']],
+            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genre::className(), 'targetAttribute' => ['genres_id' => 'id']],
             [['iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['iva_id' => 'id']],
         ];
     }
@@ -86,7 +86,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getAlbums()
     {
-        return $this->hasOne(Albums::className(), ['id' => 'albums_id']);
+        return $this->hasOne(Album::className(), ['id' => 'albums_id']);
     }
 
     /**
@@ -94,7 +94,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getGenres()
     {
-        return $this->hasOne(Genres::className(), ['id' => 'genres_id']);
+        return $this->hasOne(Genre::className(), ['id' => 'genres_id']);
     }
 
     /**
@@ -110,7 +110,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getPlaylists()
     {
-        return $this->hasMany(Playlists::className(), ['musics_id' => 'id']);
+        return $this->hasMany(Playlist::className(), ['musics_id' => 'id']);
     }
 
     /**
@@ -118,7 +118,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getPlaylistsHasMusics()
     {
-        return $this->hasMany(PlaylistsHasMusics::className(), ['musics_id' => 'id']);
+        return $this->hasMany(PlaylistsHasMusic::className(), ['musics_id' => 'id']);
     }
 
     /**
@@ -126,7 +126,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getPlaylists0()
     {
-        return $this->hasMany(Playlists::className(), ['id' => 'playlists_id'])->viaTable('{{%playlists_has_musics}}', ['musics_id' => 'id']);
+        return $this->hasMany(Playlist::className(), ['id' => 'playlists_id'])->viaTable('{{%playlists_has_musics}}', ['musics_id' => 'id']);
     }
 
     /**
@@ -134,7 +134,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getProfileHasMusics()
     {
-        return $this->hasMany(ProfileHasMusics::className(), ['musics_id' => 'id']);
+        return $this->hasMany(ProfileHasMusic::className(), ['musics_id' => 'id']);
     }
 
     /**

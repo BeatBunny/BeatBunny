@@ -121,7 +121,8 @@ class UserController extends Controller
         //     'dataProvider' => $dataProvider,
         // ]);
         $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
-        $userProvider = Yii::$app->user;
+        $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+        //$userProvider = Yii::$app->user;
         return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
     }
 

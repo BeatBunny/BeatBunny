@@ -76,7 +76,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProfileHasAlbums()
     {
-        return $this->hasMany(ProfileHasAlbum::className(), ['profile_id' => 'id']);
+        return $this->hasMany(ProfileHasAlbums::className(), ['profile_id' => 'id']);
     }
 
     /**
@@ -92,7 +92,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProfileHasMusics()
     {
-        return $this->hasMany(ProfileHasMusic::className(), ['profile_id' => 'id']);
+        return $this->hasMany(ProfileHasMusics::className(), ['profile_id' => 'id']);
     }
 
     /**
@@ -108,7 +108,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProfileHasPlaylists()
     {
-        return $this->hasMany(ProfileHasPlaylist::className(), ['profile_id' => 'id']);
+        return $this->hasMany(ProfileHasPlaylists::className(), ['profile_id' => 'id']);
     }
 
     /**

@@ -39,7 +39,7 @@ class Albums extends \yii\db\ActiveRecord
             [['review'], 'number'],
             [['genres_id'], 'integer'],
             [['title'], 'string', 'max' => 45],
-            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genres::className(), 'targetAttribute' => ['genres_id' => 'id']],
+            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genre::className(), 'targetAttribute' => ['genres_id' => 'id']],
         ];
     }
 
