@@ -26,23 +26,24 @@ AppAsset::register($this);
 
         <!-- FAVICON -->
 
-        <link rel="apple-touch-icon" sizes="180x180" href="../web/images/favicon/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="../web/images/favicon/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="../web/images/favicon/favicon-16x16.png">
-        <link rel="manifest" href="../web/images/favicon/site.webmanifest">
-        <link rel="mask-icon" href="../web/images/favicon/safari-pinned-tab.svg" color="#000000">
-        <meta name="apple-mobile-web-app-title" content="beatBunny">
-        <meta name="application-name" content="beatBunny">
-        <meta name="msapplication-TileColor" content="#000000">
-        <meta name="theme-color" content="#000000">
+            <link rel="apple-touch-icon" sizes="180x180" href="../web/images/favicon/apple-touch-icon.png">
+            <link rel="icon" type="image/png" sizes="32x32" href="../web/images/favicon/favicon-32x32.png">
+            <link rel="icon" type="image/png" sizes="16x16" href="../web/images/favicon/favicon-16x16.png">
+            <link rel="manifest" href="../web/images/favicon/site.webmanifest">
+            <link rel="mask-icon" href="../web/images/favicon/safari-pinned-tab.svg" color="#000000">
+            <meta name="apple-mobile-web-app-title" content="beatBunny">
+            <meta name="application-name" content="beatBunny">
+            <meta name="msapplication-TileColor" content="#000000">
+            <meta name="theme-color" content="#000000">
 
         <!-- /FAVICON -->
 
         <!-- FONT AWESOME -->
-
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <!-- /FONT AWESOME -->
+
+        <!-- JQUERY -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
         
     <?php $this->head() ?>

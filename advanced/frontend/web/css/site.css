@@ -351,3 +351,23 @@ a:focus {
 .Percent100{
     width: 100%;
 }
+
+
+.h1mf{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.formFieldTitle{
+    width: 80%;
+    float: left;
+}
+
+
+.formFieldTitle > div > label.control-label{
+    display: none;
+}
+
+.formFieldButton{
+
+}

@@ -126,6 +126,14 @@ class UserController extends Controller
         return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
     }
 
+    public function actionSettings(){
+
+        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+        //$userProvider = Yii::$app->user;
+        return $this->render('settings', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
+    }
+
     /**
      * Finds the User model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

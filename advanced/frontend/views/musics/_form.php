@@ -12,21 +12,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($searchModel, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'launchdate')->textInput() ?>
+    <?= $form->field($searchModel, 'launchdate')->textInput() ?>
 
-    <?= $form->field($model, 'rating')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($searchModel, 'rating')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'lyrics')->textarea(['rows' => 6]) ?>
+   <!--  <?= $form->field($searchModel, 'lyrics')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'pvp')->textInput() ?>
+    <?= $form->field($searchModel, 'pvp')->textInput() ?>
 
-    <?= $form->field($model, 'genres_id')->textInput() ?>
+    <?= $form->field($searchModel, 'genres_id')->textInput() ?>
 
-    <?= $form->field($model, 'albums_id')->textInput() ?>
+    <?= $form->field($searchModel, 'albums_id')->textInput() ?>
 
-    <?= $form->field($model, 'iva_id')->textInput() ?>
+    <?= $form->field($searchModel, 'iva_id')->textInput() ?> -->
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

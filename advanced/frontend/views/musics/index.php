@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchMusics */
@@ -14,9 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/javascript">
     var playerSong = document.getElementById('player');
-    $(document).ready(function(){
-        $('.pauseSong').hide();
-    });
+    $('.pauseSong').hide();
     function playThatShit(/*id*/){
         $('.playSong').hide();
         $('.pauseSong').show();
@@ -36,9 +35,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="musics-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="row">
+        <div class="col-lg-6">  
+            <h1><?= Html::encode($this->title) ?></h1>
+        </div>
+        <div class="col-lg-6 textAlignRight h1mf">  
+            
+            <?= $this->render('_search', [
+                'searchModel' => $searchModel,
+            ]) ?>
+        </div>
+    </div>
 
     <div class="row borderTopBlack">
+            <br>
         <div class="col-lg-12">
             <br>
             <div class="row">
