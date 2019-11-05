@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Musics */
@@ -10,23 +11,23 @@ use yii\widgets\ActiveForm;
 
 <div class="musics-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); 
 
-    <?= $form->field($searchModel, 'title')->textInput(['maxlength' => true]) ?>
+    $listData=ArrayHelper::map($modelGenres,'id','nome'); ?>
 
-    <?= $form->field($searchModel, 'launchdate')->textInput() ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($searchModel, 'rating')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'launchdate')->textInput(['readonly' => true, 'value' => date("Y/m/d")]) ?>
 
-   <!--  <?= $form->field($searchModel, 'lyrics')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'lyrics')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($searchModel, 'pvp')->textInput() ?>
+    <?= $form->field($model, 'pvp')->textInput([ 'type' => 'number' ]) ?>
+    
+    <?= $form->field($model, 'genres_id')->dropDownList( $listData ); ?>
 
-    <?= $form->field($searchModel, 'genres_id')->textInput() ?>
+    <?= $form->field($model, 'albums_id')->textInput() ?>
 
-    <?= $form->field($searchModel, 'albums_id')->textInput() ?>
-
-    <?= $form->field($searchModel, 'iva_id')->textInput() ?> -->
+    <?= $form->field($model, 'iva_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

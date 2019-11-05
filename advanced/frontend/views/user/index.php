@@ -84,10 +84,31 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php 
                     if ($profileProvider->isprodutor == 'S')
                     {
-                        foreach ($profileProvider->albums as $album) {
-                            echo $album->title;
-                            echo $album->launchdate;
-                            echo $album->review;
+                        if(count($profileProvider->albums) <= 0){ 
+                            if(count($profileProvider->musics) <= 0){?>
+
+
+                            <div class="col-lg-12 textAlignCenter">
+                                <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p>
+                                <button class="btn btn-default playSong"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
+                            </div>
+
+                            <?php
+                            }
+                            else{?>
+
+                            <div class="col-lg-12 textAlignCenter">
+                                <p>You are a producer! But you dont have any albums... Want to create one?</p>
+                            </div>
+                            <?php
+                            }
+                        }
+                        else{
+                            foreach ($profileProvider->albums as $album) {
+                                echo $album->title;
+                                echo $album->launchdate;
+                                echo $album->review;
+                            }
                         }
                     } 
                     else
