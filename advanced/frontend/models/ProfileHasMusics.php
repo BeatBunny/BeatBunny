@@ -53,7 +53,7 @@ class ProfileHasMusics extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
+        return $this->hasOne(Music::className(), ['id' => 'musics_id']);
     }
 
     /**

@@ -26,8 +26,9 @@ CREATE TABLE IF NOT EXISTS `beatbunnyproject`.`profile` (
   `nome` VARCHAR(45) NOT NULL,
   `nif` INT NULL,
   `isprodutor` ENUM('S', 'N') NULL,
-  `imagemProfile` BLOB NULL,
+  `id_user` INT NOT NULL,
   PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `user`(`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) )
 ENGINE = InnoDB;
 
@@ -61,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `beatbunnyproject`.`albums` (
   `title` VARCHAR(45) NOT NULL,
   `launchdate` DATE NOT NULL,
   `review` DECIMAL ZEROFILL NULL,
-  `imagemAlbum` BLOB NULL,
   `genres_id` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_albums_genres1_idx` (`genres_id` ASC) ,
@@ -93,7 +93,6 @@ CREATE TABLE IF NOT EXISTS `beatbunnyproject`.`musics` (
   `rating` DECIMAL ZEROFILL NULL,
   `lyrics` LONGTEXT NULL,
   `pvp` FLOAT NULL,
-  `imagemMusica` BLOB NULL,
   `genres_id` INT UNSIGNED NOT NULL,
   `albums_id` INT UNSIGNED NOT NULL,
   `iva_id` INT NOT NULL,
@@ -150,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `beatbunnyproject`.`playlists` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NOT NULL,
   `ispublica` ENUM('S', 'N') NULL DEFAULT 'N',
-  `datacriacao` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 

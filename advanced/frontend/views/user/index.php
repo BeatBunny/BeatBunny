@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-lg-4">&nbsp;</div>
                         <div class="col-lg-8">
-                            <button class="btn btn-default">Change Settings</button>
+                            <button class="btn btn-default" href="<?='Url::toRoute([/user/settings])'?>">Change Settings</button>
                         </div>
                     </div>
                 </div>
@@ -84,31 +84,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php 
                     if ($profileProvider->isprodutor == 'S')
                     {
-                        if(count($profileProvider->albums) <= 0){ 
-                            if(count($profileProvider->musics) <= 0){?>
-
-
-                            <div class="col-lg-12 textAlignCenter">
-                                <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p>
-                                <button class="btn btn-default playSong"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
-                            </div>
-
-                            <?php
-                            }
-                            else{?>
-
-                            <div class="col-lg-12 textAlignCenter">
-                                <p>You are a producer! But you dont have any albums... Want to create one?</p>
-                            </div>
-                            <?php
-                            }
-                        }
-                        else{
-                            foreach ($profileProvider->albums as $album) {
-                                echo $album->title;
-                                echo $album->launchdate;
-                                echo $album->review;
-                            }
+                        foreach ($profileProvider->albums as $album) {
+                            echo $album->title;
+                            echo $album->launchdate;
+                            echo $album->review;
                         }
                     } 
                     else
@@ -250,7 +229,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-12 textAlignCenter marginTop2Percent">
 
                                 <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                                <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
+                                <button class="btn btn-default pauseSong displayNone" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
                                 <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
                            </div>
                         </div>
@@ -267,12 +246,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-lg-6" style="display: none;">
                         <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                         <audio id="player" controls src="sound.mp3" style="width: 100%; display: none;"></audio>
-                        
                         <div class="col-lg-12">&nbsp;</div>
                         <div class="col-lg-12 textAlignCenter">
-
                             <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                            <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
+                            <button class="btn btn-default pauseSong displayNone" onclick="pauseThatShit(/*THIS SONG ID*/)"><i class="fa fa-pause-circle"></i></button>
                             <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
                             <?php if (!Yii::$app->user->isGuest) { ?>
                                 <button class="btn btn-default marginTop2Percent" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Add to one of your playlists</a></button>
@@ -344,11 +321,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
-
         </div>
     </div>
-
-
 </div>

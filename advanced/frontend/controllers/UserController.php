@@ -84,18 +84,18 @@ class UserController extends Controller
     //  * @return mixed
     //  * @throws NotFoundHttpException if the model cannot be found
     //  */
-    // public function actionUpdate($id)
-    // {
-    //     $model = $this->findModel($id);
+    public function actionUpdate($id)
+     {
+         $model = $this->findModel($id);
 
-    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
-    //         return $this->redirect(['view', 'id' => $model->id]);
-    //     }
+         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+             return $this->redirect(['view', 'id' => $model->id]);
+         }
 
-    //     return $this->render('update', [
-    //         'model' => $model,
-    //     ]);
-    // }
+         return $this->render('update', [
+             'model' => $model,
+         ]);
+     }
 
     // /**
     //  * Deletes an existing User model.
@@ -127,9 +127,9 @@ class UserController extends Controller
     }
 
     public function actionSettings(){
-
         $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
         $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+
         //$userProvider = Yii::$app->user;
         return $this->render('settings', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
     }

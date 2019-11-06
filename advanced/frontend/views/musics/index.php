@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchMusics */
@@ -15,7 +14,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script type="text/javascript">
     var playerSong = document.getElementById('player');
-    $('.pauseSong').hide();
+    $(document).ready(function(){
+        $('.pauseSong').hide();
+    });
     function playThatShit(/*id*/){
         $('.playSong').hide();
         $('.pauseSong').show();
@@ -34,21 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
 </script>
 
 <div class="musics-index">
-
-    <div class="row">
-        <div class="col-lg-6">  
-            <h1><?= Html::encode($this->title) ?></h1>
-        </div>
-        <div class="col-lg-6 textAlignRight h1mf">  
-            
-            <?= $this->render('_search', [
-                'searchModel' => $searchModel,
-            ]) ?>
-        </div>
-    </div>
-
+    <h1><?= Html::encode($this->title) ?></h1>
     <div class="row borderTopBlack">
-            <br>
         <div class="col-lg-12">
             <br>
             <div class="row">
@@ -93,14 +81,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            
         </div>
-        
     </div>
-
     <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
-
-
     <div class="row">
                 <div class="col-lg-4 userImageProfile textAlignCenter">
                     <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
@@ -128,10 +111,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-4">
                     <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                     <audio id="player" controls src="sound.mp3" style="width: 100%"></audio>
-                    
                     <div class="col-lg-12">&nbsp;</div>
                     <div class="col-lg-12 textAlignCenter">
-
                         <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
                         <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
                         <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
@@ -143,8 +124,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            
         </div>
-        
     </div>
 </div>

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Musics */
 
-$this->title = 'Upload your own Music';
+$this->title = 'Create Musics';
 $this->params['breadcrumbs'][] = ['label' => 'Musics', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'modelGenres' => $modelGenres,
     ]) ?>
 
 </div>

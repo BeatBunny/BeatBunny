@@ -151,10 +151,6 @@ a.desc:after {
 
 }
 
-
-
-
-
 .backgroundTeste{
     background: url("../images/background.gif") no-repeat fixed center;
     opacity: 0.05;
@@ -184,6 +180,7 @@ a.desc:after {
 .userImage > img{
     width: 50%;
 }
+
 
 .centerThemBitches{
     text-align: center;
@@ -352,22 +349,24 @@ a:focus {
     width: 100%;
 }
 
-
-.h1mf{
-    margin-top: 20px;
-    margin-bottom: 10px;
+.albumImage > img{
+    width: 90%;
 }
-
-.formFieldTitle{
-    width: 80%;
-    float: left;
+.albumCover > img{
+    width: 50%;
 }
-
-
-.formFieldTitle > div > label.control-label{
+.marginTop4percent{
+    margin-top: 4%;
+}
+.colorRed{
+    color:red;
+}
+.textSize{
+   font-size: 10px;
+}
+.marginLeft{
+    margin-left: 5%;
+}
+.displayNone{
     display: none;
-}
-
-.formFieldButton{
-
 }
