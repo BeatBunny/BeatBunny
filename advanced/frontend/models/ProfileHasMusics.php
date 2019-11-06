@@ -31,7 +31,7 @@ class ProfileHasMusics extends \yii\db\ActiveRecord
         return [
             [['profile_id', 'musics_id'], 'required'],
             [['profile_id', 'musics_id'], 'integer'],
-            [['profile_id', 'musics_id'], 'unique', 'targetAttribute' => ['profile_id', 'musics_id']],
+            //[['profile_id', 'musics_id'], 'unique', 'targetAttribute' => ['profile_id', 'musics_id']],
             [['musics_id'], 'exist', 'skipOnError' => true, 'targetClass' => Musics::className(), 'targetAttribute' => ['musics_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
         ];
@@ -53,7 +53,7 @@ class ProfileHasMusics extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasOne(Music::className(), ['id' => 'musics_id']);
+        return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
     }
 
     /**

@@ -151,6 +151,10 @@ a.desc:after {
 
 }
 
+
+
+
+
 .backgroundTeste{
     background: url("../images/background.gif") no-repeat fixed center;
     opacity: 0.05;
@@ -180,7 +184,6 @@ a.desc:after {
 .userImage > img{
     width: 50%;
 }
-
 
 .centerThemBitches{
     text-align: center;
@@ -301,7 +304,7 @@ a.desc:after {
 
 .borderTopBlack{ border-top: 1px solid black; }
 
-.userImageProfile > img { width: 30%; }
+.userImageProfile > img { width: 40%; }
 
 .borderBottomBlack{ border-bottom: 1px solid black;  }
 
@@ -349,24 +352,22 @@ a:focus {
     width: 100%;
 }
 
-.albumImage > img{
-    width: 90%;
+
+.h1mf{
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
-.albumCover > img{
-    width: 50%;
+
+.formFieldTitle{
+    width: 80%;
+    float: left;
 }
-.marginTop4percent{
-    margin-top: 4%;
-}
-.colorRed{
-    color:red;
-}
-.textSize{
-   font-size: 10px;
-}
-.marginLeft{
-    margin-left: 5%;
-}
-.displayNone{
+
+
+.formFieldTitle > div > label.control-label{
     display: none;
+}
+
+.formFieldButton{
+
 }

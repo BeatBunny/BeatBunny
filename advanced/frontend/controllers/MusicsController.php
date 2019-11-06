@@ -3,17 +3,24 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\User;
+use frontend\models\Profile;
+use frontend\models\ProfileHasMusics;
+use frontend\models\Genres;
 use frontend\models\Musics;
 use frontend\models\SearchMusics;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\BaseVarDumper;
 
 /**
  * MusicsController implements the CRUD actions for Musics model.
  */
 class MusicsController extends Controller
 {
+
+
     /**
      * {@inheritdoc}
      */
@@ -64,16 +71,68 @@ class MusicsController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Musics();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $currentProfile = $this->getCurrentProfile();
+
+        if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)){
+            return $this->redirect(['index']);
+        }
+
+
+        $model = new Musics();
+        $modelGenres = Genres::find()->all();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->launchdate = date("Y/m/d");
+            $model->save();
+
+
+                $currentUser = $this->getCurrentUser();
+                $profileHasMusics = new ProfileHasMusics();
+
+                $profileHasMusics->profile_id = $currentUser->id;
+
+                $profileHasMusics->musics_id = $model->id;
+
+                $profileHasMusics->save(); 
+
+
+            return $this->redirect(['user/index']);
         }
 
         return $this->render('create', [
             'model' => $model,
+            'modelGenres' => $modelGenres,
         ]);
     }
+
+
+
+    private function getCurrentUser(){
+        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+        return $userProvider;
+    }
+
+    private function getCurrentProfile(){
+        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        return $profileProvider;
+    }
+
+
+
+
+
+
+    private function getMusicsFromProfile(){
+        $profile = $this->getCurrentProfile();
+        $ProfileHasMusics = ProfileHasMusics::find()->where(['profile_id' => Yii::$app->user->id])->all();
+    }
+
+
+
+
 
     /**
      * Updates an existing Musics model.

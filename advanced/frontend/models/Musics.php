@@ -43,14 +43,15 @@ class Musics extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'launchdate', 'genres_id', 'albums_id', 'iva_id'], 'required'],
+            [['title', 'launchdate', 'genres_id'], 'required'],
+            // , 'albums_id', 'iva_id'
             [['launchdate'], 'safe'],
             [['rating', 'pvp'], 'number'],
             [['lyrics'], 'string'],
             [['genres_id', 'albums_id', 'iva_id'], 'integer'],
             [['title'], 'string', 'max' => 64],
-            [['albums_id'], 'exist', 'skipOnError' => true, 'targetClass' => Album::className(), 'targetAttribute' => ['albums_id' => 'id']],
-            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genre::className(), 'targetAttribute' => ['genres_id' => 'id']],
+            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genres::className(), 'targetAttribute' => ['genres_id' => 'id']],
+            [['albums_id'], 'exist', 'skipOnError' => true, 'targetClass' => Albums::className(), 'targetAttribute' => ['albums_id' => 'id']],
             [['iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['iva_id' => 'id']],
         ];
     }
@@ -63,13 +64,13 @@ class Musics extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'launchdate' => 'Launchdate',
+            'launchdate' => 'Launch Date',
             'rating' => 'Rating',
             'lyrics' => 'Lyrics',
             'pvp' => 'Pvp',
-            'genres_id' => 'Genres ID',
-            'albums_id' => 'Albums ID',
-            'iva_id' => 'Iva ID',
+            'genres_id' => 'Genre',
+            'albums_id' => 'Album',
+            'iva_id' => 'Iva',
         ];
     }
 
