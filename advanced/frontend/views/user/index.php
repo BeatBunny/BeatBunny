@@ -15,8 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="user-index">
+    <div class="row">
+        <div class="col-lg-12">  
+            <h1><?= Html::encode($this->title) ?></h1>
+        </div>
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
     <div class="row borderTopBlack">
         <div class="col-lg-12">
@@ -44,13 +48,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-lg-4">
                             <p><?= $profileProvider->saldo; ?> €</p>
                         </div>
-                        <div class="col-lg-4 textAlignRight"><button class="btn btn-default "><?php echo Html::a('Add funds', Url::toRoute(['/profile/wallet']))?><a></a></button></div>
+                        <div class="col-lg-4 textAlignRight"><?php echo Html::a('Add funds', Url::toRoute(['/profile/wallet']), ['class' => 'btn btn-default'])?></div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-lg-4">&nbsp;</div>
                         <div class="col-lg-8">
-                            <button class="btn btn-default"><?php echo Html::a('Change Settings', Url::toRoute(['/user/settings']))?></button>
+                            <?php echo Html::a('Change Settings', Url::toRoute(['/user/settings']), ['class' => 'btn btn-default'])?>
                         </div>
                     </div>
                 </div>
@@ -66,8 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
                                 <div class="col-lg-12 ">
-                                    <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p>
-                                    <button class="btn btn-default"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
+                                    <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default'])?>
                                 </div>
 
                             <?php
@@ -77,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 <div class="col-lg-12 ">
                                     <p>You are a producer! But you dont have any albums...<br><br><br>Want to create one?</p>
-                                    <button class="btn btn-default"><?php echo Html::a('Create Album', Url::toRoute(['/albums/create']))?></button>
+                                    <?php echo Html::a('Create Album', Url::toRoute(['/albums/create']), ['class' => 'btn btn-default'])?>
                                 </div>
                             <?php
                             }
@@ -95,7 +98,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                     <div class="textAlignCenter">
                         <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Send us some of your songs!</p>
-                        <button class="btn btn-default"><?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']))?></button>
+                        <?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']), ['class' => 'btn btn-default'])?>
                     </div>
                 <?php
                     }
@@ -110,9 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h2 class="textAlignCenter ">Your Creations
                 <?php 
                     if($profileProvider->isprodutor == 'S' && $numberOfSongsYouHave > 0) {
-                            echo '<button class="btn btn-default marginLeft2Percent">';
-                            echo '<a href="'.Url::toRoute(['/musics/create']).'">'.'Upload Song'.'</a>'; 
-                            echo '</button>';  
+                        echo Html::a('Let\'s Go!', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default marginLeft2Percent']);
                     } ?> 
                 </h2> 
                 <?php 
@@ -132,8 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     </div>
                                                 </div>
                                                 <div class="row marginTop2Percent">
-                                                    <div class="col-lg-12 ">
-                                                        <button class="btn btn-default"><?php echo Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]))?></button>
+                                                    <div class="col-lg-12 "><?php echo Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -148,7 +148,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate ?></p></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 textAlignRight"><p>Price: </p></div><div class="col-lg-6 textAlignLeft"><?php if (!Yii::$app->user->isGuest) { ?><p><?= $musica->pvp ?>€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Price: </p></div><div class="col-lg-6 textAlignLeft"><?php if (!Yii::$app->user->isGuest) { ?><p><?= $musica->pvp ?>€</p> <?php } else { ?><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']), ['class' => 'btn btn-default'])?><?php } ?></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-4">&nbsp;</div>
@@ -163,13 +163,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <!-- controlsList="nodownload" -->
                                                 <div class="col-lg-12">&nbsp;</div>
                                                 <div class="col-lg-12 textAlignCenter">
-
-                                                    
-                                                    <?php if (!Yii::$app->user->isGuest) { ?>
-                                                        <button class="btn btn-default"><a href="#">Add to one of your playlists</a></button>
-                                                    <?php }else { ?>
-                                                        <button class="btn btn-default"><a href="#">Buy this song!</a></button>
-                                                    <?php } ?>
+                                                    <?= Html::a('Add to one of your playlists', Url::toRoute(['/playlists/addsong', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,8 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="row textAlignCenter">
                                 <br>
                                 <div class="col-lg-12">
-                                    <p>You are a producer! But you dont have any songs for sale...<br><br><br>Want to upload some?</p>
-                                    <button class="btn btn-default playSong"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
+                                    <p>You are a producer! But you dont have any songs for sale...<br><br><br>Want to upload some?</p><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create'], ['class' => 'btn btn-default']))?>
                                 </div>
                             </div>
 
@@ -204,7 +197,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                     <div class="textAlignCenter">
                         <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Send us some of your songs!</p>
-                        <button class="btn btn-default"><?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']))?></button>
+                        <?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact'], ['class' => 'btn btn-default']))?>
                     </div>
                     <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                 <?php
@@ -226,6 +219,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="collapse" id="collapsePurchases">
                     <?php
                     foreach ($musicasCompradasPeloUserObjeto_UsarEmForeach as $musicaComprada) { ?>
+                        <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                         <div class="row marginBottom2Percent">
                             <div class="col-lg-6 ">
                                 <div class="row">
@@ -262,8 +256,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 marginTop2Percent">
-                                            <button class="btn btn-default"><a href="#">Add to one of your playlists</a></button>
-       
+                                            <?= Html::a('Add to one of your playlists', Url::toRoute(['/playlists/addsong', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +267,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                     <div class="textAlignCenter">
                         <p class="textAlignCenter">You still down own any of our songs! Want to buy some?</p>
-                        <button class="btn btn-default"><?php echo Html::a('Take me there!', Url::toRoute(['/musics/index']))?></button>
+                        <?php echo Html::a('Take me there!', Url::toRoute(['/musics/index']), ['class' => 'btn btn-default'])?>
                     </div>
                 <?php
             } ?>
@@ -306,8 +299,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
                         <div class="row">
                             <div class="col-lg-3 textAlignCenter">&nbsp;</div> 
-                            <div class="col-lg-6 textAlignCenter">                                  
-                                <button class="btn btn-default Percent100" ><a>View Playlist</a></button>
+                            <div class="col-lg-6 textAlignCenter">                    
+                            <?= Html::a('View Playlist', Url::toRoute(['/playlists/view'/*, 'id' => $musica->id*/]), ['class' => 'btn btn-default Percent100'])?>              
                             </div> 
                         </div>
 
@@ -318,31 +311,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
 
-                <div class="row">
-                    <div class="col-lg-12 ">
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter"><h2>PLAYLIST</h2></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Genres: </p></div><div class="col-lg-8"><p class="overflowThatBi" title="Metal, Pop, Rock, Death Metal, Metal is love Metal is Life">Metal, Pop, Rock, Death Metal, Metal is love Metal is Life</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
-                        </div>
-                        <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
-                        <div class="row">
-                            <div class="col-lg-3 textAlignCenter">&nbsp;</div> 
-                            <div class="col-lg-6 textAlignCenter">                                  
-                                <button class="btn btn-default Percent100" ><a>View Playlist</a></button>
-                            </div> 
-                        </div>
 
-                        <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
-                    </div>
-                </div>
+
+
             </div>
 
-                <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
 
         </div>
     </div>

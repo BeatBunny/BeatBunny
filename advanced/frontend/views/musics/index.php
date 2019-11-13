@@ -30,8 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?php foreach ($allTheMusicsWithProducer as $music) { ?>
         
-        <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
-        <div class="row ">
+        <div class="col-lg-12 ">&nbsp;</div>
+        <div class="row borderTopBlack marginTop2Percent">
                 
             <div class="col-lg-12">
                 <br>
@@ -75,11 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php 
 
                     $musicaCompradaQuestionMark = false;
-                    foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                        if($musicaComprada->id === $music->id)
-                            $musicaCompradaQuestionMark = true;
-                    }
-
+                    if(isset($musicasCompradasPeloUser))
+                        foreach ($musicasCompradasPeloUser as $musicaComprada) {
+                            if($musicaComprada->id === $music->id)
+                                $musicaCompradaQuestionMark = true;
+                        }
                     ?>
                     <div class="col-lg-4">
                         <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 }
                                 else{
                                 ?>
-                                    <button class="btn btn-default"><a href="#">Buy this song!</a></button>
+                                    <button class="btn btn-default"><?php echo Html::a('Buy this song!', Url::toRoute(['/musics/buymusic', 'id'=> $music->id, 'producerOfThisSong' => $music->producerOfThisSong]))?></button>
                                 <?php
                                 }
                                 ?>

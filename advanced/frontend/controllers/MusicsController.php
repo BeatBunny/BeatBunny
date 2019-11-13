@@ -88,6 +88,64 @@ class MusicsController extends Controller
         ]);
     }
 
+    
+
+    public function actionBuymusic($id, $producerOfThisSong){
+        $model = $this->findModel($id);
+        if ($model->load(Yii::$app->request->post())) {
+            return $this->redirect('musics/index');
+        }
+
+        $currentUser = $this->getCurrentUser();
+        $currentProfile = $this->getCurrentProfile();
+        $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+        if(is_null($musicasCompradasPeloUser)){
+
+            return $this->render('buymusic', [
+                'model' => $model,
+                'producerOfThisSong' => $producerOfThisSong,
+                'currentUser' => $currentUser,
+                'currentProfile' => $currentProfile,
+            ]);
+        }
+        else{
+            return $this->render('buymusic', [
+                'model' => $this->findModel($id),
+                'producerOfThisSong' => $producerOfThisSong,
+                'currentUser' => $currentUser,
+                'currentProfile' => $currentProfile,
+                'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+            ]);
+        }
+    }
+
+    public function actionFinishpayment($id){
+        
+        $model = $this->findModel($id);
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+        
+        $currentProfile->saldo = $currentProfile->saldo-$model->pvp;
+
+        $profileHasMusics = new ProfileHasMusics();
+        $newVenda = new Venda();
+
+        $newVenda->data = date("Y/m/d");
+        $newVenda->valorTotal = $model->pvp;
+
+        $newVenda->profile_id = $currentProfile->id;
+
+        
+        $profileHasMusics->musics_id = $model->id;
+        $profileHasMusics->profile_id = $currentUser->id;
+        
+        $profileHasMusics->save();
+        $currentProfile->save();
+        $newVenda->save();
+
+        return $this->redirect('/musics/index');
+    }
+
     /**
      * Creates a new Musics model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -225,6 +283,8 @@ class MusicsController extends Controller
 
             $todasAsMusicasArray = $this->getMusicasComProdutorReturnsArray();
 
+
+
             for ($i=0; $i < count($todasAsMusicasArray); $i++) { 
                 if($todasAsMusicas[$i]->id == $todasAsMusicasArray[$i]->id){
                     $todasAsMusicas[$i]->producerOfThisSong = $todasAsMusicasArray[$i]->producerOfThisSong;
@@ -340,7 +400,6 @@ class MusicsController extends Controller
             'model' => $model,
             'modelGenres' => $modelGenres,
             'modelYourAlbums' => $modelYourAlbums,
-
         ]);
     }
 

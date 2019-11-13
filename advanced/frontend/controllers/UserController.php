@@ -255,6 +255,7 @@ class UserController extends Controller
         $numberOfSongsYouHave = $this->countHowManyMusicsProducerHas();
 
 
+
         $arrayComAsTuasMusicas = $this->getProducerMusics();
 
         $musicasCompradasPeloUserObjeto_UsarEmForeach = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
