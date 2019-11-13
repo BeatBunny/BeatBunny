@@ -76,9 +76,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     $musicaCompradaQuestionMark = false;
                     if(isset($musicasCompradasPeloUser))
-                        foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                            if($musicaComprada->id === $music->id)
-                                $musicaCompradaQuestionMark = true;
+                        if(isset($musicasCompradasPeloUserObjeto_UsarEmForeach)){ 
+                        
+                            foreach ($musicasCompradasPeloUser as $musicaComprada) {
+                                if($musicaComprada->id === $music->id)
+                                    $musicaCompradaQuestionMark = true;
+                            }
                         }
                     ?>
                     <div class="col-lg-4">

@@ -333,15 +333,20 @@ class MusicsController extends Controller
                 $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
                 array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
             }       
-            for ($i=0; $i < count($arrayComTodasAsMusicas); $i++) { 
-                
-                foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                    if($musicaComprada->id == $arrayComTodasAsMusicas[$i]->id){
-                        $musicaComprada->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
-                    }
-                }
-            }        
-            return $musicasCompradasPeloUser;
+            if(!is_null($musicasCompradasPeloUser)) {
+	            for ($i = 0; $i < count($arrayComTodasAsMusicas); $i++) {
+
+	                foreach ($musicasCompradasPeloUser as $musicaComprada) {
+	                    if ($musicaComprada->id == $arrayComTodasAsMusicas[$i]->id) {
+	                        $musicaComprada->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
+	                    }
+	                }
+	            }
+            	return $musicasCompradasPeloUser;
+        	}
+        	else{
+           	 return null;
+        	}
         }
 
 
