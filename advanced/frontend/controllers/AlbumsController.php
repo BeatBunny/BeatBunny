@@ -35,16 +35,13 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
-        //$searchModel = new SearchAlbums();
-        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $searchModel = new SearchAlbums();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        //return $this->render('index', [
-        //'searchModel' => $searchModel,
-          //'dataProvider' => $dataProvider,
-        //]);
-        $albumProvider = Albums::tableName();
-        $userProvider = Yii::$app->user;
-        return $this->render('index', ['userProvider' => $albumProvider]);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

@@ -2,9 +2,9 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\helpers\VarDumper;
 use frontend\models\Albuns;
 use yii\helpers\Url;
+use yii\helpers\BaseVarDumper;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchUser */
@@ -13,29 +13,6 @@ use yii\helpers\Url;
 $this->title = 'Your Profile';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<script type="text/javascript">
-    var playerSong = document.getElementById('player');
-    $(document).ready(function(){
-        $('.pauseSong').hide();
-    });
-    function playThatShit(/*id*/){
-        $('.playSong').hide();
-        $('.pauseSong').show();
-        playerSong.play();
-    }
-    function pauseThatShit(/*id*/){
-        $('.playSong').show();
-        $('.pauseSong').hide();
-        playerSong.pause();
-    }
-    function stopThatShit(/*id*/){
-        $('.playSong').show();
-        $('.pauseSong').hide();
-        playerSong.stop();
-    }
-</script>
-
 
 <div class="user-index">
 
@@ -65,41 +42,43 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-lg-4 textAlignRight"><p>Balance: </p></div>
                         <div class="col-lg-4">
-                            <p><?php $newSaldo = substr($profileProvider->saldo,0,4); echo $newSaldo; ?> €</p>
+                            <p><?= $profileProvider->saldo; ?> €</p>
                         </div>
-                        <div class="col-lg-4 textAlignRight"><button class="btn btn-default ">Add funds</button></div>
+                        <div class="col-lg-4 textAlignRight"><button class="btn btn-default "><?php echo Html::a('Add funds', Url::toRoute(['/profile/wallet']))?><a></a></button></div>
                     </div>
                     <br>
                     <div class="row">
                         <div class="col-lg-4">&nbsp;</div>
                         <div class="col-lg-8">
-                            <button class="btn btn-default">Change Settings</button>
+                            <button class="btn btn-default"><?php echo Html::a('Change Settings', Url::toRoute(['/user/settings']))?></button>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-4 textAlignCenter">
 
-                    <h2 class="textAlignCenter">Your Albuns</h2>
+                    <h2 class="">Your Albuns</h2>
 
                     <?php 
                     if ($profileProvider->isprodutor == 'S')
                     {
-                        if(count($profileProvider->albums) <= 0){ 
-                            if(count($profileProvider->musics) <= 0){?>
+                        if(count($profileProvider->albums) == 0){ 
+                            if($numberOfSongsYouHave == 0){?>
 
 
-                            <div class="col-lg-12 textAlignCenter">
-                                <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p>
-                                <button class="btn btn-default playSong"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
-                            </div>
+                                <div class="col-lg-12 ">
+                                    <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p>
+                                    <button class="btn btn-default"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
+                                </div>
 
                             <?php
                             }
-                            else{?>
+                            else{
+                                ?>
 
-                            <div class="col-lg-12 textAlignCenter">
-                                <p>You are a producer! But you dont have any albums... Want to create one?</p>
-                            </div>
+                                <div class="col-lg-12 ">
+                                    <p>You are a producer! But you dont have any albums...<br><br><br>Want to create one?</p>
+                                    <button class="btn btn-default"><?php echo Html::a('Create Album', Url::toRoute(['/albums/create']))?></button>
+                                </div>
                             <?php
                             }
                         }
@@ -116,7 +95,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                     <div class="textAlignCenter">
                         <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Send us some of your songs!</p>
-                        <button class="btn btn-default">Let's Go!</button>
+                        <button class="btn btn-default"><?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']))?></button>
                     </div>
                 <?php
                     }
@@ -126,34 +105,50 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
 
-            <div class="col-lg-12 textAlignCenter">
+            <div class="col-lg-12">
 
-                <h2 class="textAlignCenter ">Your Creations</h2>
+                <h2 class="textAlignCenter ">Your Creations
                 <?php 
+                    if($profileProvider->isprodutor == 'S' && $numberOfSongsYouHave > 0) {
+                            echo '<button class="btn btn-default marginLeft2Percent">';
+                            echo '<a href="'.Url::toRoute(['/musics/create']).'">'.'Upload Song'.'</a>'; 
+                            echo '</button>';  
+                    } ?> 
+                </h2> 
+                <?php 
+      
                     if ($profileProvider->isprodutor == 'S')
                     {
-                        if(count($profileProvider->musics) > 0){
-                            foreach ($profileProvider->musics as $music) { ?>
+                        if($numberOfSongsYouHave > 0) {
+                            foreach ($arrayComAsTuasMusicas as $musica) { ?>
                                 <div class="row">
-                                    <br>
                                     <div class="col-lg-12">
                                         <br>
                                         <div class="row">
                                             <div class="col-lg-4 userImageProfile textAlignCenter">
-                                                <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
+                                                <div class="row">
+                                                    <div class="col-lg-12 userImageProfile">
+                                                        <?= Html::img('uploads/'.$userProvider->id ."/image_".$musica->id.'.png', ['alt'=>"User"]); ?>
+                                                    </div>
+                                                </div>
+                                                <div class="row marginTop2Percent">
+                                                    <div class="col-lg-12 ">
+                                                        <button class="btn btn-default"><?php echo Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]))?></button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="col-lg-4 borderLeftBlack borderRightBlack">
                                                 <div class="row">
-                                                    <div class="col-lg-12 textAlignCenter"><h2>TITLE</h2></div>
+                                                    <div class="col-lg-12 textAlignCenter"><h3><?= $musica->title ?></h3></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p>Metal</p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres->nome; ?></p></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate ?></p></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p>XX€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Price: </p></div><div class="col-lg-6 textAlignLeft"><?php if (!Yii::$app->user->isGuest) { ?><p><?= $musica->pvp ?>€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-4">&nbsp;</div>
@@ -164,18 +159,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
-                                                <audio id="player" controls src="sound.mp3" style="width: 100%"></audio>
-                                                
+                                                <audio id="player" controls  src="<?= "uploads/".$userProvider->id."/music_".$musica->id."_".$musica->title.".mp3" ?>" style="width: 100%"></audio>
+                                                <!-- controlsList="nodownload" -->
                                                 <div class="col-lg-12">&nbsp;</div>
                                                 <div class="col-lg-12 textAlignCenter">
 
-                                                    <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                                                    <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
-                                                    <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
+                                                    
                                                     <?php if (!Yii::$app->user->isGuest) { ?>
-                                                        <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Add to one of your playlists</a></button>
+                                                        <button class="btn btn-default"><a href="#">Add to one of your playlists</a></button>
                                                     <?php }else { ?>
-                                                        <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
+                                                        <button class="btn btn-default"><a href="#">Buy this song!</a></button>
                                                     <?php } ?>
                                                 </div>
                                             </div>
@@ -188,13 +181,21 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ?>
                                 </div>
 
+                            <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                             <?php
                             }
                         }
                         else{
                             ?>
-                                <p>You are a producer! But you dont have any songs for sale...<br><br><br>Want to upload some?</p>
-                                <button class="btn btn-default playSong"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
+                            <div class="row textAlignCenter">
+                                <br>
+                                <div class="col-lg-12">
+                                    <p>You are a producer! But you dont have any songs for sale...<br><br><br>Want to upload some?</p>
+                                    <button class="btn btn-default playSong"><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']))?></button>
+                                </div>
+                            </div>
+
+                        <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                             <?php
                         }
                     } 
@@ -203,15 +204,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ?>
                     <div class="textAlignCenter">
                         <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Send us some of your songs!</p>
-                        <button class="btn btn-default">Let's Go!</button>
+                        <button class="btn btn-default"><?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']))?></button>
                     </div>
+                    <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                 <?php
                     }
                 ?>
             </div>
             
-            <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
-            <div class="col-lg-6  borderRightBlack">
+            <div class="col-lg-6  borderRightBlack textAlignCenter">
 
                 <h2 class="textAlignCenter">Your Purchases</h2>
                 <?php
@@ -219,131 +220,65 @@ $this->params['breadcrumbs'][] = $this->title;
                         //echo $vendas;
                     }
                 ?>
-                <div class="row">
-                    <div class="col-lg-6 borderRightBlack">
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter"><h2>TITLE</h2></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p>Metal</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p>XX€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">&nbsp;</div>
-                            <div class="col-lg-8">
-                                
+                <br>
+                <?php if(isset($musicasCompradasPeloUserObjeto_UsarEmForeach)){ ?>
+                <button class="btn btn-default marginBottom2Percent" type="button" data-toggle="collapse" data-target="#collapsePurchases" aria-expanded="false" aria-controls="collapseExample">View All</button>
+                <div class="collapse" id="collapsePurchases">
+                    <?php
+                    foreach ($musicasCompradasPeloUserObjeto_UsarEmForeach as $musicaComprada) { ?>
+                        <div class="row marginBottom2Percent">
+                            <div class="col-lg-6 ">
+                                <div class="row">
+                                    <div class="col-lg-12 textAlignCenter"><h3><?= $musicaComprada->title ?></h3></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $musicaComprada->genres->nome ?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $musicaComprada->launchdate ?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><p><?= $musicaComprada->pvp ?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8"><p><?= $musicaComprada->producerOfThisSong; ?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">&nbsp;</div>
+                                    <div class="col-lg-8">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6 userImageProfile textAlignCenter borderLeftBlack">
+                                <?= Html::img($musicaComprada->musicpath ."/image_".$musicaComprada->id.'.png', ['alt'=>"User"]); ?> 
+                                <div class="row">
+                                    <div class="col-lg-12 textAlignCenter marginTop2Percent">
+
+                                        <audio id="player" controls src="<?= $musicaComprada->musicpath."/music_".$musicaComprada->id."_".$musicaComprada->title.".mp3" ?>" style="width: 100%"></audio>
+                                   </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 marginTop2Percent">
+                                            <button class="btn btn-default"><a href="#">Add to one of your playlists</a></button>
+       
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-
-
-                    <div class="col-lg-6 userImageProfile textAlignCenter">
-                        <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter marginTop2Percent">
-
-                                <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                                <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
-                                <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
-                           </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 marginTop2Percent">
-                                <?php if (!Yii::$app->user->isGuest) { ?>
-                                    <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Add to one of your playlists</a></button>
-                                <?php }else { ?>
-                                    <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6" style="display: none;">
-                        <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
-                        <audio id="player" controls src="sound.mp3" style="width: 100%; display: none;"></audio>
-                        
-                        <div class="col-lg-12">&nbsp;</div>
-                        <div class="col-lg-12 textAlignCenter">
-
-                            <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                            <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
-                            <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
-                            <?php if (!Yii::$app->user->isGuest) { ?>
-                                <button class="btn btn-default marginTop2Percent" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Add to one of your playlists</a></button>
-                            <?php }else { ?>
-                                <button class="btn btn-default marginTop2Percent" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
-                            <?php } ?>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
-
-                <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
-
-                <div class="row">
-                    <div class="col-lg-6 borderRightBlack">
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter"><h2>TITLE</h2></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p>Metal</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p>XX€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4">&nbsp;</div>
-                            <div class="col-lg-8">
-                                
-                            </div>
-                        </div>
+            <?php }else{
+                ?>
+                    <div class="textAlignCenter">
+                        <p class="textAlignCenter">You still down own any of our songs! Want to buy some?</p>
+                        <button class="btn btn-default"><?php echo Html::a('Take me there!', Url::toRoute(['/musics/index']))?></button>
                     </div>
+                <?php
+            } ?>
 
-
-                    <div class="col-lg-6 userImageProfile textAlignCenter">
-                        <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter marginTop2Percent">
-
-                                <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                                <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
-                                <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
-                           </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 marginTop2Percent">
-                                <?php if (!Yii::$app->user->isGuest) { ?>
-                                    <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Add to one of your playlists</a></button>
-                                <?php }else { ?>
-                                    <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6" style="display: none;">
-                        <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
-                        <audio id="player" controls src="sound.mp3" style="width: 100%; display: none;"></audio>
-                        
-                        <div class="col-lg-12">&nbsp;</div>
-                        <div class="col-lg-12 textAlignCenter">
-
-                            <button class="btn btn-default playSong" onclick="playThatShit(/*THIS SONG ID*/)"><i class="fa fa-play-circle"></i></button>
-                            <button class="btn btn-default pauseSong" onclick="pauseThatShit(/*THIS SONG ID*/)" style="display: none;"><i class="fa fa-pause-circle"></i></button>
-                            <button class="btn btn-default stopSong" onclick="stopThatShit(/*THIS SONG ID*/)"><i class="fa fa-stop-circle"></i></button>
-                            <?php if (!Yii::$app->user->isGuest) { ?>
-                                <button class="btn btn-default marginTop2Percent" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Add to one of your playlists</a></button>
-                            <?php }else { ?>
-                                <button class="btn btn-default marginTop2Percent" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
-                            <?php } ?>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 

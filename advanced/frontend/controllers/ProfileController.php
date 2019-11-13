@@ -3,11 +3,13 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\User;
 use frontend\models\Profile;
 use frontend\models\SearchProfile;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\BaseVarDumper;
 
 /**
  * ProfileController implements the CRUD actions for Profile model.
@@ -124,4 +126,38 @@ class ProfileController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
+
+    public function getCurrentUser(){
+        return User::find()->where(['id'=>Yii::$app->user->id])->one();
+    }
+
+    public function getCurrentProfile(){
+        return Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+    }
+
+    public function actionWallet()
+    {
+        $profileProvider = $this->getCurrentProfile();
+        $model = $this->findModel($profileProvider);
+        
+        if ($model->load(Yii::$app->request->post()) ) {
+            $model->saldo += $model->saldoAdd;
+            $model->save();
+            return $this->redirect(['user/index', 'id' => $model->id]);
+        }
+
+        return $this->render('wallet', [
+            'model' => $model,
+        ]);
+    }
+
+    /*public function actionWallet(){
+        $profileProvider = $this->getCurrentProfile();
+        $userProvider = $this->getCurrentUser();
+        return $this->render('wallet', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
+    }*/
+
 }

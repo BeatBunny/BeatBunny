@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use frontend\models\Musics;
 
 /**
- * SearchMusics represents the model behind the search form of `app\models\Musics`.
+ * SearchMusics represents the model behind the search form of `\frontend\models\Musics`.
  */
 class SearchMusics extends Musics
 {
@@ -18,7 +18,7 @@ class SearchMusics extends Musics
     {
         return [
             [['id', 'genres_id', 'albums_id', 'iva_id'], 'integer'],
-            [['title', 'launchdate', 'lyrics'], 'safe'],
+            [['title', 'launchdate', 'lyrics', 'musiccover'], 'safe'],
             [['rating', 'pvp'], 'number'],
         ];
     }
@@ -69,7 +69,8 @@ class SearchMusics extends Musics
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'lyrics', $this->lyrics]);
+            ->andFilterWhere(['like', 'lyrics', $this->lyrics])
+            ->andFilterWhere(['like', 'musiccover', $this->musiccover]);
 
         return $dataProvider;
     }

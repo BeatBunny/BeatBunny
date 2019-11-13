@@ -6,13 +6,20 @@ use Yii;
 use frontend\models\User;
 use frontend\models\Profile;
 use frontend\models\ProfileHasMusics;
+use frontend\models\ProfileHasAlbums;
 use frontend\models\Genres;
+use frontend\models\Albums;
 use frontend\models\Musics;
+use frontend\models\Iva;
 use frontend\models\SearchMusics;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\BaseVarDumper;
+use yii\web\UploadedFile;
+use frontend\models\Venda;
+use frontend\models\Linhavenda;
+
 
 /**
  * MusicsController implements the CRUD actions for Musics model.
@@ -42,12 +49,29 @@ class MusicsController extends Controller
      */
     public function actionIndex()
     {
+
+        $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
+
         $searchModel = new SearchMusics();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $currentUser = $this->getCurrentUser();
+
+        $currentProfile = $this->getCurrentProfile();
+
+        if(!is_null($currentUser)){
+            $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                'currentUser' => $currentUser,
+                'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+            ]);
+        }
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -69,10 +93,16 @@ class MusicsController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
+
+    public function actionAugment(){
+        return $this->render('augment');
+    }
+
     public function actionCreate()
     {
 
         $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
 
         if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)){
             return $this->redirect(['index']);
@@ -81,12 +111,39 @@ class MusicsController extends Controller
 
         $model = new Musics();
         $modelGenres = Genres::find()->all();
+        $modelYourAlbums = $this->getProducerAlbums();
 
         if ($model->load(Yii::$app->request->post())) {
+            
+            $path = "uploads/";
+            if(!file_exists($path))
+                mkdir($path, 0777, true);
 
+            $getMusicFile = \yii\web\UploadedFile::getInstance($model, 'musicFile');//Get the uploaded file
+            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
+
+            if (!empty($getMusicFile))
+                $model->musicFile = $getMusicFile;
+            else
+                return $this->render('augment');
+            if(!empty($getImageFile))
+                $model->imageFile = $getImageFile;
+            else
+                return $this->render('augment');
+
+            if (!file_exists($path.$currentUser->id)) 
+                    mkdir($path.$currentUser->id, 0777, true);
+                
+            $pathToSong = $path.$currentUser->id."/";
+            $model->musicpath = $pathToSong;
+            $model->musiccover = $pathToSong;
             $model->launchdate = date("Y/m/d");
-            $model->save();
-
+            if($model->save())
+            {
+                if (!empty($getMusicFile))
+                    $getMusicFile->saveAs( $pathToSong . "music_" .$model->id . "_" . $model->title ."." . $getMusicFile->extension);
+                if (!empty($getImageFile))
+                    $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);
 
                 $currentUser = $this->getCurrentUser();
                 $profileHasMusics = new ProfileHasMusics();
@@ -97,6 +154,7 @@ class MusicsController extends Controller
 
                 $profileHasMusics->save(); 
 
+            }
 
             return $this->redirect(['user/index']);
         }
@@ -104,6 +162,7 @@ class MusicsController extends Controller
         return $this->render('create', [
             'model' => $model,
             'modelGenres' => $modelGenres,
+            'modelYourAlbums' => $modelYourAlbums,
         ]);
     }
 
@@ -121,14 +180,110 @@ class MusicsController extends Controller
     }
 
 
-
-
-
-
-    private function getMusicsFromProfile(){
+    private function getProducerAlbumsIds(){
         $profile = $this->getCurrentProfile();
-        $ProfileHasMusics = ProfileHasMusics::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $albums[] = null;
+        foreach ($ProfileHasAlbums as $album ) {
+            array_push($albums, $album->albums_id);
+        }
+        return $albums;
     }
+    public function getProducerAlbums(){
+        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
+        $arrayDeAlbums = null;
+        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
+            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
+        }
+        return $arrayDeAlbums;
+    }
+
+
+    //GET TODAS AS MUSICAS COM PRODUTOR
+        public function getMusicasComProdutorReturnsArray(){
+            $profileHasMusics = ProfileHasMusics::find()->all();
+            $arrayComTodasAsMusicas = [];
+            $criadorDestaMusica = null;
+            $musicaDesteProfile = null;
+            array_filter($arrayComTodasAsMusicas);
+            foreach ($profileHasMusics as $phm) {
+                $criadorDestaMusica = User::find()->where(['id' => $phm->profile_id])->one();
+                $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
+
+                //BaseVarDumper::dump($criadorDestaMusica);
+                $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
+                //BaseVarDumper::dump($musicaDesteProfile);
+                array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
+                //BaseVarDumper::dump($arrayComTodasAsMusicas);
+                //echo "<br><br><br>";
+            }
+            return $arrayComTodasAsMusicas;
+        }
+
+        public function converterMusicasComProducerArrayParaObject(){
+            $todasAsMusicas = Musics::find()->all();
+
+            $todasAsMusicasArray = $this->getMusicasComProdutorReturnsArray();
+
+            for ($i=0; $i < count($todasAsMusicasArray); $i++) { 
+                if($todasAsMusicas[$i]->id == $todasAsMusicasArray[$i]->id){
+                    $todasAsMusicas[$i]->producerOfThisSong = $todasAsMusicasArray[$i]->producerOfThisSong;
+                }
+            }
+
+            return $todasAsMusicas;
+        }
+
+
+    //GET MUSICAS DO USER LOGADO
+        public function getVendasUserLogadoIds(){
+            $profile = $this->getCurrentProfile();
+            $vendaDoUserLogado = Venda::find()->where(['profile_id' => $profile->id])->all();
+            $linhasvendaArray[] = null;
+            foreach ($vendaDoUserLogado as $venda) {
+                array_push($linhasvendaArray, $venda->id);
+            }
+            return $linhasvendaArray;
+        }
+        public function getLinhavendaUserLogado(){
+            $arrayVendasIds[] = $this->getVendasUserLogadoIds();
+            $LinhavendaUserLogado = null;
+            foreach ($arrayVendasIds as $venda) {
+                $LinhavendaUserLogado = Linhavenda::find()->where(['venda_id' => $venda])->all();
+            }
+            return $LinhavendaUserLogado;
+        }
+        public function getMusicasPelasLinhaDeVendaDoUserLogado(){
+            $LinhavendaDoUser = $this->getLinhavendaUserLogado();
+            $musicasCompradasPeloUser = null;
+            foreach ($LinhavendaDoUser as $linhavenda) {
+                $musicasCompradasPeloUser = Musics::find()->where(['id' => $linhavenda->musics_id])->all();
+                //$musicasCompradasPeloUser->producerOfThisSong = 
+            }
+            return $musicasCompradasPeloUser;
+        }
+        public function getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica(){
+            $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogado();
+            $profileHasMusics = ProfileHasMusics::find()->all();
+            $arrayComTodasAsMusicas = [];
+            array_filter($arrayComTodasAsMusicas);
+            foreach ($profileHasMusics as $phm) {
+                $criadorDestaMusica = User::find()->where(['id' => $phm->profile_id])->one();
+                $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
+                $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
+                array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
+            }       
+            for ($i=0; $i < count($arrayComTodasAsMusicas); $i++) { 
+                
+                foreach ($musicasCompradasPeloUser as $musicaComprada) {
+                    if($musicaComprada->id == $arrayComTodasAsMusicas[$i]->id){
+                        $musicaComprada->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
+                    }
+                }
+            }        
+            return $musicasCompradasPeloUser;
+        }
+
 
 
 
@@ -144,13 +299,48 @@ class MusicsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $modelGenres = Genres::find()->all();
+        $modelYourAlbums = $this->getProducerAlbums();
+        
+        if ($model->load(Yii::$app->request->post())) {
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $currentProfile = $this->getCurrentProfile();
+            $currentUser = $this->getCurrentUser();
+
+            $path = "uploads/";
+
+            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
+            
+
+
+            if(is_null($getImageFile)){
+                $model->save();
+                return $this->redirect(['user/index']);
+            }
+            
+
+            if(!empty($getImageFile))
+                $model->imageFile = $getImageFile;
+            else
+                return $this->render('augment');
+
+            $pathToSong = $path.$currentUser->id."/";
+            $model->musiccover = $pathToSong;
+
+
+            $model->save();
+
+            if (!empty($getImageFile))
+                $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);
+            
+            return $this->redirect(['user/index']);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'modelGenres' => $modelGenres,
+            'modelYourAlbums' => $modelYourAlbums,
+
         ]);
     }
 

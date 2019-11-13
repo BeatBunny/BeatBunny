@@ -25,6 +25,9 @@ use Yii;
  */
 class Profile extends \yii\db\ActiveRecord
 {
+
+    public $saldoAdd;
+
     /**
      * {@inheritdoc}
      */
@@ -39,10 +42,11 @@ class Profile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['saldo'], 'number'],
+            [['saldoAdd'], 'number'],
             [['nome', 'id_user'], 'required'],
             [['nif', 'id_user'], 'integer'],
             [['isprodutor'], 'string'],
+            [['saldo'], 'number'],
             [['nome'], 'string', 'max' => 45],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
         ];
@@ -56,6 +60,7 @@ class Profile extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'saldo' => 'Saldo',
+            'saldoAdd' => 'Funds to Add',
             'nome' => 'Nome',
             'nif' => 'Nif',
             'isprodutor' => 'Isprodutor',

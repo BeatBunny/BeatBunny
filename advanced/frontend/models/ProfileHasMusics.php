@@ -9,9 +9,6 @@ use Yii;
  *
  * @property int $profile_id
  * @property int $musics_id
- *
- * @property Music $musics
- * @property Profile $profile
  */
 class ProfileHasMusics extends \yii\db\ActiveRecord
 {
@@ -31,9 +28,7 @@ class ProfileHasMusics extends \yii\db\ActiveRecord
         return [
             [['profile_id', 'musics_id'], 'required'],
             [['profile_id', 'musics_id'], 'integer'],
-            //[['profile_id', 'musics_id'], 'unique', 'targetAttribute' => ['profile_id', 'musics_id']],
-            [['musics_id'], 'exist', 'skipOnError' => true, 'targetClass' => Musics::className(), 'targetAttribute' => ['musics_id' => 'id']],
-            [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
+            [['profile_id', 'musics_id'], 'unique', 'targetAttribute' => ['profile_id', 'musics_id']],
         ];
     }
 
@@ -46,22 +41,6 @@ class ProfileHasMusics extends \yii\db\ActiveRecord
             'profile_id' => 'Profile ID',
             'musics_id' => 'Musics ID',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMusics()
-    {
-        return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfile()
-    {
-        return $this->hasOne(Profile::className(), ['id' => 'profile_id']);
     }
 
     /**

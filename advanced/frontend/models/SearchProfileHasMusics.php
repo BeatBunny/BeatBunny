@@ -4,7 +4,7 @@ namespace frontend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\ProfileHasMusics;
+use frontend\models\ProfileHasMusics;
 
 /**
  * SearchProfileHasMusics represents the model behind the search form of `app\models\ProfileHasMusics`.

@@ -14,29 +14,12 @@ use yii\widgets\ActiveForm;
         'action' => ['index'],
         'method' => 'get',
     ]); ?>
-
-    <?= $form->field($model, 'id') ?>
-
-    <?= $form->field($model, 'title') ?>
-
-    <?= $form->field($model, 'launchdate') ?>
-
-    <?= $form->field($model, 'rating') ?>
-
-    <?= $form->field($model, 'lyrics') ?>
-
-    <?php // echo $form->field($model, 'pvp') ?>
-
-    <?php // echo $form->field($model, 'genres_id') ?>
-
-    <?php // echo $form->field($model, 'albums_id') ?>
-
-    <?php // echo $form->field($model, 'iva_id') ?>
-
-    <div class="form-group">
+    <span class="formFieldTitle">
+        <?= $form->field($searchModel, 'title')->input('title', ['placeholder' => "Title"])->label(false)?>
+    </span>
+    <span class="formFieldButton">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-outline-secondary']) ?>
-    </div>
+    </span>
 
     <?php ActiveForm::end(); ?>
 
