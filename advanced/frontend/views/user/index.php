@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                 ?>
                     <div class="textAlignCenter">
-                        <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Send us some of your songs!</p>
+                        <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Contact-us!</p>
                         <?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']), ['class' => 'btn btn-default'])?>
                     </div>
                 <?php
@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h2 class="textAlignCenter ">Your Creations
                 <?php 
                     if($profileProvider->isprodutor == 'S' && $numberOfSongsYouHave > 0) {
-                        echo Html::a('Let\'s Go!', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default marginLeft2Percent']);
+                        echo Html::a('Upload Song!', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default marginLeft2Percent']);
                     } ?> 
                 </h2> 
                 <?php 
@@ -184,7 +184,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="row textAlignCenter">
                                 <br>
                                 <div class="col-lg-12">
-                                    <p>You are a producer! But you dont have any songs for sale...<br><br><br>Want to upload some?</p><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create'], ['class' => 'btn btn-default']))?>
+                                    <p>You are a producer! But you dont have any songs for sale...<br><br><br>Want to upload some?</p><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default'])?>
                                 </div>
                             </div>
 
@@ -196,8 +196,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                 ?>
                     <div class="textAlignCenter">
-                        <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Send us some of your songs!</p>
-                        <?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact'], ['class' => 'btn btn-default']))?>
+                        <p class="textAlignCenter">You're not a Producer... Yet! Want to be one? Contact-us!</p>
+                        <?php echo Html::a('Let\'s Go!', Url::toRoute(['/site/contact']), ['class' => 'btn btn-default'])?>
                     </div>
                     <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                 <?php
@@ -256,7 +256,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12 marginTop2Percent">
-                                            <?= Html::a('Add to one of your playlists', Url::toRoute(['/playlists/addsong', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                            <?= Html::a('Add to one of your playlists', Url::toRoute(['/playlists/addsong'/*, 'id' => $musica->id*/]), ['class' => 'btn btn-default'])?>
                                     </div>
                                 </div>
                             </div>

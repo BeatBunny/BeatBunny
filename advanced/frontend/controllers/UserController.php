@@ -131,7 +131,8 @@ class UserController extends Controller
     //BUSCA A LISTA DE MUSICAS DO PRODUTOR
     private function getProducerMusicsIds(){
         $profile = $this->getCurrentProfile();
-        $ProfileHasMusics = ProfileHasMusics::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $user = $this->getCurrentUser();
+        $ProfileHasMusics = ProfileHasMusics::find()->where(['profile_id' => $user->id])->all();
         $musicas[] = null;
         foreach ($ProfileHasMusics as $music ) {
             array_push($musicas, $music->musics_id);
@@ -173,35 +174,46 @@ class UserController extends Controller
 
 
 
-    public function getVendasUserLogadoIds(){
+    public function getVendasUserLogado(){
         $profile = $this->getCurrentProfile();
         $vendaDoUserLogado = Venda::find()->where(['profile_id' => $profile->id])->all();
-        $linhasvendaArray[] = null;
-        foreach ($vendaDoUserLogado as $venda) {
-            array_push($linhasvendaArray, $venda->id);
-        }
-
-        return $linhasvendaArray;
+        
+        return $vendaDoUserLogado;
     }
     
 
     public function getLinhavendaUserLogado(){
-        $arrayVendasIds[] = $this->getVendasUserLogadoIds();
-        $LinhavendaUserLogado = null;
+        $arrayVendasIds = $this->getVendasUserLogado();
+
+        // BaseVarDumper::dump($arrayVendasIds);
+
+        // die();
+
+        $LinhavendaUserLogado = [];
+        array_filter($LinhavendaUserLogado);
+
         foreach ($arrayVendasIds as $venda) {
-            $LinhavendaUserLogado = Linhavenda::find()->where(['venda_id' => $venda])->all();
+            array_push($LinhavendaUserLogado, Linhavenda::find()->where(['venda_id' => $venda->id ])->one());
         }
+
+
+        // BaseVarDumper::dump($LinhavendaUserLogado);
+
+        // die();
+
         return $LinhavendaUserLogado;
     }
-    
+
 
     public function getMusicasPelasLinhaDeVendaDoUserLogado(){
+        
         $LinhavendaDoUser = $this->getLinhavendaUserLogado();
-        $musicasCompradasPeloUser = null;
-        foreach ($LinhavendaDoUser as $linhavenda) {
-            $musicasCompradasPeloUser = Musics::find()->where(['id' => $linhavenda->musics_id])->all();
-            //$musicasCompradasPeloUser->producerOfThisSong = 
+        $musicasCompradasPeloUser = [];
+
+        for ($i=0; $i < count($LinhavendaDoUser); $i++) { 
+            array_push($musicasCompradasPeloUser, Musics::find()->where(['id' => $LinhavendaDoUser[$i]->musics_id])->one());
         }
+
         return $musicasCompradasPeloUser;
 
     }
@@ -221,12 +233,12 @@ class UserController extends Controller
             $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
             array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
         }       
-        if(!is_null($musicasCompradasPeloUser)) {
-            for ($i = 0; $i < count($arrayComTodasAsMusicas); $i++) {
-
-                foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                    if ($musicaComprada->id == $arrayComTodasAsMusicas[$i]->id) {
-                        $musicaComprada->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
+        if(!is_null($musicasCompradasPeloUser) && !empty($musicasCompradasPeloUser)) {
+            for ($l=0; $l < count($musicasCompradasPeloUser); $l++) { 
+                
+                for ($i = 0; $i < count($arrayComTodasAsMusicas); $i++) {
+                    if($musicasCompradasPeloUser[$l]->id === $arrayComTodasAsMusicas[$i]->id){
+                        $musicasCompradasPeloUser[$l]->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
                     }
                 }
             }
@@ -237,11 +249,6 @@ class UserController extends Controller
         }
     }
 
-    /*
-    
-        TENTAR COM A MERDA DOS METEDOS GERADOS
-
-    */
 
 
     public function actionIndex()
@@ -260,10 +267,8 @@ class UserController extends Controller
 
         $musicasCompradasPeloUserObjeto_UsarEmForeach = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
 
-        //BaseVarDumper::dump($musicasCompradasPeloUserObjeto_UsarEmForeach);
-        //die();
 
-            if(is_null($musicasCompradasPeloUserObjeto_UsarEmForeach)){
+        if(is_null($musicasCompradasPeloUserObjeto_UsarEmForeach)){
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'arrayComAsTuasMusicas' => $arrayComAsTuasMusicas] );
         }else{
 

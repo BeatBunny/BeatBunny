@@ -23,11 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
             </p>
             <br>
             <p>
-                Not only the ability to buy those songs but you can also be a Producer yourself, all you have to do is email-us and send us some songs of yours to become one.
+                Not only the ability to buy those songs but you can also be a Producer yourself, all you have to do is email-us with a bit of your story.
             </p>
             <br>
             <p>
-                <?php echo Html::a('Be a Producer!', Url::toRoute(['']), ['class' => 'btn btn-default'] )?>
+                <?php echo Html::a('Be a Producer!', Url::toRoute(['site/contact']), ['class' => 'btn btn-default'] )?>
             </p>
         </div>
     </div>
