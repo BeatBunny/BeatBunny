@@ -235,7 +235,6 @@ class MusicsController extends Controller
 
 
     private function getCurrentUser(){
-        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
         $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
         return $userProvider;
     }
@@ -263,7 +262,6 @@ class MusicsController extends Controller
         }
         return $arrayDeAlbums;
     }
-
 
     //GET TODAS AS MUSICAS COM PRODUTOR
         public function getMusicasComProdutorReturnsArray(){
