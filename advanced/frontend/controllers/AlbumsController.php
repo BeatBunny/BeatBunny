@@ -8,6 +8,13 @@ use frontend\models\SearchAlbums;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\User;
+use frontend\models\Profile;
+use frontend\models\ProfileHasMusics;
+use frontend\models\ProfileHasAlbums;
+use frontend\models\Genres;
+use frontend\models\Musics;
+
 
 /**
  * AlbumsController implements the CRUD actions for Albums model.
@@ -35,13 +42,26 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+        $modelGenres = $this->getGenres();
+        $modelMusica = Musics::find()->all();
         $searchModel = new SearchAlbums();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'genres' =>$modelGenres,
+            'currentUser' =>$currentUser,
+            'currentProfile' =>$currentProfile,
+            'musica' =>$modelMusica,
         ]);
+    }
+
+    public function getGenres(){
+        $generesProvider = Genres::find()->where(['id'=>Yii::$app->user->id])->one();
+    return $generesProvider;
     }
 
     /**
@@ -64,6 +84,8 @@ class AlbumsController extends Controller
      */
     public function actionCreate()
     {
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
         $model = new Albums();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -123,5 +145,17 @@ class AlbumsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    /**
+    ****************************************************************************************
+     **/
+    private function getCurrentUser(){
+        $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+        return $userProvider;
+    }
+
+    private function getCurrentProfile(){
+        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        return $profileProvider;
     }
 }

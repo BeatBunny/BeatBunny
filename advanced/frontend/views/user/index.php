@@ -129,7 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             <div class="col-lg-4 userImageProfile textAlignCenter">
                                                 <div class="row">
                                                     <div class="col-lg-12 userImageProfile">
-                                                        <?= Html::img('uploads/'.$userProvider->id ."/image_".$musica->id.'.png', ['alt'=>"User"]); ?>
+                                                        <?= Html::img('../uploads/'.$userProvider->id ."/image_".$musica->id.'.png', ['alt'=>"User"]); ?>
                                                     </div>
                                                 </div>
                                                 <div class="row marginTop2Percent">
@@ -159,7 +159,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
-                                                <audio id="player" controls  src="<?= "uploads/".$userProvider->id."/music_".$musica->id."_".$musica->title.".mp3" ?>" style="width: 100%"></audio>
+                                                <audio id="player" controls  src="<?= "../uploads/".$userProvider->id."/music_".$musica->id."_".$musica->title.".mp3" ?>" style="width: 100%"></audio>
                                                 <!-- controlsList="nodownload" -->
                                                 <div class="col-lg-12">&nbsp;</div>
                                                 <div class="col-lg-12 textAlignCenter">

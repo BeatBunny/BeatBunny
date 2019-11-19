@@ -12,7 +12,7 @@ return [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
-        /*'urlManager' => [
+        'urlManager' => [
             'class' => 'yii\web\UrlManager',
             // Disable index.php
             'showScriptName' => false,
@@ -23,6 +23,6 @@ return [
                     '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                     '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
-        ],*/
+        ],
     ],
 ];

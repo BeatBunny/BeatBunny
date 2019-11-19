@@ -1,7 +1,7 @@
 <?php
 
 namespace frontend\models;
-
+use phpDocumentor\Reflection\Types\This;
 use Yii;
 
 /**
@@ -22,14 +22,19 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
-
-
+    public $new_password;
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return '{{%user}}';
+    }
+
+    public function filters(){
+        return array(
+            'rights - publicprofile', // perform access control for CRUD operations
+        );
     }
 
     /**
@@ -45,7 +50,9 @@ class User extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['email'], 'email'],
+            [['new_password'], 'string'],
             [['password_reset_token'], 'unique'],
+            [['password_hash'], 'string'],
         ];
     }
 
@@ -69,8 +76,25 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @param $new_password
+     * @return string
+     * @throws \yii\base\Exception
      */
+
+
+     public function updatePassword($new_password)
+    {
+        return $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($new_password);
+    }
+
+    public function decrypt()
+    {
+         return Yii::$app->getSecurity()->decryptByPassword($this->password_hash, $this->new_password);
+    }
+    public function validatePass(){
+         return Yii::$app->getSecurity()->validatePassword($this->new_password,$this->password_hash);
+    }
+
     public function getProfiles()
     {
         return $this->hasMany(Profile::className(), ['id_user' => 'id']);
@@ -84,4 +108,5 @@ class User extends \yii\db\ActiveRecord
     {
         return new UserQuery(get_called_class());
     }
+
 }

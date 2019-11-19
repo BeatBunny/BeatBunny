@@ -66,6 +66,7 @@ AppAsset::register($this);
         ['label' => 'Musics', 'url' => ['/musics/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
+        ['label' => 'Albums', 'url' => ['/albums/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
