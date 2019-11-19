@@ -32,6 +32,12 @@ class User extends \yii\db\ActiveRecord
         return '{{%user}}';
     }
 
+    public function filters(){
+        return array(
+            'rights - publicprofile', // perform access control for CRUD operations
+        );
+    }
+
     /**
      * {@inheritdoc}
      */

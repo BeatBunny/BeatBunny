@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br>
                 <div class="row">
                     <div class="col-lg-4 userImageProfile textAlignCenter">
-                        <?= Html::img( $music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
+                        <?= Html::img( "../".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
                     </div>
                     <div class="col-lg-4 borderLeftBlack borderRightBlack">
                         <div class="row">
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                         <audio id="player" controls <?php 
                         if(!Yii::$app->user->isGuest){ 
-                            echo 'src="'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
+                            echo 'src="'."../".$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
                         } ?> style="width: 100%"></audio>
                         
                         <div class="col-lg-12">&nbsp;</div>
