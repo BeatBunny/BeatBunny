@@ -27,6 +27,7 @@ class Profile extends \yii\db\ActiveRecord
 {
 
     public $saldoAdd;
+    public $profileFile;
 
     /**
      * {@inheritdoc}
@@ -43,10 +44,12 @@ class Profile extends \yii\db\ActiveRecord
     {
         return [
             [['saldoAdd'], 'number'],
+            [['profileFile'], 'file', 'extensions' => 'png'],
             [['nome', 'id_user'], 'required'],
             [['nif', 'id_user'], 'integer'],
             [['isprodutor'], 'string'],
             [['saldo'], 'number'],
+            [[ 'profileimage'], 'string', 'max' => 100],
             [['nome'], 'string', 'max' => 45],
             [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
         ];
@@ -63,6 +66,7 @@ class Profile extends \yii\db\ActiveRecord
             'saldoAdd' => 'Funds to Add',
             'nome' => 'Nome',
             'nif' => 'Nif',
+            'profileimage' => 'Profile Image',
             'isprodutor' => 'Isprodutor',
             'id_user' => 'Id User',
         ];

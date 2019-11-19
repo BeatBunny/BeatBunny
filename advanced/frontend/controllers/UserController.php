@@ -2,10 +2,13 @@
 
 namespace frontend\controllers;
 
+use Faker\Provider\Base;
+use phpDocumentor\Reflection\Types\String_;
 use Yii;
 use frontend\models\Musics;
 use frontend\models\User;
 use frontend\models\SearchUser;
+use yii\base\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -18,6 +21,8 @@ use frontend\models\Linhavenda;
 
 /**
  * UserController implements the CRUD actions for User model.
+ * @property string password_hash
+ * @property mixed password
  */
 class UserController extends Controller
 {
@@ -276,13 +281,13 @@ class UserController extends Controller
         }
     }
 
-    public function actionSettings(){
+   /* public function actionSettings(){
 
         $profileProvider = $this->getCurrentProfile();
         $userProvider = $this->getCurrentUser();
         //$userProvider = Yii::$app->user;
         return $this->render('settings', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
-    }
+    }*
 
     /**
      * Finds the User model based on its primary key value.
@@ -300,4 +305,33 @@ class UserController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
 
+    //GUARDAR SETTINGS
+    public function actionSettings()
+    {
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+        if ($currentProfile->load(Yii::$app->request->post())) {
+            $path = "uploads/";
+            if(!file_exists($path))
+                mkdir($path, 0777, true);
+            $getImageFile = \yii\web\UploadedFile::getInstance($currentProfile, 'profileFile');
+            if(!empty ($getImageFile)){
+                $currentProfile->profileFile = $getImageFile;}
+            else
+                return $this->render('augment');
+            if (!file_exists($path.$currentUser->id))
+                mkdir($path.$currentUser->id, 0777, true);
+            $pathToProfileimage = $path.$currentUser->id."/";
+            $currentProfile->profileimage = $pathToProfileimage;
+            //BaseVarDumper::dump($currentProfile);
+            $currentUser->updatePassword($currentUser->new_password);
+            $currentUser->validatePass($currentUser);
+            $currentProfile->save();
+            $currentUser->save();
+            if (!empty($getImageFile))
+                $getImageFile->saveAs( $pathToProfileimage . "image_" .$currentProfile->id . "." . $getImageFile->extension);
+
+        }
+        return $this->render('settings', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile]);
+    }
 }
