@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%venda}}".
+ * This is the model class for table "venda".
  *
  * @property int $id
  * @property string $data
@@ -22,7 +22,7 @@ class Venda extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%venda}}';
+        return 'venda';
     }
 
     /**

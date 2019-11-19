@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%profile_has_albums}}".
+ * This is the model class for table "profile_has_albums".
  *
- * @property int $profile_id
  * @property int $albums_id
+ * @property int $profile_id
  *
- * @property Album $albums
+ * @property Albums $albums
  * @property Profile $profile
  */
 class ProfileHasAlbums extends \yii\db\ActiveRecord
@@ -20,7 +20,7 @@ class ProfileHasAlbums extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%profile_has_albums}}';
+        return 'profile_has_albums';
     }
 
     /**
@@ -29,9 +29,9 @@ class ProfileHasAlbums extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['profile_id', 'albums_id'], 'required'],
-            [['profile_id', 'albums_id'], 'integer'],
-            [['profile_id', 'albums_id'], 'unique', 'targetAttribute' => ['profile_id', 'albums_id']],
+            [['albums_id', 'profile_id'], 'required'],
+            [['albums_id', 'profile_id'], 'integer'],
+            [['albums_id', 'profile_id'], 'unique', 'targetAttribute' => ['albums_id', 'profile_id']],
             [['albums_id'], 'exist', 'skipOnError' => true, 'targetClass' => Albums::className(), 'targetAttribute' => ['albums_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
         ];
@@ -43,8 +43,8 @@ class ProfileHasAlbums extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'profile_id' => 'Profile ID',
             'albums_id' => 'Albums ID',
+            'profile_id' => 'Profile ID',
         ];
     }
 
@@ -53,7 +53,7 @@ class ProfileHasAlbums extends \yii\db\ActiveRecord
      */
     public function getAlbums()
     {
-        return $this->hasOne(Album::className(), ['id' => 'albums_id']);
+        return $this->hasOne(Albums::className(), ['id' => 'albums_id']);
     }
 
     /**

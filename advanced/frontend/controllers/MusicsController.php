@@ -205,7 +205,7 @@ class MusicsController extends Controller
                 $currentUser = $this->getCurrentUser();
                 $profileHasMusics = new ProfileHasMusics();
 
-                $profileHasMusics->profile_id = $currentUser->id;
+                $profileHasMusics->profile_id = $currentProfile->id;
 
                 $profileHasMusics->musics_id = $model->id;
 

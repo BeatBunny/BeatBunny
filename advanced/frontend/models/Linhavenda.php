@@ -5,14 +5,14 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%linhavenda}}".
+ * This is the model class for table "linhavenda".
  *
  * @property int $id
  * @property double $precoVenda
  * @property int $venda_id
  * @property int $musics_id
  *
- * @property Music $musics
+ * @property Musics $musics
  * @property Venda $venda
  */
 class Linhavenda extends \yii\db\ActiveRecord
@@ -22,7 +22,7 @@ class Linhavenda extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%linhavenda}}';
+        return 'linhavenda';
     }
 
     /**
@@ -57,7 +57,7 @@ class Linhavenda extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasOne(Music::className(), ['id' => 'musics_id']);
+        return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
     }
 
     /**

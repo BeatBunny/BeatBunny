@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bcf266fc-7a77-42dd-8e55-589d54dfdcd5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advanced/frontend/views/playlists/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/views/playlists/index.php" afterDir="false" />
-    </list>
+    <list default="true" id="bcf266fc-7a77-42dd-8e55-589d54dfdcd5" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,8 +43,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="156" column="16" selection-start-line="156" selection-start-column="16" selection-end-line="156" selection-end-column="16" />
+            <state relative-caret-position="498">
+              <caret line="157" column="29" lean-forward="true" selection-start-line="157" selection-start-column="29" selection-end-line="157" selection-end-column="29" />
               <folding>
                 <element signature="e#40#48#0#PHP" expanded="true" />
               </folding>
@@ -231,12 +227,12 @@
       <workItem from="1573760947133" duration="9199000" />
       <workItem from="1573812768072" duration="3342000" />
       <workItem from="1574009506834" duration="3534000" />
-      <workItem from="1574166992504" duration="872000" />
+      <workItem from="1574166992504" duration="1687000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16947000" />
+    <option name="totallyTimeSpent" value="17762000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
@@ -336,8 +332,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="156" column="16" selection-start-line="156" selection-start-column="16" selection-end-line="156" selection-end-column="16" />
+        <state relative-caret-position="498">
+          <caret line="157" column="29" lean-forward="true" selection-start-line="157" selection-start-column="29" selection-end-line="157" selection-end-column="29" />
           <folding>
             <element signature="e#40#48#0#PHP" expanded="true" />
           </folding>
