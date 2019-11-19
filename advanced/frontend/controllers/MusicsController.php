@@ -93,7 +93,7 @@ class MusicsController extends Controller
     public function actionBuymusic($id, $producerOfThisSong){
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
-            return $this->redirect('musics/index');
+            return $this->goBack();
         }
 
         $currentUser = $this->getCurrentUser();
@@ -120,7 +120,7 @@ class MusicsController extends Controller
     }
 
     public function actionFinishpayment($id){
-        
+        //IMPLEMENTAR VERIFICAÇÃO PARA VER SE O USER JÁ TEM A MÚSICA EM QUESTÃO
         $model = $this->findModel($id);
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
@@ -138,20 +138,11 @@ class MusicsController extends Controller
         $newLinhaVenda->precoVenda = $model->pvp;
         $newLinhaVenda->venda_id = $newVenda->id;
         $newLinhaVenda->musics_id = $model->id;
-
         
         $newLinhaVenda->save();
         $currentProfile->save();
 
-        /*BaseVarDumper::dump($newVenda);
-        echo "<br><br>";
-        BaseVarDumper::dump($currentProfile);
-        echo "<br><br>";
-        BaseVarDumper::dump($newLinhaVenda);
-        echo "<br><br>";*/
-        //die();
-
-        return $this->redirect('index');
+        return $this->goBack();
     }
 
     /**
@@ -235,7 +226,6 @@ class MusicsController extends Controller
 
 
     private function getCurrentUser(){
-        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
         $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
         return $userProvider;
     }
@@ -263,7 +253,6 @@ class MusicsController extends Controller
         }
         return $arrayDeAlbums;
     }
-
 
     //GET TODAS AS MUSICAS COM PRODUTOR
         public function getMusicasComProdutorReturnsArray(){

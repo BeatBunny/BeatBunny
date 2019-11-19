@@ -6,6 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use yii\helpers\BaseVarDumper;
 
 /**
  * Site controller
@@ -38,6 +39,7 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
+
         ];
     }
 
@@ -74,8 +76,20 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+
+
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->login();
+            $roles =Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+            foreach ($roles as $role) {
+                if($role->name === 'admin'){
+                    break;
+                }
+                else{
+                    Yii::$app->user->logout();
+                }
+            }
             return $this->goBack();
         } else {
             $model->password = '';

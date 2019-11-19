@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Playlists;
 use frontend\models\SearchPlaylists;
+use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,12 +36,15 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
+        $currentUser = $this->getCurrentUser();
+
         $searchModel = new SearchPlaylists();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'currentUser' => $currentUser,
         ]);
     }
 
@@ -123,5 +127,33 @@ class PlaylistsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    private function getCurrentUser(){
+        $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+        return $userProvider;
+    }
+
+    private function getCurrentProfile(){
+        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        return $profileProvider;
+    }
+
+    public function getPlaylistsDoUserLogado(){
+        $profileHasPlaylists = ProfileHasPlaylists::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $playlistsIds[] = null;
+        foreach ($profileHasPlaylists as $playlist ) {
+            array_push($playlists, $playlist->playlists_id);
+        }
+        return $playlistsIds;
+    }
+
+    public function getPlaylistsList(){
+        $arrayDePlaylistIds[] = $this->getPlaylistsDoUserLogado();
+        $arrayDePlaylists = null;
+        foreach ($arrayDePlaylistIds as $idDaPlaylist) {
+            $arrayDePlaylists = Playlists::find()->where(['id' => $idDaPlaylist])->all();
+        }
+        return $arrayDePlaylists;
     }
 }
