@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: 19-Nov-2019 às 13:52
+-- Generation Time: 19-Nov-2019 às 18:36
 -- Versão do servidor: 5.7.24
 -- versão do PHP: 7.0.33
 
@@ -72,6 +72,16 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
   KEY `idx-auth_assignment-user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Extraindo dados da tabela `auth_assignment`
+--
+
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+('admin', '1', 1574187694),
+('client', '18', 1574187725),
+('client', '3', 1574187694),
+('producer', '2', 1574187694);
+
 -- --------------------------------------------------------
 
 --
@@ -92,6 +102,15 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
   KEY `idx-auth_item-type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Extraindo dados da tabela `auth_item`
+--
+
+INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+('admin', 1, NULL, NULL, NULL, 1574187694, 1574187694),
+('client', 1, NULL, NULL, NULL, 1574187693, 1574187693),
+('producer', 1, NULL, NULL, NULL, 1574187693, 1574187693);
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +124,14 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
   PRIMARY KEY (`parent`,`child`),
   KEY `child` (`child`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Extraindo dados da tabela `auth_item_child`
+--
+
+INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+('producer', 'client'),
+('admin', 'producer');
 
 -- --------------------------------------------------------
 
@@ -201,7 +228,7 @@ CREATE TABLE IF NOT EXISTS `musics` (
   KEY `fk_musics_genres1_idx` (`genres_id`),
   KEY `fk_musics_albums1_idx` (`albums_id`),
   KEY `fk_musics_iva1_idx` (`iva_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -241,7 +268,7 @@ DROP TABLE IF EXISTS `playlists_has_musics`;
 CREATE TABLE IF NOT EXISTS `playlists_has_musics` (
   `playlists_id` int(10) UNSIGNED NOT NULL,
   `musics_id` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`musics_id`),
+  PRIMARY KEY (`playlists_id`,`musics_id`),
   KEY `fk_playlists_has_musics_musics1_idx` (`musics_id`),
   KEY `fk_playlists_has_musics_playlists1` (`playlists_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
@@ -264,7 +291,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `id_user` (`id_user`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -276,7 +303,7 @@ DROP TABLE IF EXISTS `profile_has_albums`;
 CREATE TABLE IF NOT EXISTS `profile_has_albums` (
   `albums_id` int(10) UNSIGNED NOT NULL,
   `profile_id` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`albums_id`),
+  PRIMARY KEY (`albums_id`,`profile_id`),
   KEY `fk_profile_has_albums_albums1_idx` (`albums_id`),
   KEY `fk_profile_has_albums_profile1_idx` (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
@@ -291,7 +318,7 @@ DROP TABLE IF EXISTS `profile_has_musics`;
 CREATE TABLE IF NOT EXISTS `profile_has_musics` (
   `profile_id` int(10) UNSIGNED NOT NULL,
   `musics_id` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`musics_id`),
+  PRIMARY KEY (`profile_id`,`musics_id`),
   KEY `fk_profile_has_musics_musics1_idx` (`musics_id`),
   KEY `fk_profile_has_musics_profile1_idx` (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
@@ -306,7 +333,7 @@ DROP TABLE IF EXISTS `profile_has_playlists`;
 CREATE TABLE IF NOT EXISTS `profile_has_playlists` (
   `profile_id` int(10) UNSIGNED NOT NULL,
   `playlists_id` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`playlists_id`),
+  PRIMARY KEY (`profile_id`,`playlists_id`),
   KEY `fk_profile_has_playlists_playlists1_idx` (`playlists_id`),
   KEY `fk_profile_has_playlists_profile1_idx` (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
@@ -346,7 +373,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Extraindo dados da tabela `user`
+--
+
+INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
+(17, 'xixi', 'gRBQkkK2OOG3X39_F9p_sgh3tcQzHixD', '$2y$13$PKWEST9yp2Zqi9tB0EtFSuKx/anCEwW2vA07vXcR1jmF1MYqzRH06', NULL, 'rui_p_s@hotmail.com', 10, 1574187685, 1574187685, NULL),
+(18, 'pipi', 'ntDANHvsV-wWMbr9Ic7LG4XwPEB7nV_s', '$2y$13$ZbMOgGHerB3Jh3lXe3NN/OdbBR98eOVx2U2VV6QXBOoswsL7HxsPa', NULL, 'roi@hotmail.com', 10, 1574187725, 1574187725, NULL);
 
 -- --------------------------------------------------------
 
