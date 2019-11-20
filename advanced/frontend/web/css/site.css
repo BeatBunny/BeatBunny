@@ -408,3 +408,19 @@ h2{
 .navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active{
     color:#0099ff ;
 }
+
+.floatLeft{
+    float: left;
+}
+
+.floatRight{
+    float: right;
+}
+
+.modal-title{
+    color: black;
+}
+
+.modal-body{
+    color: black;
+}

@@ -13,16 +13,18 @@ use Yii;
  * @property string $rating
  * @property string $lyrics
  * @property double $pvp
- * @property resource $musiccover
+ * @property string $musiccover
  * @property string $musicpath
  * @property int $genres_id
  * @property int $albums_id
  * @property int $iva_id
  *
- * @property Album $albums
- * @property Genre $genres
+ * @property Linhavenda[] $linhavendas
+ * @property Albums $albums
+ * @property Genres $genres
  * @property Iva $iva
- * @property Playlist[] $playlists
+ * @property PlaylistsHasMusics $playlistsHasMusics
+ * @property ProfileHasMusics $profileHasMusics
  */
 class Musics extends \yii\db\ActiveRecord
 {
@@ -51,10 +53,9 @@ class Musics extends \yii\db\ActiveRecord
             [['launchdate'], 'safe'],
             [['rating', 'pvp'], 'number'],
             [['lyrics'], 'string'],
-            [[ 'musiccover'], 'string', 'max' => 100],
             [['genres_id', 'albums_id', 'iva_id'], 'integer'],
             [['title'], 'string', 'max' => 64],
-            [['musicpath'], 'string', 'max' => 100],
+            [['musiccover', 'musicpath'], 'string', 'max' => 100],
             [['albums_id'], 'exist', 'skipOnError' => true, 'targetClass' => Albums::className(), 'targetAttribute' => ['albums_id' => 'id']],
             [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genres::className(), 'targetAttribute' => ['genres_id' => 'id']],
             [['iva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Iva::className(), 'targetAttribute' => ['iva_id' => 'id']],
@@ -73,12 +74,20 @@ class Musics extends \yii\db\ActiveRecord
             'rating' => 'Rating',
             'lyrics' => 'Lyrics',
             'pvp' => 'Pvp',
-            'musiccover' => 'Music Cover',
+            'musiccover' => 'Musiccover',
             'musicpath' => 'Musicpath',
-            'genres_id' => 'Genres',
-            'albums_id' => 'Album',
-            'iva_id' => 'TAX (%)',
+            'genres_id' => 'Genres ID',
+            'albums_id' => 'Albums ID',
+            'iva_id' => 'Iva ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLinhavendas()
+    {
+        return $this->hasMany(Linhavenda::className(), ['musics_id' => 'id']);
     }
 
     /**
@@ -108,9 +117,17 @@ class Musics extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPlaylists()
+    public function getPlaylistsHasMusics()
     {
-        return $this->hasMany(Playlists::className(), ['musics_id' => 'id']);
+        return $this->hasOne(PlaylistsHasMusics::className(), ['musics_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfileHasMusics()
+    {
+        return $this->hasOne(ProfileHasMusics::className(), ['musics_id' => 'id']);
     }
 
     /**

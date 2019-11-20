@@ -53,7 +53,9 @@ class MusicsController extends Controller
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
 
         $searchModel = new SearchMusics();
-
+        /*$dataProvider = */$searchModel->search(Yii::$app->request->queryParams);
+        
+        $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
         $currentUser = $this->getCurrentUser();
 
         $currentProfile = $this->getCurrentProfile();
@@ -61,6 +63,7 @@ class MusicsController extends Controller
         if(!is_null($currentUser)){
             $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
             return $this->render('index', [
+                'searchedMusics' => $searchedMusics,
                 'searchModel' => $searchModel,
                 'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
                 'currentUser' => $currentUser,
@@ -69,6 +72,7 @@ class MusicsController extends Controller
         }
 
         return $this->render('index', [
+            'searchedMusics' => $searchedMusics,
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
             'currentUser' => $currentUser,
@@ -436,7 +440,7 @@ class MusicsController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
