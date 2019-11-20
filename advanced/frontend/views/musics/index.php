@@ -36,10 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
     if(empty($searchModel->title)){
 
 
-        foreach ($allTheMusicsWithProducer as $music) { ?>
-            
-
-            <!-- Modal -->
+        
+      foreach ($allTheMusicsWithProducer as $music) { ?>
+        <!-- Modal com os Lyrics -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -58,25 +57,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
               </div>
             </div>
-
-            <div class="col-lg-12 ">&nbsp;</div>
-            <div class="row borderTopBlack marginTop2Percent">
-                    
-                <div class="col-lg-12">
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-4 userImageProfile textAlignCenter">
-                            <?= Html::img( "../".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
-                            <div class="row">
-                                <div class="col-lg-12">&nbsp;</div>
-                                <div class="col-lg-12">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
-                                        See Lyrics
-                                    </button>
-                                </div>
-                            </div>
-    <?php foreach ($allTheMusicsWithProducer as $music) { ?>
-        
         <div class="col-lg-12 ">&nbsp;</div>
         <div class="row borderTopBlack marginTop2Percent">
                 
@@ -85,20 +65,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-lg-4 userImageProfile textAlignCenter">
                         <?= Html::img( "../".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
+                        <div class="row">
+                            <div class="col-lg-12">&nbsp;</div>
+                            <div class="col-lg-12">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+                                    See Lyrics
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-4 borderLeftBlack borderRightBlack">
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p></p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p><?= $music->pvp.'€'; ?></p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
-                        </div>
+
                         <div class="col-lg-4 borderLeftBlack borderRightBlack">
                             <div class="row">
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
