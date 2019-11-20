@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%musics}}".
+ * This is the model class for table "musics".
  *
  * @property int $id
  * @property string $title
@@ -23,14 +23,15 @@ use Yii;
  * @property Albums $albums
  * @property Genres $genres
  * @property Iva $iva
- * @property PlaylistsHasMusics $playlistsHasMusics
- * @property ProfileHasMusics $profileHasMusics
+ * @property PlaylistsHasMusics[] $playlistsHasMusics
+ * @property Playlists[] $playlists
+ * @property ProfileHasMusics[] $profileHasMusics
+ * @property Profile[] $profiles
  */
 class Musics extends \yii\db\ActiveRecord
 {
-
-    public $musicFile;
-    public $imageFile;
+    public $musicFile;     
+    public $imageFile;     
     public $producerOfThisSong;
 
     /**
@@ -38,7 +39,7 @@ class Musics extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%musics}}';
+        return 'musics';
     }
 
     /**
@@ -119,7 +120,17 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getPlaylistsHasMusics()
     {
-        return $this->hasOne(PlaylistsHasMusics::className(), ['musics_id' => 'id']);
+
+        return $this->hasMany(PlaylistsHasMusics::className(), ['musics_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+
+    public function getPlaylists()
+    {
+        return $this->hasMany(Playlists::className(), ['id' => 'playlists_id'])->viaTable('playlists_has_musics', ['musics_id' => 'id']);
     }
 
     /**
@@ -127,7 +138,15 @@ class Musics extends \yii\db\ActiveRecord
      */
     public function getProfileHasMusics()
     {
-        return $this->hasOne(ProfileHasMusics::className(), ['musics_id' => 'id']);
+        return $this->hasMany(ProfileHasMusics::className(), ['musics_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfiles()
+    {
+        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('profile_has_musics', ['musics_id' => 'id']);
     }
 
     /**

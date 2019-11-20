@@ -4,11 +4,13 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\Playlists;
+use frontend\models\ProfileHasPlaylists;
 use frontend\models\SearchPlaylists;
 use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\BaseVarDumper;
 
 /**
  * PlaylistsController implements the CRUD actions for Playlists model.
@@ -36,14 +38,16 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
+        $allThePlaylistsFromCurrentUser = $this->getPlaylistsList();
+
         $currentUser = $this->getCurrentUser();
 
         $searchModel = new SearchPlaylists();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'allThePlaylistsFromCurrentUser' => $allThePlaylistsFromCurrentUser,
             'currentUser' => $currentUser,
         ]);
     }
@@ -131,11 +135,14 @@ class PlaylistsController extends Controller
 
     private function getCurrentUser(){
         $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
+
         return $userProvider;
     }
 
     private function getCurrentProfile(){
         $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+
+
         return $profileProvider;
     }
 
@@ -145,6 +152,9 @@ class PlaylistsController extends Controller
         foreach ($profileHasPlaylists as $playlist ) {
             array_push($playlists, $playlist->playlists_id);
         }
+        /*BaseVarDumper::dump($playlistsIds);
+
+        die();*/
         return $playlistsIds;
     }
 
@@ -154,6 +164,14 @@ class PlaylistsController extends Controller
         foreach ($arrayDePlaylistIds as $idDaPlaylist) {
             $arrayDePlaylists = Playlists::find()->where(['id' => $idDaPlaylist])->all();
         }
+
+
         return $arrayDePlaylists;
     }
+
+    public function getPlaylistMusics() {
+
+    }
+
+    //FAZER GET DAS MUSICAS DAS PLAYLISTS
 }

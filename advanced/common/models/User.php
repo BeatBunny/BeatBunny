@@ -7,6 +7,7 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
+
 /**
  * User model
  *
@@ -28,8 +29,11 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
-
+    public $new_password;
+    public $old_password;
+    public $repeat_password;
     /**
+     *
      * {@inheritdoc}
      */
     public static function tableName()
@@ -50,17 +54,50 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
+    public function getProfiles()
+    {
+        return $this->hasMany(Profile::className(), ['id_user' => 'id']);
+    }
+
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+//            array('old_password', 'new_password', 'repeat_password', 'required', 'on' => 'changePwd'),
+//            array('old_password', 'findPasswords', 'on' => 'changePwd'),
+//            array('repeat_password', 'compare', 'compareAttribute'=>'new_password', 'on'=>'changePwd'),
+            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'string', 'max' => 255],
+            [['auth_key'], 'string', 'max' => 32],
+            [['username'], 'unique'],
+            [['email'], 'unique'],
+            [['email'], 'email'],
+            [['password_reset_token'], 'unique'],
+            [['password_hash'], 'string'],
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Username',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'email' => 'Email',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'verification_token' => 'Verification Token',
+        ];
+    }
     /**
      * {@inheritdoc}
      */
+
+
+
     public static function findIdentity($id)
     {
         return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
@@ -172,6 +209,7 @@ class User extends ActiveRecord implements IdentityInterface
      * Generates password hash from password and sets it to the model
      *
      * @param string $password
+     * @throws \yii\base\Exception
      */
     public function setPassword($password)
     {
@@ -206,4 +244,16 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+
+    public function findPasswords($attribute, $params)
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user->password != md5($this->old_password))
+            $this->addError($attribute, 'Old password is incorrect.');
+    }
+    /**
+     * {@inheritdoc}
+     * @return UserQuery the active query used by this AR class.
+     */
+
 }

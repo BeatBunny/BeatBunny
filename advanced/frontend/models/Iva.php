@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%iva}}".
+ * This is the model class for table "iva".
  *
  * @property int $id
  * @property int $tax
  *
- * @property Music[] $musics
+ * @property Musics[] $musics
  */
 class Iva extends \yii\db\ActiveRecord
 {
@@ -19,7 +19,7 @@ class Iva extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%iva}}';
+        return 'iva';
     }
 
     /**
@@ -50,7 +50,7 @@ class Iva extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Music::className(), ['iva_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['iva_id' => 'id']);
     }
 
     /**

@@ -8,6 +8,13 @@ use frontend\models\SearchAlbums;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use frontend\models\User;
+use frontend\models\Profile;
+use frontend\models\ProfileHasMusics;
+use frontend\models\ProfileHasAlbums;
+use frontend\models\Genres;
+use frontend\models\Musics;
+
 
 /**
  * AlbumsController implements the CRUD actions for Albums model.
@@ -35,15 +42,56 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
+        $currentAlbum = $this->getAlbumTestando();
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+        $modelGenres = $this->getGenres();
         $searchModel = new SearchAlbums();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
+            'currentAlbum'=> $currentAlbum,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'genres' =>$modelGenres,
+            'currentUser' =>$currentUser,
+            'currentProfile' =>$currentProfile,
         ]);
     }
+public function getAlbuns(){
+        return Albums::find()->where(['id' => Yii::$app->user->id])->all();
+}
+    public function getGenres(){
+        return Genres::find()->where(['id'=>Yii::$app->user->id])->one();
 
+    }
+
+    public function converterAlbunsArrayParaObject(){
+        $todosAlbuns = Albums::find()->all();
+        $todosAlbunsArrayProdutores = $this->getProducerAlbums();
+        for ($i=0; $i < count($todosAlbuns); $i++) {
+            if($todosAlbuns[$i]->id == $todosAlbunsArrayProdutores[$i]->id){
+                $todosAlbuns[$i]->producerOfThisAlbum = $todosAlbunsArrayProdutores[$i]->producerOfThisAlbum;
+            }
+        }
+        return $todosAlbuns;
+    }
+    private function getProducerAlbumsIds(){
+        $profile = $this->getCurrentProfile();
+        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $albums[] = null;
+        foreach ($ProfileHasAlbums as $album ) {
+            array_push($albums, $album->albums_id);
+        }
+        return $albums;
+    }
+    public function getProducerAlbums(){
+        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
+        $arrayDeAlbums = null;
+        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
+            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
+        }
+        return $arrayDeAlbums;
+    }
     /**
      * Displays a single Albums model.
      * @param integer $id
@@ -64,6 +112,8 @@ class AlbumsController extends Controller
      */
     public function actionCreate()
     {
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
         $model = new Albums();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -123,5 +173,15 @@ class AlbumsController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+    /**
+    ****************************************************************************************
+     **/
+    private function getCurrentUser(){
+        return User::find()->where(['id'=>Yii::$app->user->id])->one();
+    }
+
+    private function getCurrentProfile(){
+        return Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
     }
 }

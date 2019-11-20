@@ -1,7 +1,7 @@
 <?php
 
 namespace frontend\models;
-
+use phpDocumentor\Reflection\Types\This;
 use Yii;
 
 /**
@@ -22,7 +22,6 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
-
 
     /**
      * {@inheritdoc}
@@ -51,7 +50,10 @@ class User extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['email'], 'email'],
+            [['new_password'], 'required'],
+            [['new_password'], 'string'],
             [['password_reset_token'], 'unique'],
+            [['password_hash'], 'string'],
         ];
     }
 
@@ -75,8 +77,33 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @param $attribute
+     * @param $params
+     * @return string
      */
+
+
+    public function findPasswords($attribute, $params)
+    {
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user->password != md5($this->old_password))
+            $this->addError($attribute, 'Old password is incorrect.');
+    }
+
+     public function updatePassword($password)
+    {
+        return $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
+    }
+
+//    public function decrypt()
+//    {
+//         return Yii::$app->getSecurity()->decryptByPassword($this->password_hash, $this->new_password);
+//    }
+
+    public function validatePass($password){
+         return Yii::$app->getSecurity()->validatePassword($password,$this->password_hash);
+    }
+
     public function getProfiles()
     {
         return $this->hasMany(Profile::className(), ['id_user' => 'id']);
@@ -90,4 +117,5 @@ class User extends \yii\db\ActiveRecord
     {
         return new UserQuery(get_called_class());
     }
+
 }

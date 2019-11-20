@@ -49,17 +49,14 @@ class MusicsController extends Controller
      */
     public function actionIndex()
     {
-
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
-
         $searchModel = new SearchMusics();
-        /*$dataProvider = */$searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
+
         $currentUser = $this->getCurrentUser();
-
         $currentProfile = $this->getCurrentProfile();
-
         if(!is_null($currentUser)){
             $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
             return $this->render('index', [
@@ -209,7 +206,7 @@ class MusicsController extends Controller
                 $currentUser = $this->getCurrentUser();
                 $profileHasMusics = new ProfileHasMusics();
 
-                $profileHasMusics->profile_id = $currentUser->id;
+                $profileHasMusics->profile_id = $currentProfile->id;
 
                 $profileHasMusics->musics_id = $model->id;
 
