@@ -49,15 +49,10 @@ class MusicsController extends Controller
      */
     public function actionIndex()
     {
-
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
-
         $searchModel = new SearchMusics();
-
         $currentUser = $this->getCurrentUser();
-
         $currentProfile = $this->getCurrentProfile();
-
         if(!is_null($currentUser)){
             $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
             return $this->render('index', [

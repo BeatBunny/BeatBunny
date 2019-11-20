@@ -22,7 +22,7 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord
 {
-    public $new_password;
+
     /**
      * {@inheritdoc}
      */
@@ -50,6 +50,7 @@ class User extends \yii\db\ActiveRecord
             [['username'], 'unique'],
             [['email'], 'unique'],
             [['email'], 'email'],
+            [['new_password'], 'required'],
             [['new_password'], 'string'],
             [['password_reset_token'], 'unique'],
             [['password_hash'], 'string'],
@@ -76,23 +77,31 @@ class User extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $new_password
+     * @param $attribute
+     * @param $params
      * @return string
-     * @throws \yii\base\Exception
      */
 
 
-     public function updatePassword($new_password)
+    public function findPasswords($attribute, $params)
     {
-        return $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($new_password);
+        $user = User::model()->findByPk(Yii::app()->user->id);
+        if ($user->password != md5($this->old_password))
+            $this->addError($attribute, 'Old password is incorrect.');
     }
 
-    public function decrypt()
+     public function updatePassword($password)
     {
-         return Yii::$app->getSecurity()->decryptByPassword($this->password_hash, $this->new_password);
+        return $this->password_hash = Yii::$app->getSecurity()->generatePasswordHash($password);
     }
-    public function validatePass(){
-         return Yii::$app->getSecurity()->validatePassword($this->new_password,$this->password_hash);
+
+//    public function decrypt()
+//    {
+//         return Yii::$app->getSecurity()->decryptByPassword($this->password_hash, $this->new_password);
+//    }
+
+    public function validatePass($password){
+         return Yii::$app->getSecurity()->validatePassword($password,$this->password_hash);
     }
 
     public function getProfiles()
