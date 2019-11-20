@@ -5,12 +5,12 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%profile_has_playlists}}".
+ * This is the model class for table "profile_has_playlists".
  *
  * @property int $profile_id
  * @property int $playlists_id
  *
- * @property Playlist $playlists
+ * @property Playlists $playlists
  * @property Profile $profile
  */
 class ProfileHasPlaylists extends \yii\db\ActiveRecord
@@ -20,7 +20,7 @@ class ProfileHasPlaylists extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%profile_has_playlists}}';
+        return 'profile_has_playlists';
     }
 
     /**
@@ -53,7 +53,7 @@ class ProfileHasPlaylists extends \yii\db\ActiveRecord
      */
     public function getPlaylists()
     {
-        return $this->hasOne(Playlist::className(), ['id' => 'playlists_id']);
+        return $this->hasOne(Playlists::className(), ['id' => 'playlists_id']);
     }
 
     /**

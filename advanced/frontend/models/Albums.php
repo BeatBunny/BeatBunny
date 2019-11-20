@@ -5,17 +5,18 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%albums}}".
+ * This is the model class for table "albums".
  *
  * @property int $id
  * @property string $title
  * @property string $launchdate
  * @property string $review
+ * @property resource $albumcover
  * @property int $genres_id
  *
- * @property Genre $genres
- * @property Music[] $musics
- * @property ProfileHasAlbum[] $profileHasAlbums
+ * @property Genres $genres
+ * @property Musics[] $musics
+ * @property ProfileHasAlbums[] $profileHasAlbums
  * @property Profile[] $profiles
  */
 class Albums extends \yii\db\ActiveRecord
@@ -25,7 +26,7 @@ class Albums extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%albums}}';
+        return 'albums';
     }
 
     /**
@@ -37,9 +38,10 @@ class Albums extends \yii\db\ActiveRecord
             [['title', 'launchdate', 'genres_id'], 'required'],
             [['launchdate'], 'safe'],
             [['review'], 'number'],
+            [['albumcover'], 'string'],
             [['genres_id'], 'integer'],
             [['title'], 'string', 'max' => 45],
-            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genre::className(), 'targetAttribute' => ['genres_id' => 'id']],
+            [['genres_id'], 'exist', 'skipOnError' => true, 'targetClass' => Genres::className(), 'targetAttribute' => ['genres_id' => 'id']],
         ];
     }
 
@@ -53,6 +55,7 @@ class Albums extends \yii\db\ActiveRecord
             'title' => 'Title',
             'launchdate' => 'Launchdate',
             'review' => 'Review',
+            'albumcover' => 'Albumcover',
             'genres_id' => 'Genres ID',
         ];
     }
@@ -62,7 +65,7 @@ class Albums extends \yii\db\ActiveRecord
      */
     public function getGenres()
     {
-        return $this->hasOne(Genre::className(), ['id' => 'genres_id']);
+        return $this->hasOne(Genres::className(), ['id' => 'genres_id']);
     }
 
     /**
@@ -70,7 +73,7 @@ class Albums extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Music::className(), ['albums_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['albums_id' => 'id']);
     }
 
     /**
@@ -78,7 +81,7 @@ class Albums extends \yii\db\ActiveRecord
      */
     public function getProfileHasAlbums()
     {
-        return $this->hasMany(ProfileHasAlbum::className(), ['albums_id' => 'id']);
+        return $this->hasMany(ProfileHasAlbums::className(), ['albums_id' => 'id']);
     }
 
     /**
@@ -86,7 +89,7 @@ class Albums extends \yii\db\ActiveRecord
      */
     public function getProfiles()
     {
-        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('{{%profile_has_albums}}', ['albums_id' => 'id']);
+        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('profile_has_albums', ['albums_id' => 'id']);
     }
 
     /**

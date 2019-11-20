@@ -5,7 +5,7 @@ namespace frontend\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%payments}}".
+ * This is the model class for table "payments".
  *
  * @property int $id
  * @property string $nome
@@ -17,7 +17,7 @@ class Payments extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%payments}}';
+        return 'payments';
     }
 
     /**

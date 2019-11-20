@@ -10,8 +10,8 @@ use Yii;
  * @property int $id
  * @property string $nome
  *
- * @property Album[] $albums
- * @property Music[] $musics
+ * @property Albums[] $albums
+ * @property Musics[] $musics
  */
 class Genres extends \yii\db\ActiveRecord
 {
@@ -51,7 +51,7 @@ class Genres extends \yii\db\ActiveRecord
      */
     public function getAlbums()
     {
-        return $this->hasMany(Album::className(), ['genres_id' => 'id']);
+        return $this->hasMany(Albums::className(), ['genres_id' => 'id']);
     }
 
     /**
@@ -59,7 +59,7 @@ class Genres extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Music::className(), ['genres_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['genres_id' => 'id']);
     }
 
     /**
