@@ -43,6 +43,8 @@ class PlaylistsController extends Controller
     {
         $allThePlaylistsFromCurrentUser = $this->getPlaylistsList();
 
+        $allTheMusicsFromThePlaylistsOfTheCurrentUser= $this->getMusicsList();
+
         $currentUser = $this->getCurrentUser();
 
         $searchModel = new SearchPlaylists();
@@ -51,6 +53,7 @@ class PlaylistsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'allThePlaylistsFromCurrentUser' => $allThePlaylistsFromCurrentUser,
+            'allTheMusicsFromThePlaylistsOfTheCurrentUser' => $allTheMusicsFromThePlaylistsOfTheCurrentUser,
             'currentUser' => $currentUser,
         ]);
     }
@@ -183,6 +186,7 @@ class PlaylistsController extends Controller
             foreach ($playlistHasMusics as $music) {
                 array_push($musicIds, $music->musics_id);
             }
+
         }
 
         return $musicIds;
@@ -190,7 +194,7 @@ class PlaylistsController extends Controller
     }
 
     public function getMusicsList(){
-        $arrayDeMusicIds[] = $this->getPlaylistsDoUserLogado();
+        $arrayDeMusicIds[] = $this->getMusicasDasPlaylists();
 
 
         $arrayDeMusicas = null;

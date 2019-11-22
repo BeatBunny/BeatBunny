@@ -80,6 +80,8 @@ AppAsset::register($this);
                             <ul class="dropdown-content">
                                 <li><a href="'.Url::toRoute(['/user/settings']).'">Settings</a></li>
                                 
+                                <li><a href="'.Url::toRoute(['/playlists/index']).'">Playlists</a></li>
+                                
                                 <li><a href="'. Url::toRoute(['/site/logout']) .'">Logout</a></li>
                             </ul>
                         </div>';
