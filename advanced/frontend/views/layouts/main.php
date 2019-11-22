@@ -54,7 +54,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/images/logo_only_words.png', ['alt'=>Yii::$app->name], ['style=width:2%;']),
+        'brandLabel' => Html::img('@web/images/logo_only_words.png', ['alt'=>Yii::$app->name]),
         'brandUrl' => Yii::$app->homeUrl,
         /*'brandImage' => */
         'options' => [

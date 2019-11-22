@@ -10,16 +10,18 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row">
         <div class="col-lg-4 userImage textAlignRight">
-            <?= Html::img( $profileProvider->profileimage ."/image_".$profileProvider->id.'.png', ['alt'=>"User"]); ?>
+            <?php
+                if(is_null($profileProvider->profileimage))
+                    echo Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]);
+                else
+                    echo Html::img( "@web/uploads/".$userProvider->id."/profileimage_".$userProvider->id.'.png', ['alt'=>"User"]);
+            ?>
         </div>
         <?php $form = ActiveForm::begin(); ?>
         <div class="col-lg-5 borderLeftBlack borderRightBlack">
             <?= $form->field($userProvider, 'username')->textInput() ?>
             <?= $form->field($profileProvider, 'nome')->textInput() ?>
             <?= $form->field($userProvider, 'email')->textInput() ?>
-<!--            --><?//= $form->field($userProvider,'oldpassword')->textInput() ?>
-<!--            --><?//= $form->field($userProvider,'newpassword')->textInput() ?>
-<!--            --><?//= $form->field($userProvider,'repeatpassword')->textInput() ?>
             <?= $form->field($profileProvider, 'nif')->textInput() ?>
             <?= $form ->field($profileProvider, 'profileFile')->fileInput()->label("Profile Picture (.png)")?>
             <div class="form-group">

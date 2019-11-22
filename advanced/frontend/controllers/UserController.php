@@ -5,6 +5,7 @@ use Yii;
 use frontend\models\Musics;
 use common\models\User;
 use yii\web\Controller;
+use yii\helpers\BaseVarDumper;
 use yii\web\NotFoundHttpException;
 use frontend\models\Profile;
 use frontend\models\ProfileHasMusics;
@@ -258,6 +259,53 @@ class UserController extends Controller
     }
 
 
+    public function meterUsernameNoCampoProducer(){
+        $profileProvider = $this->getCurrentProfile();
+        $userProvider = $this->getCurrentUser();
+
+        foreach ($profileProvider->musics as $musicFromProfile) {
+            $musicFromProfile->producerOfThisSong = $userProvider->username;
+        }
+
+        return $profileProvider->musics;
+
+    }
+
+
+    public function getMusicasCompradasdoUserLogado(){
+        $profileProvider = $this->getCurrentProfile();
+        $userProvider = $this->getCurrentUser();
+        $comprasDoUser = [];
+        foreach ($profileProvider->vendas as $venda) {
+            array_push($comprasDoUser, $venda->linhavendas[0]->musics);
+        }
+        return $comprasDoUser;
+    }
+
+    public function meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas){
+        $profileProvider = $this->getCurrentProfile();
+        $userProvider = $this->getCurrentUser();
+
+        $musicasSemProducer = Musics::find()->all();
+        $todosOsProfiles = Profile::find()->all();
+
+
+        foreach ($todosOsProfiles as $profile) {
+            $thisUser = User::find()->where(['id' => $profile->id_user])->one();
+            for ($i=0; $i < count($profile->musics); $i++) { 
+                if($profile->musics[$i]->id === $musicasCompradas[$i]->id){
+                    $musicasCompradas[$i]->producerOfThisSong = $thisUser->username;
+                }
+            }
+        }
+
+        return $musicasCompradas;
+
+    }
+
+
+
+
     public function actionIndex()
     {
 
@@ -266,19 +314,23 @@ class UserController extends Controller
 
         $userProvider = $this->getCurrentUser();
 
-        $numberOfSongsYouHave = $this->countHowManyMusicsProducerHas();
+        $musicsFromProducerWithUsername = $this->meterUsernameNoCampoProducer();
+
+        $numberOfSongsYouHave = count($musicsFromProducerWithUsername);
 
 
-        $arrayComAsTuasMusicas = $this->getProducerMusics();
-
-        $musicasCompradasPeloUserObjeto_UsarEmForeach = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+        $musicasCompradas = $this->getMusicasCompradasdoUserLogado();
 
 
-        if (is_null($musicasCompradasPeloUserObjeto_UsarEmForeach)) {
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'arrayComAsTuasMusicas' => $arrayComAsTuasMusicas]);
-        } else {
 
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'arrayComAsTuasMusicas' => $arrayComAsTuasMusicas, 'musicasCompradasPeloUserObjeto_UsarEmForeach' => $musicasCompradasPeloUserObjeto_UsarEmForeach]);
+
+
+        if(empty($musicasCompradas))
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave ]);
+        
+        else{
+            $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas]);
         }
     }
 
@@ -315,22 +367,28 @@ class UserController extends Controller
             $path = "uploads/";
             if (!file_exists($path))
                 mkdir($path, 0777, true);
+
             $getImageFile = \yii\web\UploadedFile::getInstance($currentProfile, 'profileFile');
-            if (!empty ($getImageFile)) {
+
+            if (!empty($getImageFile)) 
                 $currentProfile->profileFile = $getImageFile;
-            } else
+            else
                 return $this->render('augment');
+
             if (!file_exists($path . $currentUser->id))
                 mkdir($path . $currentUser->id, 0777, true);
+
             $pathToProfileimage = $path . $currentUser->id . "/";
             $currentProfile->profileimage = $pathToProfileimage;
-            //BaseVarDumper::dump($currentProfile)
+
+
+            $currentProfile->save();
+
             if (!empty($getImageFile))
-                $getImageFile->saveAs($pathToProfileimage . "image_" . $currentProfile->id . "." . $getImageFile->extension);
-               }
+                $getImageFile->saveAs($pathToProfileimage . "profileimage_" . $currentUser->id . "." . $getImageFile->extension);
+        }
 //        $currentUser->setScenario('changePwd');
 //        $currentUser->password = md5($currentUser->new_password);
-        $currentProfile->save();
         $currentUser->save();
         return $this->render('settings', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile]);
     }

@@ -55,26 +55,72 @@ class MusicsController extends Controller
         
         $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
 
+        $serchedMusicsWithProducer = $this->putProducersInMusics($searchedMusics);
+
+
+
         $currentUser = $this->getCurrentUser();
-        $currentProfile = $this->getCurrentProfile();
         if(!is_null($currentUser)){
-            $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
-            return $this->render('index', [
-                'searchedMusics' => $searchedMusics,
-                'searchModel' => $searchModel,
-                'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                'currentUser' => $currentUser,
-                'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-            ]);
+
+            if(!empty($this->getMusicasCompradasdoUserLogado())){
+                $musicasCompradasPeloUser = $this->putProducersInMusics($this->getMusicasCompradasdoUserLogado());
+
+                return $this->render('index', [
+                    'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                    'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
+                    'searchModel' => $searchModel,
+                    'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                    'currentUser' => $currentUser,
+                ]);
+            }
+            else{
+                
+                return $this->render('index', [
+                    'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
+                    'searchModel' => $searchModel,
+                    'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                    'currentUser' => $currentUser,
+                ]);
+
+            }
+
         }
 
         return $this->render('index', [
-            'searchedMusics' => $searchedMusics,
+            'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-            'currentUser' => $currentUser,
         ]);
     }
+
+
+    public function getMusicasCompradasdoUserLogado(){
+        $profileProvider = $this->getCurrentProfile();
+        $userProvider = $this->getCurrentUser();
+        $comprasDoUser = [];
+        foreach ($profileProvider->vendas as $venda) {
+            array_push($comprasDoUser, $venda->linhavendas[0]->musics);
+        }
+        return $comprasDoUser;
+    }
+
+
+    public function putProducersInMusics($searchedMusics){
+
+        $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
+
+
+        for ($i=0; $i < count($allTheMusicsWithProducer); $i++) { 
+            if($allTheMusicsWithProducer[$i]->id === $searchedMusics[$i]->id){
+                $searchedMusics[$i]->producerOfThisSong = $allTheMusicsWithProducer[$i]->producerOfThisSong;
+            }
+        }
+
+        return $searchedMusics;
+
+    }
+
+
 
     /**
      * Displays a single Musics model.
@@ -99,7 +145,7 @@ class MusicsController extends Controller
 
         $currentUser = $this->getCurrentUser();
         $currentProfile = $this->getCurrentProfile();
-        $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+        $musicasCompradasPeloUser = null; //$this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
         if(is_null($musicasCompradasPeloUser)){
 
             return $this->render('buymusic', [
@@ -263,11 +309,13 @@ class MusicsController extends Controller
             $musicaDesteProfile = null;
             array_filter($arrayComTodasAsMusicas);
             foreach ($profileHasMusics as $phm) {
-                $criadorDestaMusica = User::find()->where(['id' => $phm->profile_id])->one();
+
+                $criadorDestaMusicaProfile = Profile::find()->where(['id' => $phm->profile_id])->one();
+                $criadorDestaMusicaUser = User::find()->where(['id' => $criadorDestaMusicaProfile->id_user])->one();
                 $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
 
                 //BaseVarDumper::dump($criadorDestaMusica);
-                $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
+                $musicaDesteProfile->producerOfThisSong = $criadorDestaMusicaUser->username;
                 //BaseVarDumper::dump($musicaDesteProfile);
                 array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
                 //BaseVarDumper::dump($arrayComTodasAsMusicas);
@@ -281,7 +329,7 @@ class MusicsController extends Controller
 
             $todasAsMusicasArray = $this->getMusicasComProdutorReturnsArray();
 
- 
+            
 
             for ($i=0; $i < count($todasAsMusicasArray); $i++) { 
                 if($todasAsMusicas[$i]->id == $todasAsMusicasArray[$i]->id){
