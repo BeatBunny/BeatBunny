@@ -3,10 +3,12 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\User;
+use frontend\models\Profile;
 use frontend\models\Playlists;
 use frontend\models\ProfileHasPlaylists;
+use frontend\models\PlaylistsHasMusics;
 use frontend\models\SearchPlaylists;
-use frontend\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -147,31 +149,65 @@ class PlaylistsController extends Controller
     }
 
     public function getPlaylistsDoUserLogado(){
-        $profileHasPlaylists = ProfileHasPlaylists::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $profile = $this->getCurrentProfile()->id;
+        $profileHasPlaylists = ProfileHasPlaylists::find()->where(['profile_id' => $profile])->all();
+
         $playlistsIds[] = null;
         foreach ($profileHasPlaylists as $playlist ) {
-            array_push($playlists, $playlist->playlists_id);
+            array_push($playlistsIds, $playlist->playlists_id);
         }
-        /*BaseVarDumper::dump($playlistsIds);
 
-        die();*/
         return $playlistsIds;
     }
 
     public function getPlaylistsList(){
         $arrayDePlaylistIds[] = $this->getPlaylistsDoUserLogado();
+
+
         $arrayDePlaylists = null;
         foreach ($arrayDePlaylistIds as $idDaPlaylist) {
             $arrayDePlaylists = Playlists::find()->where(['id' => $idDaPlaylist])->all();
         }
 
-
         return $arrayDePlaylists;
     }
 
-    public function getPlaylistMusics() {
+   /* public function getPlaylistsDesteProfileReturnsArray(){
+        $profileHasPlaylists = ProfileHasPlaylists::find()->all();
+        $arrayComTodasAsPlaylists = [];
+        $criadorDestaPlaylist = null;
+        $playlistDesteProfile = null;
+        array_filter($arrayComTodasAsPlaylists);
+        foreach ($profileHasPlaylists as $php) {
+            $criadorDestaPlaylist = User::find()->where(['id' => $php->profile_id])->one();
+            $playlistDesteProfile = Playlists::find()->where(['id' => $php->playlists_id])->one();
 
+            //BaseVarDumper::dump($criadorDestaMusica);
+            $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
+            //BaseVarDumper::dump($musicaDesteProfile);
+            array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
+            //BaseVarDumper::dump($arrayComTodasAsMusicas);
+            //echo "<br><br><br>";
+        }
+        return $arrayComTodasAsMusicas;
     }
 
+
+    public function converterPlaylistsDoUserArrayParaObject(){
+        $todasAsPlaylists = Playlists::find()->all();
+
+        $todasAsPlaylistsArray = $this->getPlaylistsDesteProfileReturnsArray();
+
+
+
+        for ($i=0; $i < count($todasAsPlaylistsArray); $i++) {
+            if($todasAsPlaylists[$i]->id == $todasAsPlaylistsArray[$i]->id){
+                $todasAsPlaylists[$i]->producerOfThisSong = $todasAsPlaylistsArray[$i]->producerOfThisSong;
+            }
+        }
+
+        return $todasAsPlaylists;
+    }
+*/
     //FAZER GET DAS MUSICAS DAS PLAYLISTS
 }
