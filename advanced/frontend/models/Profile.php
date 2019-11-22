@@ -26,6 +26,7 @@ use Yii;
 class Profile extends \yii\db\ActiveRecord
 {
     public $saldoAdd;
+    public $profileFile;
     /**
      * {@inheritdoc}
      */
@@ -41,6 +42,7 @@ class Profile extends \yii\db\ActiveRecord
     {
         return [
             [['saldoAdd'], 'number'],
+            [['profileFile'], 'file', 'extensions' => 'png'],
             [['saldo', 'nif', 'id_user'], 'integer'],
             [['nome', 'isprodutor', 'id_user'], 'required'],
             [['isprodutor'], 'string'],

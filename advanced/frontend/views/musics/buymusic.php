@@ -13,7 +13,14 @@ $this->title = 'Purchase Song: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Musics', 'url' => ['musics/index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title];
 $this->params['breadcrumbs'][] = 'Purchase';
+    
+
+    // BaseVarDumper::dump($model->title);
+    // die();
+
+
 ?>
+
 <div class="musics-update">
 	<div class="row">
         <div class="col-lg-12">  
@@ -27,14 +34,14 @@ $this->params['breadcrumbs'][] = 'Purchase';
     		<br>
             <div class="row">
                 <div class="col-lg-4 userImageProfile textAlignCenter">
-                    <?= Html::img( $model->musicpath ."/image_".$model->id.'.png', ['alt'=>"User"]); ?>
+                    <?= Html::img('@web/'.$model->musicpath .'image_'.$model->id.'.png', ['alt'=>'Music Image']); ?>
                 </div>
                 <div class="col-lg-4 borderLeftBlack borderRightBlack">
                     <div class="row">
                         <div class="col-lg-12 textAlignCenter"><h3><?= $model->title; ?></h3></div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $model->genres->nome; ?></p></div>
+                        <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $model->genres; ?></p></div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $model->launchdate; ?></p></div>
@@ -65,7 +72,8 @@ $this->params['breadcrumbs'][] = 'Purchase';
                     <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                     <audio id="player" controls <?php 
                     if(!Yii::$app->user->isGuest){ 
-                        echo 'src="'.$model->musicpath.'/music_'.$model->id.'_'.$model->title.'.mp3"';
+                        $uploadFolder = Yii::getAlias('@web');
+                        echo 'src="'.Yii::getAlias('@web').'/'.$model->musicpath.'/music_'.$model->id.'_'.$model->title.'.mp3"';
                     } ?> style="width: 100%"></audio>
                     <div class="col-lg-12">&nbsp;</div>
                 </div>

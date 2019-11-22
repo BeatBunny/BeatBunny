@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br>
                 <div class="row">
                     <div class="col-lg-4 userImageProfile textAlignCenter">
-                        <?= Html::img( "../".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
+                        <?= Html::img( "@web/".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
                         <div class="row">
                             <div class="col-lg-12">&nbsp;</div>
                             <div class="col-lg-12">
@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p></p></div>
+                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres ?></p></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>
@@ -90,15 +90,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8">
-                                    <p class="overflowThatBi" title="<?= $music->producerOfThisSong; ?>"><?= $music->producerOfThisSong; ?>
-                                        <?php 
+                                    <?php
+                                    $titleToStuff = $music->producerOfThisSong;
                                         if (!Yii::$app->user->isGuest) {
                                             if($currentUser->username === $music->producerOfThisSong){
-                                                echo "(Hey that's you!)";
+                                                $titleToStuff = $music->producerOfThisSong ." (Hey that's you!)";
+                                                
                                             }
                                         }
-                                        ?>
-                                    </p>
+                                    ?>
+                                    <p class="overflowThatBi" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -123,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                             <audio id="player" controls <?php 
                             if(!Yii::$app->user->isGuest){ 
-                                echo 'src="'."../".$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
+                                echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
                             } ?> style="width: 100%"></audio>
                             
                             <div class="col-lg-12">&nbsp;</div>
@@ -156,7 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php } 
     }
     else{
-        foreach ($searchedMusics as $music) { ?>
+        foreach ($serchedMusicsWithProducer as $music) { ?>
             
 
             <!-- Modal -->
@@ -201,7 +202,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres->nome; ?></p></div>
+                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres; ?></p></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>
@@ -211,15 +212,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8">
-                                    <p class="overflowThatBi" title="<?= $music->producerOfThisSong; ?>"><?= $music->producerOfThisSong; ?>
-                                        <?php 
+                                    <?php
+                                    $titleToStuff = $music->producerOfThisSong;
                                         if (!Yii::$app->user->isGuest) {
                                             if($currentUser->username === $music->producerOfThisSong){
-                                                echo "(Hey that's you!)";
+                                                $titleToStuff = $music->producerOfThisSong ." (Hey that's you!)";
+                                                
                                             }
                                         }
-                                        ?>
-                                    </p>
+                                    ?>
+                                    <p class="overflowThatBi" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -244,7 +246,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                             <audio id="player" controls <?php 
                             if(!Yii::$app->user->isGuest){ 
-                                echo 'src="'."../".$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
+                                 echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
                             } ?> style="width: 100%"></audio>
                             
                             <div class="col-lg-12">&nbsp;</div>
