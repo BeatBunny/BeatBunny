@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\models\Musics;
 use Yii;
 use frontend\models\User;
 use frontend\models\Profile;
@@ -170,6 +171,34 @@ class PlaylistsController extends Controller
         }
 
         return $arrayDePlaylists;
+    }
+
+    public function getMusicasDasPlaylists() {
+        $idsDasPlaylistsDoUserLoggado[] = $this->getPlaylistsDoUserLogado();
+
+        foreach ($idsDasPlaylistsDoUserLoggado as $idDaPlaylist) {
+            $playlistHasMusics = PlaylistsHasMusics::find()->where(['playlists_id' => $idDaPlaylist])->all();
+
+            $musicIds [] = null;
+            foreach ($playlistHasMusics as $music) {
+                array_push($musicIds, $music->musics_id);
+            }
+        }
+
+        return $musicIds;
+
+    }
+
+    public function getMusicsList(){
+        $arrayDeMusicIds[] = $this->getPlaylistsDoUserLogado();
+
+
+        $arrayDeMusicas = null;
+        foreach ($arrayDeMusicIds as $idDaMusica) {
+            $arrayDeMusicas = Musics::find()->where(['id' => $idDaMusica])->all();
+        }
+
+        return $arrayDeMusicas;
     }
 
    /* public function getPlaylistsDesteProfileReturnsArray(){

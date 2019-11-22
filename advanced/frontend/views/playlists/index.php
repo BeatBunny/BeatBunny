@@ -28,13 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row borderTopBlack">
         <div class="col-lg-12 ">
             <div class="row">
-                <div class="col-lg-8 textAlignLeft"><h2>Playlist name</h2></div>
+                <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome?></h2></div>
             </div>
             <div class="row">
-                <div class="col-lg-4 textAlignRight"><p>Genres: </p></div><div class="col-lg-8"><p class="overflowThatBi" title="Metal, Pop, Rock, Death Metal, Metal is love Metal is Life">Metal, Pop, Rock, Death Metal, Metal is love Metal is Life</p></div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
+                <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
             </div>
         </div>
         <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
@@ -131,6 +128,5 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <br>
         </div>
-
     </div>
 <?php } ?>
