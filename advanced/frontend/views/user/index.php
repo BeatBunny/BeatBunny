@@ -149,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musica->title ?></h3></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres; ?></p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres->nome; ?></p></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate ?></p></div>
@@ -286,34 +286,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
                 <?php
-                    
-                    foreach ($profileProvider->playlists as $playlist) {
-                        //echo $playlist->nome;
-                    }
+                foreach ($playlistsUserLogado as $playlist) {
+                    ?>
+                    <?php
+                    /*BaseVarDumper::dump($playlistsUserLogado);
+                    die();*/
+                    ?>
+                    <div class="row borderTopBlack">
+                        <div class="col-lg-12 ">
+                            <div class="row">
+                                <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome?></h2></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
+                                        <?php
 
-                ?>
-                <div class="row">
-                    <div class="col-lg-12 ">
-                        <div class="row">
-                            <div class="col-lg-12 textAlignCenter"><h2>PLAYLIST</h2></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Genres: </p></div><div class="col-lg-8"><p class="overflowThatBi" title="Metal, Pop, Rock, Death Metal, Metal is love Metal is Life">Metal, Pop, Rock, Death Metal, Metal is love Metal is Life</p></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
-                        </div>
-                        <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
-                        <div class="row">
-                            <div class="col-lg-3 textAlignCenter">&nbsp;</div> 
-                            <div class="col-lg-6 textAlignCenter">                    
-                            <?= Html::a('View Playlist', Url::toRoute(['/playlists/view'/*, 'id' => $musica->id*/]), ['class' => 'btn btn-default Percent100'])?>              
-                            </div> 
-                        </div>
 
+
+                                        foreach ( $generos as $genre ){
+
+                                            echo $genre;
+                                            echo " ";
+                                        }
+                                        ?></p>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
                     </div>
-                </div>
+
+                <?php } ?>
 
 
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>

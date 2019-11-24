@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 use Yii;
 use frontend\models\Musics;
+use frontend\controllers\PlaylistsController;
 use common\models\User;
 use yii\web\Controller;
 use yii\helpers\BaseVarDumper;
@@ -19,6 +20,7 @@ use frontend\models\Linhavenda;
  */
 class UserController extends Controller
 {
+
     // /**
     //  * {@inheritdoc}
     //  */
@@ -127,6 +129,35 @@ class UserController extends Controller
     public function countHowManyMusicsProducerHas()
     {
         return count(ProfileHasMusics::find()->where(['profile_id' => Yii::$app->user->id])->all());
+    }
+
+    public function getPlaylistsDoUser()
+    {
+        $currentProfile = $this->getCurrentProfile();
+
+        $playlistsDoUser = [];
+
+        foreach ($currentProfile->playlists as $musicInPlaylist) {
+            array_push($playlistsDoUser, $musicInPlaylist);
+        }
+
+        return $playlistsDoUser;
+    }
+
+    public function getGenerosDasPlaylists()
+    {
+        $currentProfile = $this->getCurrentProfile();
+
+        $genresDasMusicas = [];
+
+        foreach ($currentProfile->playlists as $musicInPlaylist) {
+            foreach ($musicInPlaylist->musics as $musicaDaPlaylist) {
+                foreach ($musicaDaPlaylist->genres as $generoComp) {
+                    array_push($genresDasMusicas, $generoComp);
+                }
+            }
+        }
+        return $genresDasMusicas;
     }
 
     //BUSCA A LISTA DE MUSICAS DO PRODUTOR
@@ -318,19 +349,28 @@ class UserController extends Controller
 
         $numberOfSongsYouHave = count($musicsFromProducerWithUsername);
 
-
         $musicasCompradas = $this->getMusicasCompradasdoUserLogado();
 
+        $playlistsUserLogado = $this->getPlaylistsDoUser();
+
+        $generos = $this->getGenerosDasPlaylists();
 
 
 
 
         if(empty($musicasCompradas))
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave ]);
-        
-        else{
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado, 'generos' => $generos ]);
+
+        elseif(empty($allThePlaylistsFromCurrentUser)) {
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas]);
+        }
+        elseif(empty($musicasCompradas && empty($allThePlaylistsFromCurrentUser)))
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave ]);
+
+        else{
+            $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas, 'playlistsUserLogado' => $playlistsUserLogado, 'generos' => $generos]);
         }
     }
 

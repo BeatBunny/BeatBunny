@@ -21,10 +21,13 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php $counter = 0;
-    foreach ($allThePlaylistsFromCurrentUser as $playlist) {
+    foreach ($playlistsUserLogado as $playlist) {
         $counter++;
         ?>
-
+    <?php
+    /*BaseVarDumper::dump($playlistsUserLogado);
+    die();*/
+    ?>
     <div class="row borderTopBlack">
         <div class="col-lg-12 ">
             <div class="row">
@@ -32,6 +35,20 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="row">
                 <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
+                    <?php
+
+
+
+                    foreach ( $generos as $genre ){
+
+                            echo $genre;
+                            echo " ";
+                    }
+                        ?></p>
+                </div>
             </div>
         </div>
         <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
@@ -41,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </button>
     <br>
     <div class="collapse" id="collapsePlaylist<?php echo $counter ?>">
-        <?php foreach ($allTheMusicsFromThePlaylistsOfTheCurrentUser as $music) { ?>
+        <?php foreach ($playlist->musics as $music) { ?>
         <div class="row borderTopBlack">
             <div class="col-lg-12">
                 <br>
@@ -51,13 +68,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-lg-4 borderLeftBlack borderRightBlack">
                         <div class="row">
-                            <div class="col-lg-12 textAlignCenter"><h2>TITLE</h2></div>
+                            <div class="col-lg-12 textAlignCenter"><h2><?= $music->title ?></h2></div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p>Metal</p></div>
+                            <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres->nome ?></p></div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p>XX/XX/XXXX</p></div>
+                            <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate ?></p></div>
                         </div>
                         <div class="row">
                             <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p>XX€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>

@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use Faker\Provider\Base;
 use frontend\models\Musics;
 use Yii;
 use frontend\models\User;
@@ -41,20 +42,24 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
-        $allThePlaylistsFromCurrentUser = $this->getPlaylistsList();
 
-        $allTheMusicsFromThePlaylistsOfTheCurrentUser= $this->getMusicsList();
+        $playlistsUserLogado = $this->getPlaylistsDoUser();
+
+        $generos = $this->getGenerosDasPlaylists();
 
         $currentUser = $this->getCurrentUser();
 
         $searchModel = new SearchPlaylists();
 
 
+
+
+
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'allThePlaylistsFromCurrentUser' => $allThePlaylistsFromCurrentUser,
-            'allTheMusicsFromThePlaylistsOfTheCurrentUser' => $allTheMusicsFromThePlaylistsOfTheCurrentUser,
             'currentUser' => $currentUser,
+            'playlistsUserLogado' => $playlistsUserLogado,
+            'generos' => $generos,
         ]);
     }
 
@@ -152,32 +157,40 @@ class PlaylistsController extends Controller
         return $profileProvider;
     }
 
-    public function getPlaylistsDoUserLogado(){
-        $profile = $this->getCurrentProfile()->id;
-        $profileHasPlaylists = ProfileHasPlaylists::find()->where(['profile_id' => $profile])->all();
 
-        $playlistsIds[] = null;
-        foreach ($profileHasPlaylists as $playlist ) {
-            array_push($playlistsIds, $playlist->playlists_id);
+    public function getPlaylistsDoUser()
+    {
+        $currentProfile = $this->getCurrentProfile();
+
+        $playlistsDoUser = [];
+
+        foreach ($currentProfile->playlists as $musicInPlaylist) {
+            array_push($playlistsDoUser, $musicInPlaylist);
         }
 
-        return $playlistsIds;
+        return $playlistsDoUser;
     }
 
-    public function getPlaylistsList(){
-        $arrayDePlaylistIds[] = $this->getPlaylistsDoUserLogado();
+    public function getGenerosDasPlaylists()
+    {
+        $currentProfile = $this->getCurrentProfile();
 
+        $genresDasMusicas = [];
 
-        $arrayDePlaylists = null;
-        foreach ($arrayDePlaylistIds as $idDaPlaylist) {
-            $arrayDePlaylists = Playlists::find()->where(['id' => $idDaPlaylist])->all();
+        foreach ($currentProfile->playlists as $musicInPlaylist) {
+            foreach ($musicInPlaylist->musics as $musicaDaPlaylist) {
+                foreach ($musicaDaPlaylist->genres as $generoComp) {
+                    array_push($genresDasMusicas, $generoComp);
+                }
+            }
         }
-
-        return $arrayDePlaylists;
+        return $genresDasMusicas;
     }
 
-    public function getMusicasDasPlaylists() {
-        $idsDasPlaylistsDoUserLoggado[] = $this->getPlaylistsDoUserLogado();
+        /*die();
+
+
+        $idsDasPlaylistsDoUserLoggado = $this->getPlaylistsDoUserLogado();
 
         foreach ($idsDasPlaylistsDoUserLoggado as $idDaPlaylist) {
             $playlistHasMusics = PlaylistsHasMusics::find()->where(['playlists_id' => $idDaPlaylist])->all();
@@ -194,7 +207,7 @@ class PlaylistsController extends Controller
     }
 
     public function getMusicsList(){
-        $arrayDeMusicIds[] = $this->getMusicasDasPlaylists();
+        $arrayDeMusicIds = $this->getMusicasDasPlaylists();
 
 
         $arrayDeMusicas = null;
@@ -204,7 +217,7 @@ class PlaylistsController extends Controller
 
         return $arrayDeMusicas;
     }
-
+*/
    /* public function getPlaylistsDesteProfileReturnsArray(){
         $profileHasPlaylists = ProfileHasPlaylists::find()->all();
         $arrayComTodasAsPlaylists = [];

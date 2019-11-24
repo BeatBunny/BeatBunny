@@ -58,10 +58,10 @@ class Playlists extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMusics()
+    /*public function getMusics()
     {
         return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
-    }
+    }*/
 
     /**
      * @return \yii\db\ActiveQuery
@@ -74,7 +74,7 @@ class Playlists extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getMusics0()
+    public function getMusics()
     {
         return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('{{%playlists_has_musics}}', ['playlists_id' => 'id']);
     }
