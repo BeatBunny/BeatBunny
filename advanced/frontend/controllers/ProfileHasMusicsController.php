@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\ProfileHasMusics;
-use frontend\models\SearchProfileHasMusics;
+use common\models\ProfileHasMusics;
+use common\models\SearchProfileHasMusics;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

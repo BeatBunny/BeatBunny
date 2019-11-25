@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Genres;
-use frontend\models\SearchGenres;
+use common\models\Genres;
+use common\models\SearchGenres;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

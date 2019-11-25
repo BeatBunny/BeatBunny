@@ -3,17 +3,17 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Albums;
-use frontend\models\SearchAlbums;
+use common\models\Albums;
+use common\models\SearchAlbums;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\ProfileHasMusics;
-use frontend\models\ProfileHasAlbums;
-use frontend\models\Genres;
-use frontend\models\Musics;
+use common\models\User;
+use common\models\Profile;
+use common\models\ProfileHasMusics;
+use common\models\ProfileHasAlbums;
+use common\models\Genres;
+use common\models\Musics;
 
 
 /**

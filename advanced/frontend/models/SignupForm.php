@@ -1,9 +1,9 @@
 <?php
-namespace frontend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
-use frontend\models\Profile;
+use common\models\Profile;
 use common\models\User;
 
 /**

@@ -3,13 +3,13 @@
 namespace frontend\controllers;
 
 use Faker\Provider\Base;
-use frontend\models\Musics;
+use common\models\Musics;
 use Yii;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\Playlists;
-use frontend\models\Genres;
-use frontend\models\SearchPlaylists;
+use common\models\User;
+use common\models\Profile;
+use common\models\Playlists;
+use common\models\Genres;
+use common\models\SearchPlaylists;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
