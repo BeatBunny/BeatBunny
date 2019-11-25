@@ -8,8 +8,7 @@ use Yii;
 use frontend\models\User;
 use frontend\models\Profile;
 use frontend\models\Playlists;
-use frontend\models\ProfileHasPlaylists;
-use frontend\models\PlaylistsHasMusics;
+use frontend\models\Genres;
 use frontend\models\SearchPlaylists;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -180,10 +179,12 @@ class PlaylistsController extends Controller
         foreach ($currentProfile->playlists as $musicInPlaylist) {
             foreach ($musicInPlaylist->musics as $musicaDaPlaylist) {
                 foreach ($musicaDaPlaylist->genres as $generoComp) {
-                    array_push($genresDasMusicas, $generoComp);
+                    $nomeGenero = Genres::find($generoComp)->one();
+                    array_push($genresDasMusicas, $nomeGenero);
                 }
             }
         }
+
         return $genresDasMusicas;
     }
 

@@ -286,39 +286,45 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
                 <?php
-                foreach ($playlistsUserLogado as $playlist) {
-                    ?>
-                    <?php
-                    /*BaseVarDumper::dump($playlistsUserLogado);
-                    die();*/
-                    ?>
-                    <div class="row borderTopBlack">
-                        <div class="col-lg-12 ">
-                            <div class="row">
-                                <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome?></h2></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
-                                        <?php
+                if (isset($playlist)) {
+                    foreach ($playlistsUserLogado as $playlist) {
+                        ?>
+                        <?php
+                        /*BaseVarDumper::dump($playlistsUserLogado);
+                        die();*/
+                        ?>
+                        <div class="row borderTopBlack">
+                            <div class="col-lg-12 ">
+                                <div class="row">
+                                    <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome ?></h2></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Creation Date:<br></p></div>
+                                    <div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Genres:<br></p></div>
+                                    <div class="col-lg-8"><p>
+                                            <?php
 
 
+                                            foreach ($generos as $genre) {
 
-                                        foreach ( $generos as $genre ){
-
-                                            echo $genre;
-                                            echo " ";
-                                        }
-                                        ?></p>
+                                                echo $genre;
+                                                echo " ";
+                                            }
+                                            ?></p>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-4">&nbsp;</div>
+                                <div class="col-lg-8"></div>
+                            </div>
                         </div>
-                        <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
-                    </div>
 
-                <?php } ?>
+                    <?php }
+                }?>
 
 
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
