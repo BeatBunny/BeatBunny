@@ -42,56 +42,53 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
-        $currentAlbum = $this->getAlbumTestando();
-        $currentProfile = $this->getCurrentProfile();
-        $currentUser = $this->getCurrentUser();
-        $modelGenres = $this->getGenres();
-        $searchModel = new SearchAlbums();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $album=Albums::find()->all();
+        $currentAlbumMusic = $this->getMusicAlbum();
+        $modelGenresMusic = $this->getMusicGenre();
         return $this->render('index', [
-            'currentAlbum'=> $currentAlbum,
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-            'genres' =>$modelGenres,
-            'currentUser' =>$currentUser,
-            'currentProfile' =>$currentProfile,
+            'currentAlbumMusic'=> $currentAlbumMusic,
+            'modelGenresMusic' =>$modelGenresMusic,
+            'album'=>$album,
         ]);
     }
-public function getAlbuns(){
-        return Albums::find()->where(['id' => Yii::$app->user->id])->all();
-}
-    public function getGenres(){
-        return Genres::find()->where(['id'=>Yii::$app->user->id])->one();
-
+    public function getMusicGenre(){
+        $music= Musics::find()->one();
+        return Genres::find()->where(['id'=>$music])->one();
+    }
+    public function getMusicAlbum(){
+        $album=Albums::find()->one();
+        return Musics::find()->where(['albums_id'=>$album])->one();
     }
 
-    public function converterAlbunsArrayParaObject(){
-        $todosAlbuns = Albums::find()->all();
-        $todosAlbunsArrayProdutores = $this->getProducerAlbums();
-        for ($i=0; $i < count($todosAlbuns); $i++) {
-            if($todosAlbuns[$i]->id == $todosAlbunsArrayProdutores[$i]->id){
-                $todosAlbuns[$i]->producerOfThisAlbum = $todosAlbunsArrayProdutores[$i]->producerOfThisAlbum;
-            }
-        }
-        return $todosAlbuns;
-    }
-    private function getProducerAlbumsIds(){
-        $profile = $this->getCurrentProfile();
-        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
-        $albums[] = null;
-        foreach ($ProfileHasAlbums as $album ) {
-            array_push($albums, $album->albums_id);
-        }
-        return $albums;
-    }
-    public function getProducerAlbums(){
-        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
-        $arrayDeAlbums = null;
-        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
-            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
-        }
-        return $arrayDeAlbums;
-    }
+//    public function converterAlbunsArrayParaObject(){
+//        $todosAlbuns = Albums::find()->all();
+//        $todosAlbunsArrayProdutores = $this->getProducerAlbums();
+//        for ($i=0; $i < count($todosAlbuns); $i++) {
+//            if($todosAlbuns[$i]->id == $todosAlbunsArrayProdutores[$i]->id){
+//                $todosAlbuns[$i]->producerOfThisAlbum = $todosAlbunsArrayProdutores[$i]->producerOfThisAlbum;
+//            }
+//        }
+//        return $todosAlbuns;
+//    }
+//
+//    private function getProducerAlbumsIds(){
+//        $profile = $this->getCurrentProfile();
+//        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
+//        $albums[] = null;
+//        foreach ($ProfileHasAlbums as $album ) {
+//            array_push($albums, $album->albums_id);
+//        }
+//        return $albums;
+//    }
+//
+//    public function getProducerAlbums(){
+//        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
+//        $arrayDeAlbums = null;
+//        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
+//            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
+//        }
+//        return $arrayDeAlbums;
+//    }
     /**
      * Displays a single Albums model.
      * @param integer $id
