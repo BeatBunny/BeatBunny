@@ -80,7 +80,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres->nome ?></p></div>
+                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres ?></p></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>

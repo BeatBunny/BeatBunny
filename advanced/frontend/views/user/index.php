@@ -149,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musica->title ?></h3></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres->nome; ?></p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres; ?></p></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate ?></p></div>
@@ -196,7 +196,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
 
-                        <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                             <?php
                         } ?>
 
