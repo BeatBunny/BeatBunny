@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Payments;
+use common\models\Payments;
 
 /**
  * SearchPayments represents the model behind the search form of `app\models\Payments`.

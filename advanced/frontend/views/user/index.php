@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\Albuns;
+use common\models\Albuns;
 use yii\helpers\Url;
 use yii\helpers\BaseVarDumper;
 
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <br>
             <div class="row">
-                <div class="col-lg-4 userImageProfile textAlignCenter">
+                <div class="col-lg-4 userImage textAlignCenter">
                     <h2 class="textAlignCenter">You</h2>
                     <?php
                     if(is_null($profileProvider->profileimage))
@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
 
-            <div class="col-lg-12">
+            <div class="col-lg-12 " >
 
                 <h2 class="textAlignCenter ">Your Creations
                 <?php 
@@ -123,6 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         echo Html::a('Upload Song!', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default marginLeft2Percent']);
                     } ?> 
                 </h2> 
+                
                 <?php 
       
                     if ($profileProvider->isprodutor == 'S')
@@ -176,16 +177,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </div>
                                         
                                     </div>
-                                    <?php
-                                    if(count($profileProvider->musics) >= 1)
-                                        echo "<div class=\"col-lg-12 marginTop2Percent borderTopBlack\">&nbsp;</div>";
-                                    ?>
                                 </div>
-
-                            <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                             <?php
                             }
-                            echo '<div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>';
                         }
                         else{
                             ?>

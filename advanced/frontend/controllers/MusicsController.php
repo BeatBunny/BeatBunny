@@ -3,22 +3,22 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\ProfileHasMusics;
-use frontend\models\ProfileHasAlbums;
-use frontend\models\Genres;
-use frontend\models\Albums;
-use frontend\models\Musics;
-use frontend\models\Iva;
-use frontend\models\SearchMusics;
+use common\models\User;
+use common\models\Profile;
+use common\models\ProfileHasMusics;
+use common\models\ProfileHasAlbums;
+use common\models\Genres;
+use common\models\Albums;
+use common\models\Musics;
+use common\models\Iva;
+use common\models\SearchMusics;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\helpers\BaseVarDumper;
 use yii\web\UploadedFile;
-use frontend\models\Venda;
-use frontend\models\Linhavenda;
+use common\models\Venda;
+use common\models\Linhavenda;
 
 
 /**
@@ -56,8 +56,6 @@ class MusicsController extends Controller
         $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
 
         $serchedMusicsWithProducer = $this->putProducersInMusics($searchedMusics);
-
-
 
         $currentUser = $this->getCurrentUser();
         if(!is_null($currentUser)){

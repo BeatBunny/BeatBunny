@@ -25,6 +25,10 @@ use Yii;
  */
 class Profile extends \yii\db\ActiveRecord
 {
+
+    public $profileFile;
+    public $saldoAdd;
+
     /**
      * {@inheritdoc}
      */
@@ -40,6 +44,8 @@ class Profile extends \yii\db\ActiveRecord
     {
         return [
             [['saldo'], 'number'],
+            [['profileFile'], 'file', 'extensions' => 'png'],
+            [['saldoAdd'],'number','max'=>100 ],
             [['nome', 'id_user'], 'required'],
             [['nif', 'id_user'], 'integer'],
             [['isprodutor'], 'string'],
@@ -76,7 +82,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProfileHasAlbums()
     {
-        return $this->hasMany(ProfileHasAlbum::className(), ['profile_id' => 'id']);
+        return $this->hasMany(ProfileHasAlbums::className(), ['profile_id' => 'id']);
     }
 
     /**
@@ -84,7 +90,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getAlbums()
     {
-        return $this->hasMany(Album::className(), ['id' => 'albums_id'])->viaTable('{{%profile_has_albums}}', ['profile_id' => 'id']);
+        return $this->hasMany(Albums::className(), ['id' => 'albums_id'])->viaTable('{{%profile_has_albums}}', ['profile_id' => 'id']);
     }
 
     /**
@@ -92,7 +98,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProfileHasMusics()
     {
-        return $this->hasMany(ProfileHasMusic::className(), ['profile_id' => 'id']);
+        return $this->hasMany(ProfileHasMusics::className(), ['profile_id' => 'id']);
     }
 
     /**
@@ -100,7 +106,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Music::className(), ['id' => 'musics_id'])->viaTable('{{%profile_has_musics}}', ['profile_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('{{%profile_has_musics}}', ['profile_id' => 'id']);
     }
 
     /**
@@ -108,7 +114,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getProfileHasPlaylists()
     {
-        return $this->hasMany(ProfileHasPlaylist::className(), ['profile_id' => 'id']);
+        return $this->hasMany(ProfileHasPlaylists::className(), ['profile_id' => 'id']);
     }
 
     /**
@@ -116,7 +122,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getPlaylists()
     {
-        return $this->hasMany(Playlist::className(), ['id' => 'playlists_id'])->viaTable('{{%profile_has_playlists}}', ['profile_id' => 'id']);
+        return $this->hasMany(Playlists::className(), ['id' => 'playlists_id'])->viaTable('{{%profile_has_playlists}}', ['profile_id' => 'id']);
     }
 
     /**

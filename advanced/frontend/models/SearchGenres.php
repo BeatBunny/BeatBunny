@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Genres;
+use common\models\Genres;
 
 /**
  * SearchGenres represents the model behind the search form of `app\models\Genres`.

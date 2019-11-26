@@ -10,23 +10,23 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-form" >
     <h1><?= Html::encode($this->title) ?></h1>
     <div class="row form-group borderTopBlack">
-        <div class="col-lg-4 userImage textAligncenter">
-            <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
-            <div class="radio">
-                <label><input type="radio" name="optradio" id="optradio1" checked>Option 1</label>
+        <div class="col-lg-4 userImageProfile textAligncenter paymentmethod">
+            <?= Html::img('@web/images/multibanco.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
+            <div class="textAligncenter marginTop2Percent">
+                <input type="radio" name="optradio" id="optradio1" checked>
             </div>
         </div>
 
-        <div class="col-lg-4 userImage textAligncenter">
-            <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
-            <div class="radio">
-                <label><input type="radio" name="optradio" id="optradio2">Option 2</label>
+        <div class="col-lg-4 userImageProfile textAligncenter paymentmethod">
+            <?= Html::img('@web/images/visa.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
+            <div class="textAligncenter marginTop2Percent">
+                <input type="radio" name="optradio" id="optradio2">
             </div>
         </div>
-        <div class="col-lg-4 userImage textAligncenter">
-            <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
-            <div class="radio">
-                <label><input type="radio" name="optradio" id="optradio3">Option 3</label>
+        <div class="col-lg-4 userImageProfile textAligncenter paymentmethod">
+            <?= Html::img('@web/images/paypal.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
+            <div class="textAligncenter marginTop2Percent">
+                <input type="radio" name="optradio" id="optradio3">
             </div>
         </div>
 

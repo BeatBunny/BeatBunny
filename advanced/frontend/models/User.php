@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 use phpDocumentor\Reflection\Types\This;
 use Yii;
 

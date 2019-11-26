@@ -3,13 +3,13 @@
 namespace frontend\controllers;
 
 use Faker\Provider\Base;
-use frontend\models\Musics;
+use common\models\Musics;
 use Yii;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\Playlists;
-use frontend\models\Genres;
-use frontend\models\SearchPlaylists;
+use common\models\User;
+use common\models\Profile;
+use common\models\Playlists;
+use common\models\Genres;
+use common\models\SearchPlaylists;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -41,8 +41,10 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
-
         $playlistsUserLogado = $this->getPlaylistsDoUser();
+<<<<<<< HEAD
+        $generos = $this->getGenerosDasPlaylists();
+=======
 
         // fazer um foreach para cada uma das playlsits
         //para cada ciclo chamar funcao getgenerodasplaylists;
@@ -54,13 +56,9 @@ class PlaylistsController extends Controller
         }
 
 
+>>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
         $currentUser = $this->getCurrentUser();
-
         $searchModel = new SearchPlaylists();
-
-
-
-
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -158,8 +156,6 @@ class PlaylistsController extends Controller
 
     private function getCurrentProfile(){
         $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
-
-
         return $profileProvider;
     }
 

@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Linhavenda;
-use frontend\models\SearchLinhavenda;
+use common\models\Linhavenda;
+use common\models\SearchLinhavenda;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

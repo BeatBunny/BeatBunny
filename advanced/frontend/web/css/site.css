@@ -183,7 +183,10 @@ a.desc:after {
 }
 
 .userImage > img{
-    width: 50%;
+    border-radius: 50%;
+    max-width: 60%;
+    height: auto;
+    max-height: 140px;
 }
 
 .centerThemBitches{
@@ -423,4 +426,9 @@ h2{
 
 .modal-body{
     color: black;
+}
+
+.paymentmethod{
+    padding: 1%;
+    text-align: center;
 }

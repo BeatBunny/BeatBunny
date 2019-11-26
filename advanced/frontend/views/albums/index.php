@@ -37,28 +37,29 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-<?php if(!empty($album)){ ?>
-   <h1><?= Html::encode($this->title);?></h1>
+<h1><?= Html::encode($this->title);?></h1>
  <div class="row borderTopBlack">
     <div class="col-lg-12">
         <br>
+        <?php foreach ($currentAlbumMusic as $music) {
+        ?>
         <div class="row">
             <div class="col-lg-4 albumCover textAlignCenter">
-                <?=Html::img('@web/images/albumImage/al1.jpg');?>
+                <?php foreach ($allalbum as $album) { ?>
+                    <?= $album->albumcover; }?>
             </div>
-
             <div class="col-lg-4 borderLeftBlack borderRightBlack">
                 <div class="row">
-                    <div class="col-lg-12 textAlignCenter"><h2><?= $currentAlbumMusic->title ?></h2></div>
+                    <div class="col-lg-12 textAlignCenter"><h2><?= $music->title ?></h2></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $modelGenresMusic->nome ?></p></div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $currentAlbumMusic->launchdate?></p></div>
+                    <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate?></p></div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p><?= $currentAlbumMusic->pvp?>£</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
+                    <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p><?= $music->pvp?>£</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">&nbsp;</div>
@@ -82,6 +83,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
+        <?php } ?>
     </div>
  </div>
-   <?php }?>
+
+

@@ -2,16 +2,16 @@
 
 namespace frontend\controllers;
 use Yii;
-use frontend\models\Musics;
+use common\models\Musics;
 use frontend\controllers\PlaylistsController;
 use common\models\User;
 use yii\web\Controller;
 use yii\helpers\BaseVarDumper;
 use yii\web\NotFoundHttpException;
-use frontend\models\Profile;
-use frontend\models\ProfileHasMusics;
-use frontend\models\Venda;
-use frontend\models\Linhavenda;
+use common\models\Profile;
+use common\models\ProfileHasMusics;
+use common\models\Venda;
+use common\models\Linhavenda;
 
 /**
  * UserController implements the CRUD actions for User model.

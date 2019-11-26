@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\User;
+use common\models\User;
 
 /**
  * SearchUser represents the model behind the search form of `app\models\User`.

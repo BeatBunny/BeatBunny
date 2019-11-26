@@ -3,17 +3,23 @@
 namespace frontend\controllers;
 
 use Yii;
+<<<<<<< HEAD
 use frontend\models\Albums;
 use frontend\models\SearchAlbums;
+use yii\helpers\BaseVarDumper;
+=======
+use common\models\Albums;
+use common\models\SearchAlbums;
+>>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\ProfileHasMusics;
-use frontend\models\ProfileHasAlbums;
-use frontend\models\Genres;
-use frontend\models\Musics;
+use common\models\User;
+use common\models\Profile;
+use common\models\ProfileHasMusics;
+use common\models\ProfileHasAlbums;
+use common\models\Genres;
+use common\models\Musics;
 
 
 /**
@@ -42,15 +48,54 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
-        $album=Albums::find()->all();
-        $currentAlbumMusic = $this->getMusicAlbum();
+        $allalbum=$this->getAlbuns();
+        $currentAlbumMusic = $this->getMusicFromAlbum();
         $modelGenresMusic = $this->getMusicGenre();
         return $this->render('index', [
-            'currentAlbumMusic'=> $currentAlbumMusic,
-            'modelGenresMusic' =>$modelGenresMusic,
-            'album'=>$album,
+            'currentAlbumMusic' => $currentAlbumMusic,
+            'modelGenresMusic' => $modelGenresMusic,
+            'allalbum'=>$allalbum,
         ]);
     }
+
+//    public function getMusicasComProdutorReturnsArray(){
+//        $profileHasMusics = ProfileHasMusics::find()->all();
+//        $arrayComTodasAsMusicas = [];
+//        $musicaDesteProfile = null;
+//        array_filter($arrayComTodasAsMusicas);
+//        foreach ($profileHasMusics as $phm) {
+//            return $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
+//        }
+//    }
+
+public function getAlbuns(){
+    $currentUser= $this->getCurrentProfile();
+    $ArrayAlbuns = [];
+    foreach ($currentUser->albums as $AlbunsDoPerfil){
+        array_push($ArrayAlbuns, $AlbunsDoPerfil);
+    }
+    return $ArrayAlbuns;
+}
+    public function getMusicFromAlbum(){
+        $currentUser= $this->getCurrentProfile();
+        $ArrayMusicasDoAlbum =[];
+        foreach ($currentUser->musics as $MusicasDoAlbum){
+            array_push($ArrayMusicasDoAlbum, $MusicasDoAlbum);
+        }
+        return $ArrayMusicasDoAlbum;
+
+    }
+
+
+    private function getProfileHasAlbumsIds(){
+        $profile = $this->getCurrentProfile();
+        $albums[] = null;
+        foreach ($profile->albums as $album ) {
+            array_push($albums, $album);
+        }
+        return $albums;
+    }
+
     public function getMusicGenre(){
         $music= Musics::find()->one();
         return Genres::find()->where(['id'=>$music])->one();
@@ -168,7 +213,6 @@ class AlbumsController extends Controller
         if (($model = Albums::findOne($id)) !== null) {
             return $model;
         }
-
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     /**
