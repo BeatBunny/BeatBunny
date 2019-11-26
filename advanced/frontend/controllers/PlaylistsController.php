@@ -42,9 +42,6 @@ class PlaylistsController extends Controller
     public function actionIndex()
     {
         $playlistsUserLogado = $this->getPlaylistsDoUser();
-<<<<<<< HEAD
-        $generos = $this->getGenerosDasPlaylists();
-=======
 
         // fazer um foreach para cada uma das playlsits
         //para cada ciclo chamar funcao getgenerodasplaylists;
@@ -55,8 +52,6 @@ class PlaylistsController extends Controller
             //BaseVarDumper::dump($cadaUmaDasPlaylists);
         }
 
-
->>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
 
