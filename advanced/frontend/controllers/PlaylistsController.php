@@ -42,9 +42,6 @@ class PlaylistsController extends Controller
     public function actionIndex()
     {
         $playlistsUserLogado = $this->getPlaylistsDoUser();
-<<<<<<< HEAD
-        $generos = $this->getGenerosDasPlaylists();
-=======
 
         // fazer um foreach para cada uma das playlsits
         //para cada ciclo chamar funcao getgenerodasplaylists;
@@ -52,11 +49,9 @@ class PlaylistsController extends Controller
         foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
             //BaseVarDumper::dump($cadaUmaDasPlaylists);
             $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
-            //BaseVarDumper::dump($cadaUmaDasPlaylists);
+            BaseVarDumper::dump($cadaUmaDasPlaylists->generosDaPlaylist);
         }
-
-
->>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
+    die();
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
 
@@ -173,29 +168,6 @@ class PlaylistsController extends Controller
         return $playlistsDoUser;
     }
 
-    public function getGenerosDasPlaylistsnumer1()
-    {
-        $currentProfile = $this->getCurrentProfile();
-
-        $genresDasMusicas = [];
-
-        //die();
-
-        foreach ($currentProfile->playlists as $playlist) {
-            foreach ($playlist->musics as $musicaDaPlaylist) {
-                //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
-
-                if(!in_array($musicaDaPlaylist->genres->nome, $genresDasMusicas)){
-                    array_push($genresDasMusicas, $musicaDaPlaylist->genres->nome);
-                }
-
-
-            }
-        }
-
-        return $genresDasMusicas;
-    }
-
     public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
     {
         $currentProfile = $this->getCurrentProfile();
@@ -210,8 +182,7 @@ class PlaylistsController extends Controller
             if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
                 array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
             }
-
-
+            
         }
 
 
