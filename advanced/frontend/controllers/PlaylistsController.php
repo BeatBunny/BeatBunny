@@ -42,18 +42,10 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
-
         $playlistsUserLogado = $this->getPlaylistsDoUser();
-
         $generos = $this->getGenerosDasPlaylists();
-
         $currentUser = $this->getCurrentUser();
-
         $searchModel = new SearchPlaylists();
-
-
-
-
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -152,8 +144,6 @@ class PlaylistsController extends Controller
 
     private function getCurrentProfile(){
         $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
-
-
         return $profileProvider;
     }
 

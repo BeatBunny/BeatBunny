@@ -57,8 +57,6 @@ class MusicsController extends Controller
 
         $serchedMusicsWithProducer = $this->putProducersInMusics($searchedMusics);
 
-
-
         $currentUser = $this->getCurrentUser();
         if(!is_null($currentUser)){
 

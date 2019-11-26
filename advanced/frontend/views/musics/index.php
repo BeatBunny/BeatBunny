@@ -19,7 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <div class="musics-index">
-
     <div class="row">
         <div class="col-lg-6">  
             <h1><?= Html::encode($this->title) ?></h1>
