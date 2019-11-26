@@ -177,29 +177,6 @@ class PlaylistsController extends Controller
         return $playlistsDoUser;
     }
 
-    public function getGenerosDasPlaylistsnumer1()
-    {
-        $currentProfile = $this->getCurrentProfile();
-
-        $genresDasMusicas = [];
-
-        //die();
-
-        foreach ($currentProfile->playlists as $playlist) {
-            foreach ($playlist->musics as $musicaDaPlaylist) {
-                //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
-
-                if(!in_array($musicaDaPlaylist->genres->nome, $genresDasMusicas)){
-                    array_push($genresDasMusicas, $musicaDaPlaylist->genres->nome);
-                }
-
-
-            }
-        }
-
-        return $genresDasMusicas;
-    }
-
     public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
     {
         $currentProfile = $this->getCurrentProfile();
@@ -214,8 +191,7 @@ class PlaylistsController extends Controller
             if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
                 array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
             }
-
-
+            
         }
 
 
