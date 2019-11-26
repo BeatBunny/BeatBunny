@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Venda;
-use app\models\SearchVenda;
+use common\models\Linhavenda;
+use common\models\SearchLinhavenda;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * VendaController implements the CRUD actions for Venda model.
+ * LinhavendaController implements the CRUD actions for Linhavenda model.
  */
-class VendaController extends Controller
+class LinhavendaController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,41 +30,41 @@ class VendaController extends Controller
     }
 
     /**
-     * Lists all Venda models.
+     * Lists all Linhavenda models.
      * @return mixed
      */
     public function actionIndex()
     {
-        /*$searchModel = new SearchVenda();
+        $searchModel = new SearchLinhavenda();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);*/
+        ]);
     }
 
     /**
-     * Displays a single Venda model.
+     * Displays a single Linhavenda model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-       /* return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);*/
+        ]);
     }
 
     /**
-     * Creates a new Venda model.
+     * Creates a new Linhavenda model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        /*$model = new Venda();
+        $model = new Linhavenda();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,11 +72,11 @@ class VendaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Updates an existing Venda model.
+     * Updates an existing Linhavenda model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -84,7 +84,7 @@ class VendaController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,11 +92,11 @@ class VendaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Deletes an existing Venda model.
+     * Deletes an existing Linhavenda model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -104,21 +104,21 @@ class VendaController extends Controller
      */
     public function actionDelete($id)
     {
-        /*$this->findModel($id)->delete();
+        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);*/
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Venda model based on its primary key value.
+     * Finds the Linhavenda model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Venda the loaded model
+     * @return Linhavenda the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Venda::findOne($id)) !== null) {
+        if (($model = Linhavenda::findOne($id)) !== null) {
             return $model;
         }
 
