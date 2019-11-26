@@ -144,20 +144,25 @@ class UserController extends Controller
         return $playlistsDoUser;
     }
 
-    public function getGenerosDasPlaylists()
+    public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
     {
         $currentProfile = $this->getCurrentProfile();
 
         $genresDasMusicas = [];
 
-        foreach ($currentProfile->playlists as $musicInPlaylist) {
-            foreach ($musicInPlaylist->musics as $musicaDaPlaylist) {
-                foreach ($musicaDaPlaylist->genres as $generoComp) {
-                    array_push($genresDasMusicas, $generoComp);
-                }
+        //die();
+
+        foreach ($cadaUmaDasPlaylists->musics as $musicaDaPlaylist) {
+            //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
+
+            if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
+                array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
             }
+
         }
-        return $genresDasMusicas;
+
+
+        return $cadaUmaDasPlaylists;
     }
 
     //BUSCA A LISTA DE MUSICAS DO PRODUTOR
@@ -353,13 +358,18 @@ class UserController extends Controller
 
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
-        $generos = $this->getGenerosDasPlaylists();
+        foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
+            //BaseVarDumper::dump($cadaUmaDasPlaylists);
+            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
+            //BaseVarDumper::dump($cadaUmaDasPlaylists);
+        }
+
 
 
 
 
         if(empty($musicasCompradas))
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado, 'generos' => $generos ]);
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado]);
 
         elseif(empty($allThePlaylistsFromCurrentUser)) {
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
@@ -370,7 +380,7 @@ class UserController extends Controller
 
         else{
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas, 'playlistsUserLogado' => $playlistsUserLogado, 'generos' => $generos]);
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas, 'playlistsUserLogado' => $playlistsUserLogado]);
         }
     }
 
