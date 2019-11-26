@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Payments;
-use frontend\models\SearchPayments;
+use common\models\Payments;
+use common\models\SearchPayments;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;

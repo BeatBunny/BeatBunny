@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use frontend\models\Albuns;
+use common\models\Albuns;
 use yii\helpers\Url;
 use yii\helpers\BaseVarDumper;
 
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-12">
             <br>
             <div class="row">
-                <div class="col-lg-4 userImageProfile textAlignCenter">
+                <div class="col-lg-4 userImage textAlignCenter">
                     <h2 class="textAlignCenter">You</h2>
                     <?php
                     if(is_null($profileProvider->profileimage))
@@ -115,7 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
 
-            <div class="col-lg-12">
+            <div class="col-lg-12 " >
 
                 <h2 class="textAlignCenter ">Your Creations
                 <?php 
@@ -123,6 +123,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         echo Html::a('Upload Song!', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default marginLeft2Percent']);
                     } ?> 
                 </h2> 
+                
                 <?php 
       
                     if ($profileProvider->isprodutor == 'S')
@@ -149,7 +150,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musica->title ?></h3></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres->nome; ?></p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres; ?></p></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate ?></p></div>
@@ -176,16 +177,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </div>
                                         
                                     </div>
-                                    <?php
-                                    if(count($profileProvider->musics) >= 1)
-                                        echo "<div class=\"col-lg-12 marginTop2Percent borderTopBlack\">&nbsp;</div>";
-                                    ?>
                                 </div>
-
-                            <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                             <?php
                             }
-                            echo '<div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>';
                         }
                         else{
                             ?>
@@ -196,7 +190,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
 
-                        <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                             <?php
                         } ?>
 
@@ -286,39 +279,45 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
                 <?php
-                foreach ($playlistsUserLogado as $playlist) {
-                    ?>
-                    <?php
-                    /*BaseVarDumper::dump($playlistsUserLogado);
-                    die();*/
-                    ?>
-                    <div class="row borderTopBlack">
-                        <div class="col-lg-12 ">
-                            <div class="row">
-                                <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome?></h2></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
-                                        <?php
+                if (isset($playlistsUserLogado)) {
+                    foreach ($playlistsUserLogado as $playlist) {
+                        ?>
+                        <?php
+                        /*BaseVarDumper::dump($playlistsUserLogado);
+                        die();*/
+                        ?>
+                        <div class="row borderTopBlack">
+                            <div class="col-lg-12 ">
+                                <div class="row">
+                                    <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome ?></h2></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Creation Date:<br></p></div>
+                                    <div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 textAlignRight"><p>Genres:<br></p></div>
+                                    <div class="col-lg-8"><p>
+                                            <?php
 
 
+                                            foreach ($generos as $genre) {
 
-                                        foreach ( $generos as $genre ){
-
-                                            echo $genre;
-                                            echo " ";
-                                        }
-                                        ?></p>
+                                                echo $genre;
+                                                echo " ";
+                                            }
+                                            ?></p>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-4">&nbsp;</div>
+                                <div class="col-lg-8"></div>
+                            </div>
                         </div>
-                        <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
-                    </div>
 
-                <?php } ?>
+                    <?php }
+                }?>
 
 
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>

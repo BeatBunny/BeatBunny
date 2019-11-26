@@ -6,7 +6,6 @@
       <change beforePath="$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advanced/frontend/controllers/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/controllers/UserController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advanced/frontend/models/Playlists.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/models/Playlists.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/advanced/frontend/views/musics/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/views/musics/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advanced/frontend/views/playlists/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/views/playlists/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/advanced/frontend/views/user/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/advanced/frontend/views/user/index.php" afterDir="false" />
     </list>
@@ -24,8 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/models/Playlists.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
+            <state relative-caret-position="110">
+              <caret line="23" column="29" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -33,17 +32,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/models/PlaylistsHasMusics.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
+            <state relative-caret-position="345">
               <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="160" column="4" selection-start-line="160" selection-start-column="4" selection-end-line="187" selection-end-column="5" />
+            <state relative-caret-position="884">
+              <caret line="52" column="14" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
               <folding>
                 <element signature="e#40#64#0#PHP" expanded="true" />
               </folding>
@@ -52,13 +51,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/advanced/frontend/models/Profile.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-85">
+              <caret line="82" column="104" selection-end-line="82" selection-end-column="104" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/views/playlists/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="33" />
+            <state relative-caret-position="365">
+              <caret line="41" column="65" selection-start-line="41" selection-start-column="65" selection-end-line="41" selection-end-column="65" />
               <folding>
                 <element signature="e#7#28#0#PHP" expanded="true" />
-                <element signature="e#1600#1606#1#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -67,7 +74,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/MusicsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-353">
+            <state relative-caret-position="221">
               <caret line="170" column="39" selection-start-line="170" selection-start-column="39" selection-end-line="170" selection-end-column="39" />
               <folding>
                 <element signature="e#40#48#0#PHP" expanded="true" />
@@ -79,7 +86,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/views/musics/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1079">
+            <state relative-caret-position="634">
               <caret line="82" column="132" selection-start-line="82" selection-start-column="132" selection-end-line="82" selection-end-column="138" />
               <folding>
                 <element signature="e#7#28#0#PHP" expanded="true" />
@@ -89,24 +96,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/advanced/frontend/views/user/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="293" column="22" lean-forward="true" selection-start-line="293" selection-start-column="22" selection-end-line="293" selection-end-column="22" />
-              <folding>
-                <element signature="e#58#64#1" expanded="true" />
-                <element signature="e#56#62#1" expanded="true" />
-                <element signature="e#17242#17248#1#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/UserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="361" column="301" selection-start-line="361" selection-start-column="301" selection-end-line="361" selection-end-column="301" />
+            <state relative-caret-position="326">
+              <caret line="365" column="294" selection-start-line="365" selection-start-column="275" selection-end-line="365" selection-end-column="294" />
               <folding>
                 <element signature="e#39#47#0#PHP" expanded="true" />
               </folding>
@@ -115,19 +108,23 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/advanced/frontend/views/layouts/main.php">
+        <entry file="file://$PROJECT_DIR$/advanced/frontend/views/user/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="651">
-              <caret line="82" column="38" selection-start-line="82" selection-start-column="38" selection-end-line="82" selection-end-column="38" />
+            <state relative-caret-position="484">
+              <caret line="290" column="26" selection-start-line="290" selection-start-column="26" selection-end-line="290" selection-end-column="26" />
+              <folding>
+                <element signature="e#58#64#1" expanded="true" />
+                <element signature="e#56#62#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/advanced/frontend/models/SignupForm.php">
+        <entry file="file://$PROJECT_DIR$/advanced/frontend/views/layouts/main.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1241">
-              <caret line="76" column="32" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
+            <state relative-caret-position="328">
+              <caret line="65" column="45" selection-start-line="65" selection-start-column="45" selection-end-line="65" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -150,6 +147,7 @@
       <find>playlist</find>
       <find>index</find>
       <find>genres</find>
+      <find>$playlistsUserLogado</find>
     </findStrings>
     <replaceStrings>
       <replace>todasAsPlaylists</replace>
@@ -162,13 +160,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/advanced/frontend/controllers/MusicsController.php" />
-        <option value="$PROJECT_DIR$/advanced/frontend/views/layouts/main.php" />
-        <option value="$PROJECT_DIR$/advanced/frontend/models/Playlists.php" />
         <option value="$PROJECT_DIR$/advanced/frontend/views/musics/index.php" />
+        <option value="$PROJECT_DIR$/advanced/frontend/views/layouts/main.php" />
+        <option value="$PROJECT_DIR$/advanced/frontend/controllers/UserController.php" />
+        <option value="$PROJECT_DIR$/advanced/frontend/views/user/index.php" />
+        <option value="$PROJECT_DIR$/advanced/frontend/models/Playlists.php" />
         <option value="$PROJECT_DIR$/advanced/frontend/views/playlists/index.php" />
         <option value="$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php" />
-        <option value="$PROJECT_DIR$/advanced/frontend/views/user/index.php" />
-        <option value="$PROJECT_DIR$/advanced/frontend/controllers/UserController.php" />
       </list>
     </option>
   </component>
@@ -265,19 +263,6 @@
               <item name="beatbunny" type="b2602c69:ProjectViewProjectNode" />
               <item name="beatbunny" type="462c0819:PsiDirectoryNode" />
               <item name="advanced" type="462c0819:PsiDirectoryNode" />
-              <item name="console" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="beatbunny" type="b2602c69:ProjectViewProjectNode" />
-              <item name="beatbunny" type="462c0819:PsiDirectoryNode" />
-              <item name="advanced" type="462c0819:PsiDirectoryNode" />
-              <item name="console" type="462c0819:PsiDirectoryNode" />
-              <item name="controllers" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="beatbunny" type="b2602c69:ProjectViewProjectNode" />
-              <item name="beatbunny" type="462c0819:PsiDirectoryNode" />
-              <item name="advanced" type="462c0819:PsiDirectoryNode" />
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -308,22 +293,6 @@
               <item name="frontend" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
               <item name="layouts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="beatbunny" type="b2602c69:ProjectViewProjectNode" />
-              <item name="beatbunny" type="462c0819:PsiDirectoryNode" />
-              <item name="advanced" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="playlists" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="beatbunny" type="b2602c69:ProjectViewProjectNode" />
-              <item name="beatbunny" type="462c0819:PsiDirectoryNode" />
-              <item name="advanced" type="462c0819:PsiDirectoryNode" />
-              <item name="frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -370,13 +339,12 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49325000" />
+    <option name="totallyTimeSpent" value="54565000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="848" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25838926" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26174498" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -438,11 +406,6 @@
         <state relative-caret-position="-816" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/models/Profile.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-177" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/advanced/frontend/views/playlists/view.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -487,30 +450,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/models/Playlists.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="76" column="31" selection-start-line="76" selection-start-column="31" selection-end-line="76" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/models/PlaylistsHasMusics.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/advanced/frontend/views/layouts/main.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="82" column="38" selection-start-line="82" selection-start-column="38" selection-end-line="82" selection-end-column="38" />
+        <state relative-caret-position="328">
+          <caret line="65" column="45" selection-start-line="65" selection-start-column="45" selection-end-line="65" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/views/user/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="484">
+          <caret line="290" column="26" selection-start-line="290" selection-start-column="26" selection-end-line="290" selection-end-column="26" />
+          <folding>
+            <element signature="e#58#64#1" expanded="true" />
+            <element signature="e#56#62#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="365" column="294" selection-start-line="365" selection-start-column="275" selection-end-line="365" selection-end-column="294" />
+          <folding>
+            <element signature="e#39#47#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/views/musics/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="634">
+          <caret line="82" column="132" selection-start-line="82" selection-start-column="132" selection-end-line="82" selection-end-column="138" />
+          <folding>
+            <element signature="e#7#28#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/MusicsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-353">
+        <state relative-caret-position="221">
           <caret line="170" column="39" selection-start-line="170" selection-start-column="39" selection-end-line="170" selection-end-column="39" />
           <folding>
             <element signature="e#40#48#0#PHP" expanded="true" />
@@ -518,21 +498,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/views/playlists/index.php">
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/models/PlaylistsHasMusics.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="33" />
-          <folding>
-            <element signature="e#7#28#0#PHP" expanded="true" />
-            <element signature="e#1600#1606#1#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="345">
+          <caret line="62" column="5" selection-start-line="62" selection-start-column="5" selection-end-line="62" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/views/musics/index.php">
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/models/Playlists.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1079">
-          <caret line="82" column="132" selection-start-line="82" selection-start-column="132" selection-end-line="82" selection-end-column="138" />
+        <state relative-caret-position="110">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/models/Profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-85">
+          <caret line="82" column="104" selection-end-line="82" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/advanced/frontend/views/playlists/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="41" column="65" selection-start-line="41" selection-start-column="65" selection-end-line="41" selection-end-column="65" />
           <folding>
             <element signature="e#7#28#0#PHP" expanded="true" />
           </folding>
@@ -541,32 +531,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/PlaylistsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="160" column="4" selection-start-line="160" selection-start-column="4" selection-end-line="187" selection-end-column="5" />
+        <state relative-caret-position="884">
+          <caret line="52" column="14" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
           <folding>
             <element signature="e#40#64#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/views/user/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="293" column="22" lean-forward="true" selection-start-line="293" selection-start-column="22" selection-end-line="293" selection-end-column="22" />
-          <folding>
-            <element signature="e#58#64#1" expanded="true" />
-            <element signature="e#56#62#1" expanded="true" />
-            <element signature="e#17242#17248#1#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/advanced/frontend/controllers/UserController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="361" column="301" selection-start-line="361" selection-start-column="301" selection-end-line="361" selection-end-column="301" />
-          <folding>
-            <element signature="e#39#47#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

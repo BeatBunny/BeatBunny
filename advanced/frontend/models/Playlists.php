@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use Yii;
 
@@ -20,6 +20,9 @@ use Yii;
  */
 class Playlists extends \yii\db\ActiveRecord
 {
+
+    public $generosDaPlaylist = [];
+
     /**
      * {@inheritdoc}
      */

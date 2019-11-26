@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\models;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use frontend\models\Playlists;
+use common\models\Playlists;
 
 /**
  * SearchPlaylists represents the model behind the search form of `app\models\Playlists`.

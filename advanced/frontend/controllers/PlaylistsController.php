@@ -3,14 +3,13 @@
 namespace frontend\controllers;
 
 use Faker\Provider\Base;
-use frontend\models\Musics;
+use common\models\Musics;
 use Yii;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\Playlists;
-use frontend\models\ProfileHasPlaylists;
-use frontend\models\PlaylistsHasMusics;
-use frontend\models\SearchPlaylists;
+use common\models\User;
+use common\models\Profile;
+use common\models\Playlists;
+use common\models\Genres;
+use common\models\SearchPlaylists;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -43,7 +42,21 @@ class PlaylistsController extends Controller
     public function actionIndex()
     {
         $playlistsUserLogado = $this->getPlaylistsDoUser();
+<<<<<<< HEAD
         $generos = $this->getGenerosDasPlaylists();
+=======
+
+        // fazer um foreach para cada uma das playlsits
+        //para cada ciclo chamar funcao getgenerodasplaylists;
+
+        foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
+            //BaseVarDumper::dump($cadaUmaDasPlaylists);
+            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
+            //BaseVarDumper::dump($cadaUmaDasPlaylists);
+        }
+
+
+>>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
 
@@ -51,7 +64,6 @@ class PlaylistsController extends Controller
             'searchModel' => $searchModel,
             'currentUser' => $currentUser,
             'playlistsUserLogado' => $playlistsUserLogado,
-            'generos' => $generos,
         ]);
     }
 
@@ -161,21 +173,54 @@ class PlaylistsController extends Controller
         return $playlistsDoUser;
     }
 
-    public function getGenerosDasPlaylists()
+    public function getGenerosDasPlaylistsnumer1()
     {
         $currentProfile = $this->getCurrentProfile();
 
         $genresDasMusicas = [];
 
-        foreach ($currentProfile->playlists as $musicInPlaylist) {
-            foreach ($musicInPlaylist->musics as $musicaDaPlaylist) {
-                foreach ($musicaDaPlaylist->genres as $generoComp) {
-                    array_push($genresDasMusicas, $generoComp);
+        //die();
+
+        foreach ($currentProfile->playlists as $playlist) {
+            foreach ($playlist->musics as $musicaDaPlaylist) {
+                //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
+
+                if(!in_array($musicaDaPlaylist->genres->nome, $genresDasMusicas)){
+                    array_push($genresDasMusicas, $musicaDaPlaylist->genres->nome);
                 }
+
+
             }
         }
+
         return $genresDasMusicas;
     }
+
+    public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
+    {
+        $currentProfile = $this->getCurrentProfile();
+
+        $genresDasMusicas = [];
+
+        //die();
+
+        foreach ($cadaUmaDasPlaylists->musics as $musicaDaPlaylist) {
+            //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
+
+            if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
+                array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
+            }
+
+
+        }
+
+
+        return $cadaUmaDasPlaylists;
+    }
+
+
+
+
 
         /*die();
 

@@ -2,16 +2,16 @@
 
 namespace frontend\controllers;
 use Yii;
-use frontend\models\Musics;
+use common\models\Musics;
 use frontend\controllers\PlaylistsController;
 use common\models\User;
 use yii\web\Controller;
 use yii\helpers\BaseVarDumper;
 use yii\web\NotFoundHttpException;
-use frontend\models\Profile;
-use frontend\models\ProfileHasMusics;
-use frontend\models\Venda;
-use frontend\models\Linhavenda;
+use common\models\Profile;
+use common\models\ProfileHasMusics;
+use common\models\Venda;
+use common\models\Linhavenda;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -363,10 +363,10 @@ class UserController extends Controller
 
         elseif(empty($allThePlaylistsFromCurrentUser)) {
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas]);
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas, 'playlistsUserLogado' => $playlistsUserLogado]);
         }
         elseif(empty($musicasCompradas && empty($allThePlaylistsFromCurrentUser)))
-            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave ]);
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado ]);
 
         else{
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);

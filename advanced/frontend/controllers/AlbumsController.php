@@ -3,18 +3,23 @@
 namespace frontend\controllers;
 
 use Yii;
+<<<<<<< HEAD
 use frontend\models\Albums;
 use frontend\models\SearchAlbums;
 use yii\helpers\BaseVarDumper;
+=======
+use common\models\Albums;
+use common\models\SearchAlbums;
+>>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use frontend\models\User;
-use frontend\models\Profile;
-use frontend\models\ProfileHasMusics;
-use frontend\models\ProfileHasAlbums;
-use frontend\models\Genres;
-use frontend\models\Musics;
+use common\models\User;
+use common\models\Profile;
+use common\models\ProfileHasMusics;
+use common\models\ProfileHasAlbums;
+use common\models\Genres;
+use common\models\Musics;
 
 
 /**
