@@ -53,35 +53,60 @@ class MusicsController extends Controller
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
-
-        $serchedMusicsWithProducer = $this->putProducersInMusics($searchedMusics);
-
         $currentUser = $this->getCurrentUser();
+        
+        $serchedMusicsWithProducer = null;
+        if(!is_null($searchModel->title)){
+            $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
+            $serchedMusicsWithProducer = $this->putProducersInMusicsProcuradas($searchedMusics);
+        }
+
         if(!is_null($currentUser)){
+            if(!is_null($serchedMusicsWithProducer)){
+                if(!empty($this->getMusicasCompradasdoUserLogado())){
+                    $musicasCompradasPeloUser = $this->putProducersInMusicsProcuradas($this->getMusicasCompradasdoUserLogado());
 
-            if(!empty($this->getMusicasCompradasdoUserLogado())){
-                $musicasCompradasPeloUser = $this->putProducersInMusics($this->getMusicasCompradasdoUserLogado());
+                    return $this->render('index', [
+                        'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                        'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
+                        'searchModel' => $searchModel,
+                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                        'currentUser' => $currentUser,
+                    ]);
+                }
+                else{
+                    
+                    return $this->render('index', [
+                        'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
+                        'searchModel' => $searchModel,
+                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                        'currentUser' => $currentUser,
+                    ]);
 
-                return $this->render('index', [
-                    'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-                    'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
-                    'searchModel' => $searchModel,
-                    'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                    'currentUser' => $currentUser,
-                ]);
+                }
             }
             else{
-                
-                return $this->render('index', [
-                    'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
-                    'searchModel' => $searchModel,
-                    'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                    'currentUser' => $currentUser,
-                ]);
+                if(!empty($this->getMusicasCompradasdoUserLogado())){
+                    $musicasCompradasPeloUser = $this->putProducersInMusics($this->getMusicasCompradasdoUserLogado());
 
+                    return $this->render('index', [
+                        'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                        'searchModel' => $searchModel,
+                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                        'currentUser' => $currentUser,
+                    ]);
+                }
+                else{
+                    
+                    return $this->render('index', [
+                        'searchModel' => $searchModel,
+                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                        'currentUser' => $currentUser,
+                    ]);
+
+                }
             }
+                
 
         }
 
@@ -90,6 +115,7 @@ class MusicsController extends Controller
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
         ]);
+        
     }
 
 
@@ -104,7 +130,7 @@ class MusicsController extends Controller
     }
 
 
-    public function putProducersInMusics($searchedMusics){
+    public function putProducersInMusicsProcuradas($searchedMusics){
 
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
 
@@ -118,6 +144,33 @@ class MusicsController extends Controller
         return $searchedMusics;
 
     }
+
+
+
+    public function putProducersInMusics($musicasCompradas){
+
+        $profileProvider = $this->getCurrentProfile();
+        $userProvider = $this->getCurrentUser();
+
+        $musicasSemProducer = Musics::find()->all();
+        $todosOsProfiles = Profile::find()->all();
+
+
+
+        for ($i = 0; $i < count($todosOsProfiles); $i++) {
+            $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->id_user])->one();
+            foreach ($musicasCompradas as $musicaComprada) {
+                if($todosOsProfiles[$i]->id === $musicaComprada->id){
+                    $musicaComprada->producerOfThisSong = $thisUser->username;
+                }
+            }
+        }
+
+        return $musicasCompradas;
+
+    }
+
+
 
 
 
@@ -220,6 +273,7 @@ class MusicsController extends Controller
 
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
+        $modelYourAlbums = $currentProfile->albums;
 
         if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor || $this->checkIfCurrentUserIsProducer() === false)){
             return $this->redirect(['index']);
@@ -228,7 +282,6 @@ class MusicsController extends Controller
 
         $model = new Musics();
         $modelGenres = Genres::find()->all();
-        $modelYourAlbums = $this->getProducerAlbums();
 
         if ($model->load(Yii::$app->request->post())) {
             
@@ -458,9 +511,6 @@ class MusicsController extends Controller
 
 
 
-
-
-
     /**
      * Updates an existing Musics model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -471,16 +521,13 @@ class MusicsController extends Controller
     public function actionUpdate($id)
     {
 
-
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
+        $modelYourAlbums = $currentProfile->albums;
 
-        if(!$this->checkIfCurrentUserIsProducer())
-            return $this->goHome();  
 
         $model = $this->findModel($id);
         $modelGenres = Genres::find()->all();
-        $modelYourAlbums = $this->getProducerAlbums();
         
         if ($model->load(Yii::$app->request->post())) {
 
@@ -488,25 +535,38 @@ class MusicsController extends Controller
             $path = "uploads/";
 
             $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
-            
-
 
             if(is_null($getImageFile)){
                 $model->save();
                 return $this->redirect(['user/index']);
             }
             
-
             if(!empty($getImageFile))
                 $model->imageFile = $getImageFile;
             else
                 return $this->render('augment');
 
+
+
             $pathToSong = $path.$currentUser->id."/";
             $model->musiccover = $pathToSong;
 
+            try{
+                $model->save(false);
+            }
+            catch (\yii\db\Exception $exception) {
+                echo $exception->getMessage();
+                die();
+            }
+            catch (\yii\base\Exception $exception){
+                echo $exception->getMessage();
+                die();
+            }
+            catch (\Exception $exception){
+                echo $exception->getMessage();
+                die();
+            }
 
-            $model->save();
 
             if (!empty($getImageFile))
                 $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);

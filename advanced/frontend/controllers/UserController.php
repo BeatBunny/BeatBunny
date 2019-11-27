@@ -326,11 +326,12 @@ class UserController extends Controller
         $todosOsProfiles = Profile::find()->all();
 
 
-        foreach ($todosOsProfiles as $profile) {
-            $thisUser = User::find()->where(['id' => $profile->id_user])->one();
-            for ($i=0; $i < count($profile->musics); $i++) { 
-                if($profile->musics[$i]->id === $musicasCompradas[$i]->id){
-                    $musicasCompradas[$i]->producerOfThisSong = $thisUser->username;
+
+        for ($i = 0; $i < count($todosOsProfiles); $i++) {
+            $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->id_user])->one();
+            foreach ($musicasCompradas as $musicaComprada) {
+                if($todosOsProfiles[$i]->id === $musicaComprada->id){
+                    $musicaComprada->producerOfThisSong = $thisUser->username;
                 }
             }
         }
@@ -363,7 +364,6 @@ class UserController extends Controller
             $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
             //BaseVarDumper::dump($cadaUmaDasPlaylists);
         }
-
 
 
 

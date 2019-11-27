@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <?php
-
+    $i = 0;
     if(empty($searchModel->title)){
 
 
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
         <!-- Modal com os Lyrics -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="row">
                             <div class="col-lg-12">&nbsp;</div>
                             <div class="col-lg-12">
-                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal<?=$i?>">
                                     See Lyrics
                                 </button>
                             </div>
@@ -156,7 +156,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 
             </div>
 
-        <?php } 
+        <?php 
+        $i++;
+        } 
     }
     else{
         foreach ($serchedMusicsWithProducer as $music) { ?>
@@ -278,7 +280,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 
             </div>
 
-        <?php } 
+        <?php 
+        $i++;
+        } 
     }
 
 

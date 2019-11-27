@@ -130,6 +130,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     {
                         if($numberOfSongsYouHave > 0) {
                             foreach ($musicsFromProducerWithUsername as $musica) { ?>
+                                
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <br>
@@ -150,7 +151,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musica->title ?></h3></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?= $musica->genres->nome; ?></p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?php /*echo $musica->genres->nome; */?></p></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate; ?></p></div>
@@ -226,7 +227,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musicaComprada->title ?></h3></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $musicaComprada->genres ?></p></div>
+                                    <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?php /*echo $musicaComprada->genres*/ ?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $musicaComprada->launchdate ?></p></div>

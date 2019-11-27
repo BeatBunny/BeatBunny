@@ -29,9 +29,10 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'imageFile')->fileInput()->label("Music Cover (.png)"); ?>
     
-    <?= $form->field($model, 'genres_id')->dropDownList( $genresList ); ?>
+    <?= $form->field($model, 'genres_id')->dropDownList( $genresList )->label("Genre"); ?>
 
-    <?= $form->field($model, 'albums_id')->dropDownList( $yourAlbumsList ); ?>
+    <?= $form->field($model, 'albums_id')->dropDownList( $yourAlbumsList )->label("Album"); ?>
+
 
 
     <div class="form-group">

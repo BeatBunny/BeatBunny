@@ -43,13 +43,19 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
-        $allalbum=$this->getAlbuns();
+        //$allalbum = $this->getAlbuns();
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+        $albumsFromCurrentProfile = $currentProfile->albums;
+       
         $currentAlbumMusic = $this->getMusicFromAlbum();
         $modelGenresMusic = $this->getMusicGenre();
         return $this->render('index', [
-            'currentAlbumMusic' => $currentAlbumMusic,
-            'modelGenresMusic' => $modelGenresMusic,
-            'allalbum'=>$allalbum,
+            /*'currentAlbumMusic' => $currentAlbumMusic,
+            'modelGenresMusic' => $modelGenresMusic,*/
+            'currentProfile' => $currentProfile,
+            'currentUser' => $currentUser,
+            'albumsFromCurrentProfile'=>$albumsFromCurrentProfile,
         ]);
     }
 
@@ -92,13 +98,15 @@ class AlbumsController extends Controller
     }
 
     public function getMusicGenre(){
-        $music= Musics::find()->one();
+        $music = Musics::find()->one();
         return Genres::find()->where(['id'=>$music])->one();
     }
+
     public function getMusicAlbum(){
-        $album=Albums::find()->one();
+        $album = Albums::find()->one();
         return Musics::find()->where(['albums_id'=>$album])->one();
     }
+
 
 //    public function converterAlbunsArrayParaObject(){
 //        $todosAlbuns = Albums::find()->all();
@@ -152,12 +160,21 @@ class AlbumsController extends Controller
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
         $model = new Albums();
+        $allgenres = Genres::find()->all();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->launchdate = date("Y/m/d");
+            if($model->save()){
+                $profileHasAlbums = new ProfileHasAlbums();
+                $profileHasAlbums->albums_id = $model->id;
+                $profileHasAlbums->profile_id = $currentProfile->id;
+                $profileHasAlbums->save();
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('create', [
+            'allgenres' => $allgenres,
             'model' => $model,
         ]);
     }
