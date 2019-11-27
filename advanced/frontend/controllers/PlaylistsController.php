@@ -43,15 +43,8 @@ class PlaylistsController extends Controller
     {
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
-//        $generos = $this->getGenerosDasPlaylists();
-        // fazer um foreach para cada uma das playlsits
-        //para cada ciclo chamar funcao getgenerodasplaylists;
-
         foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
-            //BaseVarDumper::dump($cadaUmaDasPlaylists);
-            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
-
-            //BaseVarDumper::dump($cadaUmaDasPlaylists);
+            $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
         }
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
@@ -71,14 +64,12 @@ class PlaylistsController extends Controller
      */
     public function actionView($id)
     {
-        $playlistsUserLogado = $this->getPlaylistsDoUser();
+        $model = $this->findModel($id);
 
-        foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
-            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
-        }
+        $model = $this->getGenerosDasPlaylists($model);
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
         ]);
     }
 
@@ -188,7 +179,6 @@ class PlaylistsController extends Controller
 
         return $cadaUmaDasPlaylists;
     }
-
 
     
 

@@ -171,7 +171,27 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <!-- controlsList="nodownload" -->
                                                 <div class="col-lg-12">&nbsp;</div>
                                                 <div class="col-lg-12 textAlignCenter">
-                                                    <?= Html::a('Add to one of your playlists', Url::toRoute(['/playlists/addsong', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title floatLeft" id="exampleModalLabel">ARRANJAR ISTO</h4>
+                                                                    <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    MAIS DEPRESSA RUI
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
+                                                        Add to one of your playlists!
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -289,7 +309,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="row borderTopBlack">
                             <div class="col-lg-12 ">
                                 <div class="row">
-                                    <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome ?></h2></div>
+                                    <div class="col-lg-12 textAlignCenter"><h2><?php echo $playlist->nome ?></h2></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 textAlignRight"><p>Creation Date:<br></p></div>
@@ -309,8 +329,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                             ?></p>
                                     </div>
-
-                                    <div class="col-lg-8"><p><?php echo Html::a('Take me there!', Url::toRoute(['/playlists/view/'.$playlist->id.'/']), ['class' => 'btn btn-default'])?> </p>
+                                    <br><br>
+                                    <div class="col-lg-12 textAlignCenter"><p><?php echo Html::a('Take me there!', Url::toRoute(['/playlists/view/'.$playlist->id.'/']), ['class' => 'btn btn-default'])?> </p>
                                     </div>
                                 </div>
                             </div>
