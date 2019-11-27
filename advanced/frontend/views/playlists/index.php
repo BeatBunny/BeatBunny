@@ -40,16 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
                     <?php
-<<<<<<< HEAD
-//                    foreach ( $generos as $genre ){
-//
-//                            echo $genre;
-//                            echo " ";
-//                    }
-                            foreach ($playlist->generosDaPlaylist as $listar) {
-                                echo $listar;
-                            }
-=======
+
                         if(empty($playlist->generosDaPlaylist))
                             echo "None defined yet";
                         else{
@@ -57,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 echo $listar;
                             }
                         }
->>>>>>> b3c5225b71f5a21fe919e4385d870a0cf8d550f7
                         ?></p>
                 </div>
             </div>
