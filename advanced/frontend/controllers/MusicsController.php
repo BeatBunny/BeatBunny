@@ -49,10 +49,11 @@ class MusicsController extends Controller
      */
     public function actionIndex()
     {
+
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
+
         $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
 
         $serchedMusicsWithProducer = $this->putProducersInMusics($searchedMusics);
@@ -136,6 +137,8 @@ class MusicsController extends Controller
     
 
     public function actionBuymusic($id, $producerOfThisSong){
+
+
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
             return $this->goBack();
@@ -143,7 +146,14 @@ class MusicsController extends Controller
 
         $currentUser = $this->getCurrentUser();
         $currentProfile = $this->getCurrentProfile();
-        $musicasCompradasPeloUser = null; //$this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+
+        if($this->checkIfMusicIsBought($model->id))
+            return $this->goBack();
+        
+
+        $musicasCompradasPeloUser = $currentProfile->vendas; //$this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+
+
         if(is_null($musicasCompradasPeloUser)){
 
             return $this->render('buymusic', [
@@ -165,11 +175,16 @@ class MusicsController extends Controller
     }
 
     public function actionFinishpayment($id){
-        //IMPLEMENTAR VERIFICAÇÃO PARA VER SE O USER JÁ TEM A MÚSICA EM QUESTÃO
         $model = $this->findModel($id);
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
         
+
+        if($this->checkIfMusicIsBought($model->id))
+            return $this->goBack();
+        
+
+
         $currentProfile->saldo = $currentProfile->saldo-$model->pvp;
 
         $newVenda = new Venda();
@@ -187,7 +202,7 @@ class MusicsController extends Controller
         $newLinhaVenda->save();
         $currentProfile->save();
 
-        return $this->goBack();
+        return $this->redirect(['/user/index']);
     }
 
     /**
@@ -206,7 +221,7 @@ class MusicsController extends Controller
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
 
-        if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)){
+        if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor || $this->checkIfCurrentUserIsProducer() === false)){
             return $this->redirect(['index']);
         }
 
@@ -415,6 +430,32 @@ class MusicsController extends Controller
         }
     }
 
+    public function checkIfMusicIsBought($id){
+        $currentProfile = $this->getCurrentProfile();
+        foreach ($currentProfile->vendas as $venda) 
+            foreach ($venda->linhavendas as $lv) 
+                if($lv->musics_id === $id)
+                    return true;
+        return false;
+    }
+
+
+    public function checkIfCurrentUserIsProducer(){
+        $roles = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        foreach ($roles as $role) {
+            if($role->name === 'producer'){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+
 
 
 
@@ -429,14 +470,20 @@ class MusicsController extends Controller
      */
     public function actionUpdate($id)
     {
+
+
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+
+        if(!$this->checkIfCurrentUserIsProducer())
+            return $this->goHome();  
+
         $model = $this->findModel($id);
         $modelGenres = Genres::find()->all();
         $modelYourAlbums = $this->getProducerAlbums();
         
         if ($model->load(Yii::$app->request->post())) {
 
-            $currentProfile = $this->getCurrentProfile();
-            $currentUser = $this->getCurrentUser();
 
             $path = "uploads/";
 
@@ -503,4 +550,12 @@ class MusicsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+
+
+
+
+
+
 }

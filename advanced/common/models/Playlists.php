@@ -5,30 +5,28 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "{{%playlists}}".
+ * This is the model class for table "playlists".
  *
  * @property int $id
  * @property string $nome
  * @property string $ispublica
- * @property int $musics_id
+ * @property string $creationdate
  *
- * @property Musics $musics
  * @property PlaylistsHasMusics[] $playlistsHasMusics
- * @property Musics[] $musics0
+ * @property Musics[] $musics
  * @property ProfileHasPlaylists[] $profileHasPlaylists
  * @property Profile[] $profiles
  */
 class Playlists extends \yii\db\ActiveRecord
 {
 
-    public $generosDaPlaylist = [];
-
+	public $generosDaPlaylist = []; 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%playlists}}';
+        return 'playlists';
     }
 
     /**
@@ -37,11 +35,10 @@ class Playlists extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'musics_id'], 'required'],
+            [['nome'], 'required'],
             [['ispublica'], 'string'],
-            [['musics_id'], 'integer'],
+            [['creationdate'], 'safe'],
             [['nome'], 'string', 'max' => 45],
-            [['musics_id'], 'exist', 'skipOnError' => true, 'targetClass' => Musics::className(), 'targetAttribute' => ['musics_id' => 'id']],
         ];
     }
 
@@ -54,17 +51,9 @@ class Playlists extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nome' => 'Nome',
             'ispublica' => 'Ispublica',
-            'musics_id' => 'Musics ID',
+            'creationdate' => 'Creationdate',
         ];
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    /*public function getMusics()
-    {
-        return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
-    }*/
 
     /**
      * @return \yii\db\ActiveQuery
@@ -79,7 +68,7 @@ class Playlists extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('{{%playlists_has_musics}}', ['playlists_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('playlists_has_musics', ['playlists_id' => 'id']);
     }
 
     /**
@@ -95,7 +84,7 @@ class Playlists extends \yii\db\ActiveRecord
      */
     public function getProfiles()
     {
-        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('{{%profile_has_playlists}}', ['playlists_id' => 'id']);
+        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('profile_has_playlists', ['playlists_id' => 'id']);
     }
 
     /**

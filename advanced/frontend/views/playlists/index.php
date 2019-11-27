@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\helpers\BaseHtml;
 use yii\grid\GridView;
 use yii\helpers\BaseVarDumper;
@@ -39,6 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
                     <?php
+<<<<<<< HEAD
 //                    foreach ( $generos as $genre ){
 //
 //                            echo $genre;
@@ -47,24 +49,39 @@ $this->params['breadcrumbs'][] = $this->title;
                             foreach ($playlist->generosDaPlaylist as $listar) {
                                 echo $listar;
                             }
+=======
+                        if(empty($playlist->generosDaPlaylist))
+                            echo "None defined yet";
+                        else{
+                            foreach ($playlist->generosDaPlaylist as $listar) {
+                                echo $listar;
+                            }
+                        }
+>>>>>>> b3c5225b71f5a21fe919e4385d870a0cf8d550f7
                         ?></p>
                 </div>
             </div>
         </div>
         <div class="row"> <div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div> </div>
     </div>
+    <?php
+    if(empty($playlist->musics)) {
+        echo Html::a('Go add songs to your playlist', Url::toRoute(['/musics/index']), ['class' => 'btn btn-default']);
+        echo '<br><br>';
+        }
+    else { ?>
     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsePlaylist<?php echo $counter ?>" aria-expanded="false" aria-controls="collapseExample">
         Open playlist
     </button>
     <br>
-    <div class="collapse" id="collapsePlaylist<?php echo $counter ?>">
+    <div class="collapse" id="collapsePlaylist<?php echo $counter; ?>">
         <?php foreach ($playlist->musics as $music) { ?>
         <div class="row borderTopBlack">
             <div class="col-lg-12">
                 <br>
                 <div class="row">
                     <div class="col-lg-4 userImageProfile textAlignCenter">
-                        <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
+                        <?= Html::img( "@web/".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
                     </div>
                     <div class="col-lg-4 borderLeftBlack borderRightBlack">
                         <div class="row">
@@ -101,6 +118,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <br>
             </div>
         </div>
+        <br>
         <?php } ?>
+
     </div>
+    <br>
+    <?php } ?>
 <?php } ?>

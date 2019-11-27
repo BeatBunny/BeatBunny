@@ -43,8 +43,9 @@ class Profile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['saldo','saldoAdd'], 'number'],
+            [['saldo'], 'number'],
             [['profileFile'], 'file', 'extensions' => 'png'],
+            [['saldoAdd'],'number','max'=>100 ],
             [['nome', 'id_user'], 'required'],
             [['nif', 'id_user'], 'integer'],
             [['isprodutor'], 'string'],

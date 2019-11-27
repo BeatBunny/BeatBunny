@@ -16,7 +16,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ispublica')->dropDownList([ 'S' => 'S', 'N' => 'N', ], ['prompt' => '']) ?>
 
-    <?= $form->field($model, 'musics_id')->textInput() ?>
+    <?= $form->field($model, 'creationdate')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

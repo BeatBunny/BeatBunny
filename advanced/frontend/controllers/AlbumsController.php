@@ -3,7 +3,10 @@
 namespace frontend\controllers;
 
 use Yii;
+<<<<<<< HEAD
 use yii\helpers\BaseVarDumper;
+=======
+>>>>>>> b3c5225b71f5a21fe919e4385d870a0cf8d550f7
 use common\models\Albums;
 use common\models\SearchAlbums;
 use yii\web\Controller;

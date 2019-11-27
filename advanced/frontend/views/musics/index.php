@@ -34,7 +34,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     if(empty($searchModel->title)){
 
+<<<<<<< HEAD
       foreach ($allTheMusicsWithProducer as $music) { ?>
+=======
+
+        
+      foreach ($allTheMusicsWithProducer as $music) {
+        ?>
+
+>>>>>>> b3c5225b71f5a21fe919e4385d870a0cf8d550f7
         <!-- Modal com os Lyrics -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -77,7 +85,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
                             </div>
                             <div class="row">
+<<<<<<< HEAD
                                 <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres; ?></p></div>
+=======
+                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?php /*echo $music->genres->nome*/ ?></p></div>
+>>>>>>> b3c5225b71f5a21fe919e4385d870a0cf8d550f7
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>
@@ -92,7 +104,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                         if (!Yii::$app->user->isGuest) {
                                             if($currentUser->username === $music->producerOfThisSong){
                                                 $titleToStuff = $music->producerOfThisSong ." (Hey that's you!)";
-                                                
                                             }
                                         }
                                     ?>
@@ -109,13 +120,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php 
 
                         $musicaCompradaQuestionMark = false;
-                        if(isset($musicasCompradasPeloUser))
-                            
-                                foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                                    if($musicaComprada->id === $music->id)
-                                        $musicaCompradaQuestionMark = true;
-                                }
-                            
+                        if(isset($musicasCompradasPeloUser)) {
+
+                            foreach ($musicasCompradasPeloUser as $musicaComprada) {
+                                if ($musicaComprada->id === $music->id)
+                                    $musicaCompradaQuestionMark = true;
+                            }
+                        }
+
                         ?>
                         <div class="col-lg-4">
                             <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
@@ -168,7 +180,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </button>
                   </div>
                   <div class="modal-body">
-                    <?= $music->lyrics ?>
+                    <?php echo $music->lyrics; ?>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -199,7 +211,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres; ?></p></div>
+                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres->nome; ?></p></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>
