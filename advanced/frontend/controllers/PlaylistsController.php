@@ -71,6 +71,12 @@ class PlaylistsController extends Controller
      */
     public function actionView($id)
     {
+        $playlistsUserLogado = $this->getPlaylistsDoUser();
+
+        foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
+            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
+        }
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -169,11 +175,6 @@ class PlaylistsController extends Controller
 
     public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
     {
-        $currentProfile = $this->getCurrentProfile();
-
-        $genresDasMusicas = [];
-
-        //die();
 
         foreach ($cadaUmaDasPlaylists->musics as $musicaDaPlaylist) {
             //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
@@ -181,13 +182,15 @@ class PlaylistsController extends Controller
             if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
                 array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
             }
-            
+
         }
 
 
         return $cadaUmaDasPlaylists;
     }
 
+
+    
 
 
 

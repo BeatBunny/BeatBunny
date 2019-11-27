@@ -14,9 +14,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'ispublica')->dropDownList([ 'S' => 'S', 'N' => 'N', ], ['prompt' => '']) ?>
-
-    <?= $form->field($model, 'creationdate')->textInput() ?>
+    <?= $form->field($model, 'creationdate')->textInput(['readonly' => true, 'value' => date("Y/m/d")]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
