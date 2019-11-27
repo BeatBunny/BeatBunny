@@ -3,16 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use app\models\Venda;
-use app\models\SearchVenda;
+use common\models\ProfileHasAlbums;
+use common\models\SearchProfileHasAlbums;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * VendaController implements the CRUD actions for Venda model.
+ * ProfileHasAlbumsController implements the CRUD actions for ProfileHasAlbums model.
  */
-class VendaController extends Controller
+class ProfileHasAlbumsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,95 +30,99 @@ class VendaController extends Controller
     }
 
     /**
-     * Lists all Venda models.
+     * Lists all ProfileHasAlbums models.
      * @return mixed
      */
     public function actionIndex()
     {
-        /*$searchModel = new SearchVenda();
+        $searchModel = new SearchProfileHasAlbums();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);*/
+        ]);
     }
 
     /**
-     * Displays a single Venda model.
-     * @param integer $id
+     * Displays a single ProfileHasAlbums model.
+     * @param integer $profile_id
+     * @param integer $albums_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($profile_id, $albums_id)
     {
-       /* return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);*/
+        return $this->render('view', [
+            'model' => $this->findModel($profile_id, $albums_id),
+        ]);
     }
 
     /**
-     * Creates a new Venda model.
+     * Creates a new ProfileHasAlbums model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        /*$model = new Venda();
+        $model = new ProfileHasAlbums();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'profile_id' => $model->profile_id, 'albums_id' => $model->albums_id]);
         }
 
         return $this->render('create', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Updates an existing Venda model.
+     * Updates an existing ProfileHasAlbums model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
+     * @param integer $profile_id
+     * @param integer $albums_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($profile_id, $albums_id)
     {
-        /*$model = $this->findModel($id);
+        $model = $this->findModel($profile_id, $albums_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'profile_id' => $model->profile_id, 'albums_id' => $model->albums_id]);
         }
 
         return $this->render('update', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Deletes an existing Venda model.
+     * Deletes an existing ProfileHasAlbums model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
+     * @param integer $profile_id
+     * @param integer $albums_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($profile_id, $albums_id)
     {
-        /*$this->findModel($id)->delete();
+        $this->findModel($profile_id, $albums_id)->delete();
 
-        return $this->redirect(['index']);*/
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Venda model based on its primary key value.
+     * Finds the ProfileHasAlbums model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Venda the loaded model
+     * @param integer $profile_id
+     * @param integer $albums_id
+     * @return ProfileHasAlbums the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($profile_id, $albums_id)
     {
-        if (($model = Venda::findOne($id)) !== null) {
+        if (($model = ProfileHasAlbums::findOne(['profile_id' => $profile_id, 'albums_id' => $albums_id])) !== null) {
             return $model;
         }
 

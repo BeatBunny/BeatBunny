@@ -1,18 +1,18 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use app\models\Venda;
-use app\models\SearchVenda;
+use common\models\Admins;
+use common\models\AdminsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * VendaController implements the CRUD actions for Venda model.
+ * AdminsController implements the CRUD actions for Admins model.
  */
-class VendaController extends Controller
+class AdminsController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -30,41 +30,41 @@ class VendaController extends Controller
     }
 
     /**
-     * Lists all Venda models.
+     * Lists all Admins models.
      * @return mixed
      */
     public function actionIndex()
     {
-        /*$searchModel = new SearchVenda();
+        $searchModel = new AdminsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);*/
+        ]);
     }
 
     /**
-     * Displays a single Venda model.
+     * Displays a single Admins model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-       /* return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);*/
+        ]);
     }
 
     /**
-     * Creates a new Venda model.
+     * Creates a new Admins model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        /*$model = new Venda();
+        $model = new Admins();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,11 +72,11 @@ class VendaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Updates an existing Venda model.
+     * Updates an existing Admins model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -84,7 +84,7 @@ class VendaController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,11 +92,11 @@ class VendaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
-     * Deletes an existing Venda model.
+     * Deletes an existing Admins model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -104,21 +104,21 @@ class VendaController extends Controller
      */
     public function actionDelete($id)
     {
-        /*$this->findModel($id)->delete();
+        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);*/
+        return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Venda model based on its primary key value.
+     * Finds the Admins model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Venda the loaded model
+     * @return Admins the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Venda::findOne($id)) !== null) {
+        if (($model = Admins::findOne($id)) !== null) {
             return $model;
         }
 

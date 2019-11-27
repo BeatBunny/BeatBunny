@@ -103,7 +103,7 @@ $this->params['breadcrumbs'][] = 'Purchase';
 	            		<?= Html::a('Purchase', ['/musics/finishpayment', 'id' => $model->id], ['class' => 'btn btn-default width100']) ?>
 					<?php }else { ?>
 						<p class="width100 textAlignCenter">Your balance isn't enough to buy this track...</p>
-       			 		<?= Html::a('Add Funds?', Url::toRoute(['/profile/wallet']), ['class' => 'btn btn-default width100 textAlignCenter'])?>
+       			 		<?= Html::a('Add Funds?', Url::toRoute(['/profile/wallet', 'link' => Yii::$app->request->url]), ['class' => 'btn btn-default width100 textAlignCenter'])?>
 					<?php } ?>
 	            </div>
 	            <div class="col-lg-4">
