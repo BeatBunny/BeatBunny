@@ -36,7 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
         
-      foreach ($allTheMusicsWithProducer as $music) { ?>
+      foreach ($allTheMusicsWithProducer as $music) {
+        ?>
+
         <!-- Modal com os Lyrics -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog" role="document">
@@ -79,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $music->genres->nome ?></p></div>
+                                <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?php /*echo $music->genres->nome*/ ?></p></div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $music->launchdate; ?></p></div>
@@ -94,7 +96,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                         if (!Yii::$app->user->isGuest) {
                                             if($currentUser->username === $music->producerOfThisSong){
                                                 $titleToStuff = $music->producerOfThisSong ." (Hey that's you!)";
-                                                
                                             }
                                         }
                                     ?>
@@ -170,7 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </button>
                   </div>
                   <div class="modal-body">
-                    <?= $music->lyrics ?>
+                    <?php echo $music->lyrics; ?>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

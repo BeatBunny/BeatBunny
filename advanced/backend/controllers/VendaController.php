@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use app\models\Venda;
-use app\models\SearchVenda;
+use common\models\Venda;
+use common\models\VendaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,13 +35,13 @@ class VendaController extends Controller
      */
     public function actionIndex()
     {
-        /*$searchModel = new SearchVenda();
+        $searchModel = new VendaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);*/
+        ]);
     }
 
     /**
@@ -52,9 +52,9 @@ class VendaController extends Controller
      */
     public function actionView($id)
     {
-       /* return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);*/
+        ]);
     }
 
     /**
@@ -64,7 +64,7 @@ class VendaController extends Controller
      */
     public function actionCreate()
     {
-        /*$model = new Venda();
+        $model = new Venda();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,7 +72,7 @@ class VendaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
@@ -84,7 +84,7 @@ class VendaController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -92,7 +92,7 @@ class VendaController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
@@ -104,9 +104,9 @@ class VendaController extends Controller
      */
     public function actionDelete($id)
     {
-        /*$this->findModel($id)->delete();
+        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);*/
+        return $this->redirect(['index']);
     }
 
     /**

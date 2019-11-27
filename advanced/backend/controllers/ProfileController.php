@@ -1,15 +1,13 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
-use common\models\User;
 use common\models\Profile;
-use common\models\SearchProfile;
+use common\models\ProfileSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\BaseVarDumper;
 
 /**
  * ProfileController implements the CRUD actions for Profile model.
@@ -37,13 +35,13 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        /*$searchModel = new SearchProfile();
+        $searchModel = new ProfileSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);*/
+        ]);
     }
 
     /**
@@ -54,9 +52,9 @@ class ProfileController extends Controller
      */
     public function actionView($id)
     {
-        /*return $this->render('view', [
+        return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);*/
+        ]);
     }
 
     /**
@@ -66,7 +64,7 @@ class ProfileController extends Controller
      */
     public function actionCreate()
     {
-        /*$model = new Profile();
+        $model = new Profile();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -74,7 +72,7 @@ class ProfileController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
@@ -86,7 +84,7 @@ class ProfileController extends Controller
      */
     public function actionUpdate($id)
     {
-        /*$model = $this->findModel($id);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -94,7 +92,7 @@ class ProfileController extends Controller
 
         return $this->render('update', [
             'model' => $model,
-        ]);*/
+        ]);
     }
 
     /**
@@ -106,9 +104,9 @@ class ProfileController extends Controller
      */
     public function actionDelete($id)
     {
-        /*$this->findModel($id)->delete();
+        $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);*/
+        return $this->redirect(['index']);
     }
 
     /**
@@ -125,34 +123,5 @@ class ProfileController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
-    }
-
-
-
-    public function getCurrentUser(){
-        return User::find()->where(['id'=>Yii::$app->user->id])->one();
-    }
-
-    public function getCurrentProfile(){
-        return Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
-    }
-
-    public function actionWallet($link = null)
-    {
-        $profileProvider = $this->getCurrentProfile();
-        $model = $this->findModel($profileProvider);
-        
-        if ($model->load(Yii::$app->request->post()) ) {
-            $model->saldo += $model->saldoAdd;
-            $model->save();
-            if(!is_null($link))
-                return $this->redirect($link);
-            else
-                return $this->redirect(['/user/index']);
-        }
-
-        return $this->render('wallet', [
-            'model' => $model,
-        ]);
     }
 }

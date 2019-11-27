@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use common\models\Genres;
-use common\models\SearchGenres;
+use common\models\GenresSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class GenresController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SearchGenres();
+        $searchModel = new GenresSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

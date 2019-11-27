@@ -1,19 +1,13 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
-use Faker\Provider\Base;
-use common\models\Musics;
 use Yii;
-use common\models\User;
-use common\models\Profile;
 use common\models\Playlists;
-use common\models\Genres;
-use common\models\SearchPlaylists;
+use common\models\PlaylistsSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\helpers\BaseVarDumper;
 
 /**
  * PlaylistsController implements the CRUD actions for Playlists model.
@@ -41,29 +35,12 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
-        $playlistsUserLogado = $this->getPlaylistsDoUser();
-<<<<<<< HEAD
-        $generos = $this->getGenerosDasPlaylists();
-=======
-
-        // fazer um foreach para cada uma das playlsits
-        //para cada ciclo chamar funcao getgenerodasplaylists;
-
-        foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
-            //BaseVarDumper::dump($cadaUmaDasPlaylists);
-            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
-            //BaseVarDumper::dump($cadaUmaDasPlaylists);
-        }
-
-
->>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
-        $currentUser = $this->getCurrentUser();
-        $searchModel = new SearchPlaylists();
+        $searchModel = new PlaylistsSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'currentUser' => $currentUser,
-            'playlistsUserLogado' => $playlistsUserLogado,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -147,148 +124,4 @@ class PlaylistsController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-    private function getCurrentUser(){
-        $userProvider = User::find()->where(['id'=>Yii::$app->user->id])->one();
-
-        return $userProvider;
-    }
-
-    private function getCurrentProfile(){
-        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
-        return $profileProvider;
-    }
-
-
-    public function getPlaylistsDoUser()
-    {
-        $currentProfile = $this->getCurrentProfile();
-
-        $playlistsDoUser = [];
-
-        foreach ($currentProfile->playlists as $musicInPlaylist) {
-            array_push($playlistsDoUser, $musicInPlaylist);
-        }
-
-        return $playlistsDoUser;
-    }
-
-    public function getGenerosDasPlaylistsnumer1()
-    {
-        $currentProfile = $this->getCurrentProfile();
-
-        $genresDasMusicas = [];
-
-        //die();
-
-        foreach ($currentProfile->playlists as $playlist) {
-            foreach ($playlist->musics as $musicaDaPlaylist) {
-                //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
-
-                if(!in_array($musicaDaPlaylist->genres->nome, $genresDasMusicas)){
-                    array_push($genresDasMusicas, $musicaDaPlaylist->genres->nome);
-                }
-
-
-            }
-        }
-
-        return $genresDasMusicas;
-    }
-
-    public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
-    {
-        $currentProfile = $this->getCurrentProfile();
-
-        $genresDasMusicas = [];
-
-        //die();
-
-        foreach ($cadaUmaDasPlaylists->musics as $musicaDaPlaylist) {
-            //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
-
-            if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
-                array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
-            }
-
-
-        }
-
-
-        return $cadaUmaDasPlaylists;
-    }
-
-
-
-
-
-        /*die();
-
-
-        $idsDasPlaylistsDoUserLoggado = $this->getPlaylistsDoUserLogado();
-
-        foreach ($idsDasPlaylistsDoUserLoggado as $idDaPlaylist) {
-            $playlistHasMusics = PlaylistsHasMusics::find()->where(['playlists_id' => $idDaPlaylist])->all();
-
-            $musicIds [] = null;
-            foreach ($playlistHasMusics as $music) {
-                array_push($musicIds, $music->musics_id);
-            }
-
-        }
-
-        return $musicIds;
-
-    }
-
-    public function getMusicsList(){
-        $arrayDeMusicIds = $this->getMusicasDasPlaylists();
-
-
-        $arrayDeMusicas = null;
-        foreach ($arrayDeMusicIds as $idDaMusica) {
-            $arrayDeMusicas = Musics::find()->where(['id' => $idDaMusica])->all();
-        }
-
-        return $arrayDeMusicas;
-    }
-*/
-   /* public function getPlaylistsDesteProfileReturnsArray(){
-        $profileHasPlaylists = ProfileHasPlaylists::find()->all();
-        $arrayComTodasAsPlaylists = [];
-        $criadorDestaPlaylist = null;
-        $playlistDesteProfile = null;
-        array_filter($arrayComTodasAsPlaylists);
-        foreach ($profileHasPlaylists as $php) {
-            $criadorDestaPlaylist = User::find()->where(['id' => $php->profile_id])->one();
-            $playlistDesteProfile = Playlists::find()->where(['id' => $php->playlists_id])->one();
-
-            //BaseVarDumper::dump($criadorDestaMusica);
-            $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
-            //BaseVarDumper::dump($musicaDesteProfile);
-            array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
-            //BaseVarDumper::dump($arrayComTodasAsMusicas);
-            //echo "<br><br><br>";
-        }
-        return $arrayComTodasAsMusicas;
-    }
-
-
-    public function converterPlaylistsDoUserArrayParaObject(){
-        $todasAsPlaylists = Playlists::find()->all();
-
-        $todasAsPlaylistsArray = $this->getPlaylistsDesteProfileReturnsArray();
-
-
-
-        for ($i=0; $i < count($todasAsPlaylistsArray); $i++) {
-            if($todasAsPlaylists[$i]->id == $todasAsPlaylistsArray[$i]->id){
-                $todasAsPlaylists[$i]->producerOfThisSong = $todasAsPlaylistsArray[$i]->producerOfThisSong;
-            }
-        }
-
-        return $todasAsPlaylists;
-    }
-*/
-    //FAZER GET DAS MUSICAS DAS PLAYLISTS
 }

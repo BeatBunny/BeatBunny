@@ -1,10 +1,10 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use common\models\Linhavenda;
-use common\models\SearchLinhavenda;
+use common\models\LinhavendaSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +35,7 @@ class LinhavendaController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new SearchLinhavenda();
+        $searchModel = new LinhavendaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -47,13 +47,15 @@ class LinhavendaController extends Controller
     /**
      * Displays a single Linhavenda model.
      * @param integer $id
+     * @param integer $venda_id
+     * @param integer $musics_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id, $venda_id, $musics_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id, $venda_id, $musics_id),
         ]);
     }
 
@@ -67,7 +69,7 @@ class LinhavendaController extends Controller
         $model = new Linhavenda();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'venda_id' => $model->venda_id, 'musics_id' => $model->musics_id]);
         }
 
         return $this->render('create', [
@@ -79,15 +81,17 @@ class LinhavendaController extends Controller
      * Updates an existing Linhavenda model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
+     * @param integer $venda_id
+     * @param integer $musics_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $venda_id, $musics_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $venda_id, $musics_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'venda_id' => $model->venda_id, 'musics_id' => $model->musics_id]);
         }
 
         return $this->render('update', [
@@ -99,12 +103,14 @@ class LinhavendaController extends Controller
      * Deletes an existing Linhavenda model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param integer $venda_id
+     * @param integer $musics_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $venda_id, $musics_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id, $venda_id, $musics_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -113,12 +119,14 @@ class LinhavendaController extends Controller
      * Finds the Linhavenda model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
+     * @param integer $venda_id
+     * @param integer $musics_id
      * @return Linhavenda the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $venda_id, $musics_id)
     {
-        if (($model = Linhavenda::findOne($id)) !== null) {
+        if (($model = Linhavenda::findOne(['id' => $id, 'venda_id' => $venda_id, 'musics_id' => $musics_id])) !== null) {
             return $model;
         }
 
