@@ -49,9 +49,9 @@ class PlaylistsController extends Controller
         foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
             //BaseVarDumper::dump($cadaUmaDasPlaylists);
             $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
-            BaseVarDumper::dump($cadaUmaDasPlaylists->generosDaPlaylist);
+
         }
-    die();
+
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
 

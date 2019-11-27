@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <br>
                 <div class="row">
                     <div class="col-lg-4 userImageProfile textAlignCenter">
-                        <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ 'id'=>"userImage"]); ?>
+                        <?= Html::img( "@web/".$music->musicpath ."/image_".$music->id.'.png', ['alt'=>"User"]); ?>
                     </div>
                     <div class="col-lg-4 borderLeftBlack borderRightBlack">
                         <div class="row">

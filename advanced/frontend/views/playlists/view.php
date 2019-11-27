@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nome',
             'ispublica',
-            'musics_id',
+            'creationdate',
         ],
     ]) ?>
 
