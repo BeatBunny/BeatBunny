@@ -309,6 +309,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                             ?></p>
                                     </div>
+
+                                    <div class="col-lg-8"><p><?php echo Html::a('Take me there!', Url::toRoute(['/playlists/view/'.$playlist->id.'/']), ['class' => 'btn btn-default'])?> </p>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
