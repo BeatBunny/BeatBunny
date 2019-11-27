@@ -39,17 +39,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
                     <?php
-<<<<<<< HEAD
-                    foreach ( $generos as $genre ){
-
-                            echo $genre;
-                            echo " ";
-                    }
-=======
+//                    foreach ( $generos as $genre ){
+//
+//                            echo $genre;
+//                            echo " ";
+//                    }
                             foreach ($playlist->generosDaPlaylist as $listar) {
                                 echo $listar;
                             }
->>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
                         ?></p>
                 </div>
             </div>

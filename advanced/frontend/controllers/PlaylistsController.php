@@ -42,10 +42,8 @@ class PlaylistsController extends Controller
     public function actionIndex()
     {
         $playlistsUserLogado = $this->getPlaylistsDoUser();
-<<<<<<< HEAD
-        $generos = $this->getGenerosDasPlaylists();
-=======
 
+//        $generos = $this->getGenerosDasPlaylists();
         // fazer um foreach para cada uma das playlsits
         //para cada ciclo chamar funcao getgenerodasplaylists;
 
@@ -54,9 +52,6 @@ class PlaylistsController extends Controller
             $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
             //BaseVarDumper::dump($cadaUmaDasPlaylists);
         }
-
-
->>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
 
@@ -108,11 +103,9 @@ class PlaylistsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
-
         return $this->render('update', [
             'model' => $model,
         ]);

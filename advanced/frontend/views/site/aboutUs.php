@@ -16,7 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 Oleksandr Oliynyk
             </h2>
             <p>
-                Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.
+                Hey! I'm Oleksandr Oliynyk currently a finalist in Leiria's Polytechnic Institute (IPL).
+            </p>
+            <p>
+                I’m the Slav member of this group, that enjoys sports and listening to some good music, that was one of reasons that made me take part of this project.
+            </p><p>
+
             </p>
         </div>
         <div class="col-md-4 centerThemBitches">

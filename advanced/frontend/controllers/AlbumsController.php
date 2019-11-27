@@ -3,14 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
-<<<<<<< HEAD
-use frontend\models\Albums;
-use frontend\models\SearchAlbums;
 use yii\helpers\BaseVarDumper;
-=======
 use common\models\Albums;
 use common\models\SearchAlbums;
->>>>>>> 726d64d1b7d5002a12b36f5d2e7e94c61ec92277
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -58,24 +53,24 @@ class AlbumsController extends Controller
         ]);
     }
 
-//    public function getMusicasComProdutorReturnsArray(){
-//        $profileHasMusics = ProfileHasMusics::find()->all();
-//        $arrayComTodasAsMusicas = [];
-//        $musicaDesteProfile = null;
-//        array_filter($arrayComTodasAsMusicas);
-//        foreach ($profileHasMusics as $phm) {
-//            return $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
-//        }
-//    }
-
-public function getAlbuns(){
-    $currentUser= $this->getCurrentProfile();
-    $ArrayAlbuns = [];
-    foreach ($currentUser->albums as $AlbunsDoPerfil){
-        array_push($ArrayAlbuns, $AlbunsDoPerfil);
+    public function getMusicasComProdutorReturnsArray(){
+        $profileHasMusics = ProfileHasMusics::find()->all();
+        $arrayComTodasAsMusicas = [];
+        $musicaDesteProfile = null;
+        array_filter($arrayComTodasAsMusicas);
+        foreach ($profileHasMusics as $phm) {
+            return $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
+        }
     }
-    return $ArrayAlbuns;
-}
+
+    public function getAlbuns(){
+        $currentUser= $this->getCurrentProfile();
+        $ArrayAlbuns = [];
+        foreach ($currentUser->albums as $AlbunsDoPerfil){
+            array_push($ArrayAlbuns, $AlbunsDoPerfil);
+        }
+        return $ArrayAlbuns;
+    }
     public function getMusicFromAlbum(){
         $currentUser= $this->getCurrentProfile();
         $ArrayMusicasDoAlbum =[];
