@@ -47,7 +47,7 @@ class AlbumsController extends Controller
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
         $albumsFromCurrentProfile = $currentProfile->albums;
-       
+        $albumsFromCurrentProfile = $this->putProducerInEveryMusicInTheAlbums($albumsFromCurrentProfile);
         $currentAlbumMusic = $this->getMusicFromAlbum();
         $modelGenresMusic = $this->getMusicGenre();
         return $this->render('index', [
@@ -58,6 +58,19 @@ class AlbumsController extends Controller
             'albumsFromCurrentProfile'=>$albumsFromCurrentProfile,
         ]);
     }
+
+    public function putProducerInEveryMusicInTheAlbums($albumsFromCurrentProfile){
+        $currentUser = $this->getCurrentUser();
+        foreach ($albumsFromCurrentProfile as $album) {
+            foreach ($album->musics as $music) {
+                $music->producerOfThisSong = $currentUser->username;
+            }
+        }
+        return $albumsFromCurrentProfile;
+    }
+
+
+
 
     public function getMusicasComProdutorReturnsArray(){
         $profileHasMusics = ProfileHasMusics::find()->all();

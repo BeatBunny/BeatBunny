@@ -94,9 +94,37 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                         else{
                             foreach ($profileProvider->albums as $album) {
-                                echo $album->title;
-                                echo $album->launchdate;
-                                echo $album->review;
+                                ?>
+                                <div class="row">
+                                    <div class="col-lg-12 userImageProfile">
+                                        <?php
+                                        if(is_null($album->albumcover)){
+                                            echo Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]);
+                                        }
+                                        else{
+                                            echo Html::img('@web/images/'.$album->albumcover.'.png', ['alt'=>"Album Image"]); 
+                                        }
+                                        ?>
+                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12"> 
+                                        <p>
+                                            <?= $album->title; ?>
+                                        </p>
+                                        <p>
+                                            <?= $album->launchdate; ?>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12"> 
+                                        <?php echo Html::a('View Album', Url::toRoute(['/albums/index#'.$album->id]), ['class' => 'btn btn-default'])?>
+                                    </div>
+                                </div>
+
+                                <?php
                             }
                         }
                     } 
