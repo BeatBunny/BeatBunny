@@ -135,9 +135,13 @@ class MusicsController extends Controller
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
 
 
+        $todosOsProfiles = Profile::find()->all();
+        
         for ($i=0; $i < count($allTheMusicsWithProducer); $i++) { 
-            if($allTheMusicsWithProducer[$i]->id === $searchedMusics[$i]->id){
-                $searchedMusics[$i]->producerOfThisSong = $allTheMusicsWithProducer[$i]->producerOfThisSong;
+            foreach ($searchedMusics as $musicaProcurada) {
+                if($allTheMusicsWithProducer[$i]->id === $musicaProcurada->id){
+                    $musicaProcurada->producerOfThisSong = $allTheMusicsWithProducer[$i]->producerOfThisSong;
+                }
             }
         }
 
@@ -152,10 +156,7 @@ class MusicsController extends Controller
         $profileProvider = $this->getCurrentProfile();
         $userProvider = $this->getCurrentUser();
 
-        $musicasSemProducer = Musics::find()->all();
         $todosOsProfiles = Profile::find()->all();
-
-
 
         for ($i = 0; $i < count($todosOsProfiles); $i++) {
             $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->id_user])->one();

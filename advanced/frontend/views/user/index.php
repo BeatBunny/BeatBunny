@@ -67,11 +67,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-lg-4 textAlignCenter">
 
-                    <h2 class="">Your Albums</h2>
 
+                    <h2 class="">Your Albums</h2>
                     <?php 
                     if ($profileProvider->isprodutor == 'S')
                     {
+
                         if(count($profileProvider->albums) == 0){ 
                             if($numberOfSongsYouHave == 0){?>
 
@@ -93,11 +94,51 @@ $this->params['breadcrumbs'][] = $this->title;
                             }
                         }
                         else{
+                            ?>
+
+                        <button class="btn btn-default marginBottom2Percent" type="button" data-toggle="collapse" data-target="#collapseAlbums" aria-expanded="false" aria-controls="collapseExample">View All</button>
+                    
+                        <div class="collapse" id="collapseAlbums">
+                            <div class="col-lg-12 ">
+                            <?php
                             foreach ($profileProvider->albums as $album) {
-                                echo $album->title;
-                                echo $album->launchdate;
-                                echo $album->review;
+                                ?>
+
+                                    <div class="row borderTopBlack">
+                                        <div class="col-lg-12 userImageProfile marginTop2Percent ">
+                                            <?php
+                                            if(is_null($album->albumcover)){
+                                                echo Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]);
+                                            }
+                                            else{
+                                                echo Html::img('@web/images/'.$album->albumcover.'.png', ['alt'=>"Album Image"]); 
+                                            }
+                                            ?>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12"> 
+                                            <p>
+                                                <?= $album->title; ?>
+                                            </p>
+                                            <p>
+                                                <?= $album->launchdate; ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row marginBottom2Percent">
+                                        <div class="col-lg-12"> 
+                                            <?php echo Html::a('View Album', Url::toRoute(['/albums/index#'.$album->id]), ['class' => 'btn btn-default'])?>
+                                        </div>
+                                    </div>
+
+                                <?php
                             }
+?>
+                                </div>
+                        </div>
+                        <?php
                         }
                     } 
                     else
@@ -151,7 +192,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musica->title ?></h3></div>
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?php /*echo $musica->genres->nome; */?></p></div>
+                                                    <div class="col-lg-6 textAlignRight"><p>Genre: </p></div><div class="col-lg-6"><p><?php echo $musica->genres->nome; ?></p></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-6 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-6 textAlignLeft"><p><?= $musica->launchdate; ?></p></div>
@@ -225,7 +266,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <div class="col-lg-12 textAlignCenter"><h3><?= $musicaComprada->title ?></h3></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?php /*echo $musicaComprada->genres*/ ?></p></div>
+                                    <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?php echo $musicaComprada->genres->nome ?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $musicaComprada->launchdate ?></p></div>

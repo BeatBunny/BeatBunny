@@ -32,9 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 ?>
         <div class="col-lg-12">
-            <br>
-                <div class="row marginTop2Percent">
-                    <div class="col-lg-3 userImage textAlignCenter borderRightBlack">
+                <div class="row marginTop2Percent" id="<?= $album->id ?>">
+                    <div class="col-lg-2 userImage textAlignCenter borderRightBlack">
                         <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]); ?>
                         <div class="col-lg-12"><?= $album->title ?></div>
                         <div class="col-lg-12"><?= $album->launchdate ?></div>
@@ -44,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </button>
                         </div>
                     </div>
-                    <div class="col-lg-9 collapse" id="collapseAlbum<?= $counterAlbum ?>">
+                    <div class="col-lg-10 collapse" id="collapseAlbum<?= $counterAlbum ?>">
                         <?php 
                         foreach ($album->musics as $music) { 
                             $counterLyrics++;  
