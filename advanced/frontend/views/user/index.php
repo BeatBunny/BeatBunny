@@ -95,8 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         else{
                             foreach ($profileProvider->albums as $album) {
                                 ?>
-                                <div class="row">
-                                    <div class="col-lg-12 userImageProfile">
+                                <div class="row borderTopBlack  ">
+                                    <div class="col-lg-12 userImageProfile marginTop2Percent marginBottom2Percent">
                                         <?php
                                         if(is_null($album->albumcover)){
                                             echo Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]);

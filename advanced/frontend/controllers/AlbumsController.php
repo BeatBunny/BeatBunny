@@ -46,6 +46,15 @@ class AlbumsController extends Controller
         //$allalbum = $this->getAlbuns();
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
+        if(empty($currentProfile->albums)){
+            return $this->render('index', [
+                /*'currentAlbumMusic' => $currentAlbumMusic,
+                'modelGenresMusic' => $modelGenresMusic,*/
+                'currentProfile' => $currentProfile,
+                'currentUser' => $currentUser,
+                //'albumsFromCurrentProfile'=>$albumsFromCurrentProfile,
+            ]);
+        }
         $albumsFromCurrentProfile = $currentProfile->albums;
         $albumsFromCurrentProfile = $this->putProducerInEveryMusicInTheAlbums($albumsFromCurrentProfile);
         $currentAlbumMusic = $this->getMusicFromAlbum();
