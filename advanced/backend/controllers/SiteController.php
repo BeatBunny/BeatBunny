@@ -13,6 +13,7 @@ use yii\helpers\BaseVarDumper;
  */
 class SiteController extends Controller
 {
+    
     /**
      * {@inheritdoc}
      */
@@ -39,7 +40,6 @@ class SiteController extends Controller
                     'logout' => ['post'],
                 ],
             ],
-
         ];
     }
 
@@ -75,9 +75,6 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
-
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post())) {
             $model->login();

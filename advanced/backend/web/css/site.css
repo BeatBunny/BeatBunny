@@ -1,13 +1,22 @@
 html,
 body {
     height: 100%;
+    background-color: rgb(32,32,32);
+    color: #fff;
+}
+
+p{
+    font-size: 16px;
+    line-height: 1.4;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -60px;
+    margin: 2% auto -60px;
     padding: 0 0 60px;
+
 }
 
 .wrap > .container {
@@ -49,11 +58,11 @@ a.asc:after, a.desc:after {
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+    content: "\e151";
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
+    content: "\e152";
 }
 
 .sort-numerical a.asc:after {
@@ -72,8 +81,7 @@ a.desc:after {
     content: "\e156";
 }
 
-.grid-view th,
-.grid-view td:last-child {
+.grid-view td {
     white-space: nowrap;
 }
 
@@ -118,4 +126,335 @@ a.desc:after {
 
 .nav > li > form > button.logout:focus {
     outline: none;
+}
+
+.navbar-inverse{
+    background-color: rgba(0,0,0,0.9);
+}
+
+.navbar-brand{
+    height: auto;
+}
+.navbar-brand > img{
+    width: 100%;
+    margin: 1%;
+}
+
+.navbar-header{
+    max-width: 8%;
+}
+
+.navbar-right{
+    padding: 1.1%;
+}
+
+.wrap .container{
+
+}
+
+
+
+
+
+.backgroundTeste{
+    background: url("../images/background.gif") no-repeat fixed center;
+    opacity: 0.05;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    width : 100%;
+    height: 100%;
+}
+
+.footer{
+    background-color: rgba(0,0,0,0.9);
+    border-top: 1px solid #333;
+}
+
+
+.site-index{
+    position: relative !important;
+}
+
+.breadcrumb{
+    background-color: rgba(0,0,0,0.9);
+}
+
+.userImage > img{
+    border-radius: 50%;
+    max-width: 60%;
+    height: auto;
+    max-height: 140px;
+}
+
+.centerThemBitches{
+    text-align: center;
+}
+.centerThemBitches p{
+    text-align: justify;
+}
+
+.getTheAppClass img{
+    width: 10%;
+    margin: 0% 5%;
+}
+
+.getTheAppClass{
+    color: #fff;
+    background-color: #111;
+    border-color: #fff;
+}
+
+.getTheAppClass:hover{
+    color: #fff;
+    background-color: #222;
+    border-color: #fff;
+}
+
+.getTheAppClass:focus{
+    color: #fff;
+    background-color: #222;
+    border-color: #fff;
+}
+
+.width100{
+    width: 100%;
+}
+
+
+.padding5{
+    padding: 5%;
+}
+
+@media(max-width: 1199px){
+    .padding5{
+        padding: 1%;
+    }
+}
+
+
+
+/* Dropdown Button */
+.dropbtn {
+    background-color: transparent;
+    color: #9d9d9d;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: black;
+    min-width: 160px;
+    padding-left: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content > li {
+    color: #9d9d9d;
+    padding: 12px;
+    display: block; 
+    list-style-type: none;
+    margin: 5px;
+}
+
+
+.dropbtn > a{
+    color:#9d9d9d;
+}
+
+.dropbtn > a:hover{
+    color:white;
+}
+
+.dropdown-content > li > a{
+    color:#9d9d9d;
+}
+
+.dropdown-content > li > a:hover{
+    color:white;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content > li:hover {background-color: black; color: white; cursor: pointer;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: transparent; color: white;}
+
+.textAlignCenter{ text-align: center; }
+
+.userProfileCol{
+    border-right: 1px solid black;
+}
+.marginTop2Percent{ margin-top: 2%; }
+
+.marginBottom2Percent { margin-bottom: 2%; }
+
+.textAlignRight{ text-align: right; }
+
+.borderTopBlack{ border-top: 1px solid black; }
+
+.userImageProfile > img { max-width: 60%; height: auto; max-height: 140px; }
+
+.borderBottomBlack{ border-bottom: 1px solid black;  }
+
+h2, .h2, h3, .h3{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.borderLeftBlack
+{
+    border-left: 1px solid black;
+}
+.borderRightBlack{
+    border-right: 1px solid black;
+}
+
+button > a {
+    color: #333;
+}
+
+
+button > a:hover {
+    color: black;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+
+a:focus {
+    color: black;
+    text-decoration: none;
+}
+
+
+.overflowThatBi{
+    white-space: nowrap; 
+    width: 100%; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.Percent100{
+    width: 100%;
+}
+
+
+.h1mf{
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.formFieldTitle{
+    width: 80%;
+    float: left;
+}
+
+
+.formFieldTitle > div > label.control-label{
+    display: none;
+}
+
+.formFieldButton{
+
+}
+
+.albumImage > img{
+    width: 90%;
+}
+.albumCover > img{
+    width: 50%;
+}
+.marginTop4percent{
+    margin-top: 4%;
+}
+.colorRed{
+    color:red;
+}
+.colorDarkBlue{
+    color:darkblue;
+}
+.colorYellow{
+    color:yellow;
+}
+.textSize{
+   font-size: 10px;
+}
+.marginLeft{
+    margin-left: 5%;
+}
+.displayNone{
+    display: none;
+}
+
+.marginLeft2Percent{
+    margin-left: 2%;
+}
+
+h2{
+    color:#0099ff;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active{
+    color:#0099ff ;
+}
+
+.floatLeft{
+    float: left;
+}
+
+.floatRight{
+    float: right;
+}
+
+.modal-title{
+    color: black;
+}
+
+.modal-body{
+    color: black;
+}
+
+.paymentmethod{
+    padding: 1%;
+    text-align: center;
+}
+
+.buttonAlignCenter{
+    text-align: center;
+}
+.searchButton{
+    background-color: #0099ff;
+    border: none;
+    color: white;
+    width: 30%;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 6px 3px;
+    border-radius: 12px;
+}
+.borderAllBlack{
+    border: 1px solid black;
 }

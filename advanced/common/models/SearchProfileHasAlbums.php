@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use common\models\ProfileHasAlbums;
 
 /**
- * SearchProfileHasAlbums represents the model behind the search form of `app\models\ProfileHasAlbums`.
+ * SearchProfileHasAlbums represents the model behind the search form of `\common\models\ProfileHasAlbums`.
  */
 class SearchProfileHasAlbums extends ProfileHasAlbums
 {
@@ -17,7 +17,7 @@ class SearchProfileHasAlbums extends ProfileHasAlbums
     public function rules()
     {
         return [
-            [['profile_id', 'albums_id'], 'integer'],
+            [['albums_id', 'profile_id'], 'integer'],
         ];
     }
 
@@ -57,8 +57,8 @@ class SearchProfileHasAlbums extends ProfileHasAlbums
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'profile_id' => $this->profile_id,
             'albums_id' => $this->albums_id,
+            'profile_id' => $this->profile_id,
         ]);
 
         return $dataProvider;
