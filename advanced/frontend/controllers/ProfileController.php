@@ -37,13 +37,13 @@ class ProfileController extends Controller
      */
     public function actionIndex()
     {
-        /*$searchModel = new SearchProfile();
+        $searchModel = new SearchProfile();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);*/
+        ]);
     }
 
     /**
@@ -126,8 +126,6 @@ class ProfileController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-
-
 
     public function getCurrentUser(){
         return User::find()->where(['id'=>Yii::$app->user->id])->one();

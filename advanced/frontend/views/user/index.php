@@ -67,15 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-lg-4 textAlignCenter">
 
-                    <h2 class="">
-                        Your Albuns
-                        <?php
-                        if($profileProvider->isprodutor == 'S'){
-                            echo Html::a('Create Album', Url::toRoute(['/albums/create']), ['class' => 'btn btn-default']); 
-                        }
-                        ?>
-                    </h2>
 
+                    <h2 class="">Your Albums</h2>
                     <?php 
                     if ($profileProvider->isprodutor == 'S')
                     {
@@ -218,29 +211,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                                                 <audio id="player" controls  <?php echo 'src="'.Yii::getAlias('@web').'/'.$musica->musicpath.'/music_'.$musica->id.'_'.$musica->title.'.mp3"';?> style="width: 100%"></audio>
                                                 <!-- controlsList="nodownload" -->
-                                                <div class="col-lg-12">&nbsp;</div>
-                                                <div class="col-lg-12 textAlignCenter">
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h4 class="modal-title floatLeft" id="exampleModalLabel">ARRANJAR ISTO</h4>
-                                                                    <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    MAIS DEPRESSA RUI
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal">
-                                                        Add to one of your playlists!
-                                                    </button>
+                                                <div class="col-lg-12 textAlignCenter"><?php echo Html::a('Add to one of your playlists', Url::toRoute(['/playlists/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
                                                 </div>
                                             </div>
                                         </div>
