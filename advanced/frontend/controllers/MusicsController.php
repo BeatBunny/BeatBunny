@@ -159,8 +159,6 @@ class MusicsController extends Controller
         $todosOsProfiles = Profile::find()->all();
 
         for ($i = 0; $i < count($todosOsProfiles); $i++) {
-            BaseVarDumper::dump($todosOsProfiles[$i]->id);
-            die();
             $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->id_user])->one();
             foreach ($musicasCompradas as $musicaComprada) {
                 if($todosOsProfiles[$i]->id === $musicaComprada->id){

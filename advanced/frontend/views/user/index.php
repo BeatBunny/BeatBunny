@@ -67,11 +67,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-lg-4 textAlignCenter">
 
-                    <h2 class="">Your Albuns</h2>
+                    <h2 class="">
+                        Your Albuns
+                        <?php
+                        if($profileProvider->isprodutor == 'S'){
+                            echo Html::a('Create Album', Url::toRoute(['/albums/create']), ['class' => 'btn btn-default']); 
+                        }
+                        ?>
+                    </h2>
 
                     <?php 
                     if ($profileProvider->isprodutor == 'S')
                     {
+
                         if(count($profileProvider->albums) == 0){ 
                             if($numberOfSongsYouHave == 0){?>
 
