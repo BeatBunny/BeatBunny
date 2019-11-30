@@ -327,15 +327,16 @@ class UserController extends Controller
 
 
 
-        for ($i = 0; $i < count($todosOsProfiles); $i++) {
-            $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->id_user])->one();
-            foreach ($musicasCompradas as $musicaComprada) {
-                if($todosOsProfiles[$i]->id === $musicaComprada->id){
-                    $musicaComprada->producerOfThisSong = $thisUser->username;
-                }
+        foreach ($todosOsProfiles as $profile) {
+            $thisUser = User::find()->where(['id' => $profile->id_user])->one();
+            foreach ($profile->musics as $music) {
+                foreach ($musicasCompradas as $musicaComprada) {
+                    if($music->id === $musicaComprada->id){
+                        $musicaComprada->producerOfThisSong = $thisUser->username;
+                    }
+                } 
             }
         }
-
         return $musicasCompradas;
 
     }
