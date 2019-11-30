@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             foreach ($profileProvider->albums as $album) {
                                 ?>
                                 <div class="row borderTopBlack  ">
-                                    <div class="col-lg-12 userImageProfile marginTop2Percent marginBottom2Percent">
+                                    <div class="col-lg-12 userImageProfile marginTop2Percent ">
                                         <?php
                                         if(is_null($album->albumcover)){
                                             echo Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]);
@@ -118,7 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         </p>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row marginBottom2Percent">
                                     <div class="col-lg-12"> 
                                         <?php echo Html::a('View Album', Url::toRoute(['/albums/index#'.$album->id]), ['class' => 'btn btn-default'])?>
                                     </div>
