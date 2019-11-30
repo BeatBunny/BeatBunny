@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\PlaylistsHasMusics;
 use Faker\Provider\Base;
 use common\models\Musics;
 use Yii;
@@ -179,6 +180,27 @@ class PlaylistsController extends Controller
 
         return $cadaUmaDasPlaylists;
     }
+
+    public function actionAddsong($music_id) {
+
+        $profile = $this->getCurrentProfile();
+
+        $modelPlaylists = $profile->playlists;
+
+        $modelMusics = Musics::find()->where(['id' => $music_id])->one();
+
+
+
+
+        $playlistsHasMusics = new PlaylistsHasMusics();
+
+        $playlistsHasMusics->playlists_id = $modelPlaylists->id;
+
+        $playlistsHasMusics->musics_id = $modelMusics->id;
+
+        $playlistsHasMusics->save();
+    }
+
 
     
 

@@ -51,6 +51,7 @@ class MusicsController extends Controller
     {
 
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
+        $playlistsUserLogado = $this->getPlaylistsDoUser();
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $currentUser = $this->getCurrentUser();
@@ -72,6 +73,7 @@ class MusicsController extends Controller
                         'searchModel' => $searchModel,
                         'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
                         'currentUser' => $currentUser,
+                        'playlistsUserLogado' => $playlistsUserLogado,
                     ]);
                 }
                 else{
@@ -81,6 +83,7 @@ class MusicsController extends Controller
                         'searchModel' => $searchModel,
                         'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
                         'currentUser' => $currentUser,
+                        'playlistsUserLogado' => $playlistsUserLogado,
                     ]);
 
                 }
@@ -94,6 +97,7 @@ class MusicsController extends Controller
                         'searchModel' => $searchModel,
                         'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
                         'currentUser' => $currentUser,
+                        'playlistsUserLogado' => $playlistsUserLogado,
                     ]);
                 }
                 else{
@@ -102,6 +106,7 @@ class MusicsController extends Controller
                         'searchModel' => $searchModel,
                         'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
                         'currentUser' => $currentUser,
+                        'playlistsUserLogado' => $playlistsUserLogado,
                     ]);
 
                 }
@@ -114,6 +119,7 @@ class MusicsController extends Controller
             'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+            'playlistsUserLogado' => $playlistsUserLogado,
         ]);
         
     }
@@ -127,6 +133,19 @@ class MusicsController extends Controller
             array_push($comprasDoUser, $venda->linhavendas[0]->musics);
         }
         return $comprasDoUser;
+    }
+
+    public function getPlaylistsDoUser()
+    {
+        $currentProfile = $this->getCurrentProfile();
+
+        $playlistsDoUser = [];
+
+        foreach ($currentProfile->playlists as $musicInPlaylist) {
+            array_push($playlistsDoUser, $musicInPlaylist);
+        }
+
+        return $playlistsDoUser;
     }
 
 

@@ -165,12 +165,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     } ?> 
                 </h2> 
                 
-                <?php 
-      
+                <?php
+                $i = 0;
                     if ($profileProvider->isprodutor == 'S')
                     {
                         if($numberOfSongsYouHave > 0) {
-                            foreach ($musicsFromProducerWithUsername as $musica) { ?>
+                            foreach ($musicsFromProducerWithUsername as $musica) {
+                                $i++;?>
                                 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -211,7 +212,40 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                                                 <audio id="player" controls  <?php echo 'src="'.Yii::getAlias('@web').'/'.$musica->musicpath.'/music_'.$musica->id.'_'.$musica->title.'.mp3"';?> style="width: 100%"></audio>
                                                 <!-- controlsList="nodownload" -->
-                                                <div class="col-lg-12 textAlignCenter"><?php echo Html::a('Add to one of your playlists', Url::toRoute(['/playlists/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                                <div class="col-lg-12 textAlignCenter">
+                                                    <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModal<?=$i?>">
+                                                        Add to one of your playlists
+                                                    </button>
+                                                </div>
+                                                <div class="modal fade textAlignCenter" id="exampleModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title floatLeft" id="exampleModalLabel"><?= $musica->title ?></h4>
+                                                                <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form type="submit">
+                                                                    <select name="playlistlist" id="playlistlist">
+                                                                        <?php
+
+                                                                        foreach($playlistsUserLogado as $playlist) { ?>
+                                                                            <option value="<?= $playlist['nome'] ?>"><?= $playlist['nome'] ?></option>
+                                                                            <?php
+                                                                        } ?>
+                                                                    </select>
+                                                                </form>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary " data-dismiss="modal">Add to this playlist</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 </div>
                                             </div>
                                         </div>
