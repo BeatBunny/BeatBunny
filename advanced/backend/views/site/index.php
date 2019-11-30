@@ -71,30 +71,30 @@ $this->title = 'My Yii Application';
 
             </div>
             <div class="col-lg-4 borderAllBlack">
-                <h2>Users</h2>
+                <h2>Playlists Has Musics</h2>
                 <p>
-                    <?= Html::a('Check Table Playlists Has Musics', ['/playlistshasmusics/index'], ['class' => 'btn btn-default']) ?>
+                    <?= Html::a('Check Table Playlists Has Musics', ['/playlists-has-musics/index'], ['class' => 'btn btn-default']) ?>
                 </p>
 
             </div>
             <div class="col-lg-4 borderAllBlack">
-                <h2>Users</h2>
+                <h2>Profile Has Albums</h2>
                 <p>
-                    <?= Html::a('Check Table Users', ['/user/index'], ['class' => 'btn btn-default']) ?>
+                    <?= Html::a('Check Table Profile Has Albums', ['/profile-has-albums/index'], ['class' => 'btn btn-default']) ?>
                 </p>
 
             </div>
             <div class="col-lg-4 borderAllBlack">
-                <h2>Users</h2>
+                <h2>Profile Has Musics</h2>
                 <p>
-                    <?= Html::a('Check Table Users', ['/user/index'], ['class' => 'btn btn-default']) ?>
+                    <?= Html::a('Check Table Profile Has Musics', ['/profile-has-musics/index'], ['class' => 'btn btn-default']) ?>
                 </p>
 
             </div>
             <div class="col-lg-4 borderAllBlack">
-                <h2>Users</h2>
+                <h2>Profile Has Playlists</h2>
                 <p>
-                    <?= Html::a('Check Table Users', ['/user/index'], ['class' => 'btn btn-default']) ?>
+                    <?= Html::a('Check Table Profile Has Playlists', ['/profile-has-playlists/index'], ['class' => 'btn btn-default']) ?>
                 </p>
 
             </div>
