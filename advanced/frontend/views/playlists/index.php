@@ -37,6 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
                     <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> d32e93403a3a85320ad2e8cea45f51b83aba60e1
                         if(empty($playlist->generosDaPlaylist))
                             echo "None defined yet";
                         else{
@@ -90,7 +94,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-lg-4">
                         <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
-                        <audio id="player" controls src="sound.mp3" style="width: 100%"></audio>
+                        <audio id="player" controls <?php
+                            if(!Yii::$app->user->isGuest){
+                                echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
+                            } ?> style="width: 100%"></audio>
                         <div class="col-lg-12">&nbsp;</div>
                         <div class="col-lg-12 textAlignCenter">
                         <?php if (!Yii::$app->user->isGuest) { ?>

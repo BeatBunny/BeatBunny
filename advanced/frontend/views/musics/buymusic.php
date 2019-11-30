@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = 'Purchase';
                         <div class="col-lg-12 textAlignCenter"><h3><?= $model->title; ?></h3></div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $model->genres; ?></p></div>
+                        <div class="col-lg-4 textAlignRight"><p>Genre: </p></div><div class="col-lg-8"><p><?= $model->genres->nome; ?></p></div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 textAlignRight"><p>Launch Date: </p></div><div class="col-lg-8"><p><?= $model->launchdate; ?></p></div>
