@@ -7,7 +7,7 @@ use yii\data\ActiveDataProvider;
 use common\models\ProfileHasMusics;
 
 /**
- * SearchProfileHasMusics represents the model behind the search form of `app\models\ProfileHasMusics`.
+ * SearchProfileHasMusics represents the model behind the search form of `\common\models\ProfileHasMusics`.
  */
 class SearchProfileHasMusics extends ProfileHasMusics
 {
