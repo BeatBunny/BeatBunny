@@ -18,11 +18,36 @@ return [
             'showScriptName' => false,
             // Disable r= routes
             'enablePrettyUrl' => true,
-            'rules' => array(
-                    '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                    '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                    '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-            ),
+            'rules' => [ 
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/music', 'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET musicswithproducer' => 'musicswithproducer',
+                        'GET {id}/title' => 'title', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/launchdate' => 'launchdate', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/lyrics' => 'lyrics', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/pvp' => 'pvp', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/musicpath' => 'musicpath', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/genre' => 'genre', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/producer' => 'producer', // 'xxxx' é 'actionXxxx'
+                        'GET count' => 'count',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
+                        '{limit}' => '<limit:\\d+>',
+                        '{from}' => '<from:\\d+>',
+                        '{txcode}' => '<txcode:\\w+>',
+                        '{kgs}' => '<kgs:(\\d+,\\d+)>'
+                    ],
+                ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'produto', 'pluralize' => false,
+                ],
+            ],
+
+        ],
+    ],
+    'modules' => [
+        'v1' => [
+            'class' => 'common\modules\v1\Module',
         ],
     ],
 ];

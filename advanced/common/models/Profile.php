@@ -34,7 +34,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%profile}}';
+        return '{{%profile%}}';
     }
 
     /**

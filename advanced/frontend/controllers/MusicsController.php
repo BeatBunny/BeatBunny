@@ -125,6 +125,11 @@ class MusicsController extends Controller
     }
 
 
+
+
+
+
+
     public function getMusicasCompradasdoUserLogado(){
         $profileProvider = $this->getCurrentProfile();
         $userProvider = $this->getCurrentUser();
@@ -634,8 +639,22 @@ class MusicsController extends Controller
 
 
 
+    public $modelClass = 'common\models\Musics';
+    public $userProvider = 'common\models\User';
 
 
-
+    // TESTES PARA A API
+    public function actionMusicswithproducer(){
+        $models = $this->modelClass::find()->all();
+        foreach ($models as $music) {
+            foreach ($music->profiles as $profile) {
+                $user = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+                $music->producerOfThisSong = $user->username;
+            }
+        }
+        
+        BaseVarDumper::dump($models);
+        die();
+    }
 
 }
