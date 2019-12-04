@@ -376,11 +376,11 @@ class UserController extends Controller
         if(empty($musicasCompradas))
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado, 'playlistHasMusics' => $playlistHasMusics]);
 
-        elseif(empty($allThePlaylistsFromCurrentUser)) {
+        elseif(empty($playlistsUserLogado)) {
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas, 'playlistsUserLogado' => $playlistsUserLogado, 'playlistHasMusics' => $playlistHasMusics]);
         }
-        elseif(empty($musicasCompradas && empty($allThePlaylistsFromCurrentUser)))
+        elseif(empty($musicasCompradas && empty($playlistsUserLogado)))
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado, 'playlistHasMusics' => $playlistHasMusics ]);
 
         else{

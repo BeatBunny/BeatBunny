@@ -55,7 +55,7 @@ class MusicsController extends Controller
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $currentUser = $this->getCurrentUser();
-        
+        $playlistsUserLogado = null;
         $serchedMusicsWithProducer = null;
         if(!is_null($searchModel->title)){
             $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
@@ -63,19 +63,30 @@ class MusicsController extends Controller
         }
 
         if(!is_null($currentUser)){
-            $playlistsUserLogado = $this->getPlaylistsDoUser();
+
             if(!is_null($serchedMusicsWithProducer)){
                 if(!empty($this->getMusicasCompradasdoUserLogado())){
                     $musicasCompradasPeloUser = $this->putProducersInMusicsProcuradas($this->getMusicasCompradasdoUserLogado());
-
-                    return $this->render('index', [
-                        'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-                        'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
+                    if(!empty($this->getPlaylistsDoUser())) {
+                        $playlistsUserLogado = $this->getPlaylistsDoUser();
+                        return $this->render('index', [
+                            'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                            'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
+                            'searchModel' => $searchModel,
+                            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                            'currentUser' => $currentUser,
+                            'playlistsUserLogado' => $playlistsUserLogado,
+                        ]);
+                    }
+                    else {
+                        return $this->render('index', [
+                            'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                            'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
+                            'searchModel' => $searchModel,
+                            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                            'currentUser' => $currentUser,
+                        ]);
+                    }
                 }
                 else{
                     
@@ -84,7 +95,6 @@ class MusicsController extends Controller
                         'searchModel' => $searchModel,
                         'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
                         'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
                     ]);
 
                 }
@@ -92,24 +102,42 @@ class MusicsController extends Controller
             else{
                 if(!empty($this->getMusicasCompradasdoUserLogado())){
                     $musicasCompradasPeloUser = $this->putProducersInMusics($this->getMusicasCompradasdoUserLogado());
-
-                    return $this->render('index', [
-                        'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
+                    if(!empty($this->getPlaylistsDoUser())) {
+                        $playlistsUserLogado = $this->getPlaylistsDoUser();
+                        return $this->render('index', [
+                            'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                            'searchModel' => $searchModel,
+                            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                            'currentUser' => $currentUser,
+                            'playlistsUserLogado' => $playlistsUserLogado,
+                        ]);
+                    }
+                    else {
+                        return $this->render('index', [
+                            'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                            'searchModel' => $searchModel,
+                            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                            'currentUser' => $currentUser,
+                        ]);
+                    }
                 }
                 else{
-                    
-                    return $this->render('index', [
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
-
+                    if(!empty($this->getPlaylistsDoUser())){
+                        $playlistsUserLogado = $this->getPlaylistsDoUser();
+                        return $this->render('index', [
+                            'searchModel' => $searchModel,
+                            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                            'currentUser' => $currentUser,
+                            'playlistsUserLogado' => $playlistsUserLogado,
+                        ]);
+                    }
+                    else {
+                        return $this->render('index', [
+                            'searchModel' => $searchModel,
+                            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+                            'currentUser' => $currentUser,
+                        ]);
+                    }
                 }
             }
                 
