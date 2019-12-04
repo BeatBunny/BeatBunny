@@ -157,10 +157,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
                                                             <select name="playlists_id" id="playlists_id">
                                                                 <?php
-                                                                foreach($playlistsUserLogado as $playlist) { ?>
-                                                                    <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
-                                                                    <?php
-                                                                } ?>
+                                                                if (isset($playlistUserLogado)) {
+                                                                    foreach ($playlistsUserLogado as $playlist) { ?>
+                                                                        <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }?>
                                                             </select>
                                                         </div>
                                                         <div class="modal-footer textAlignRight">
@@ -316,10 +318,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
                                                             <select name="playlists_id" id="playlists_id">
                                                                 <?php
-                                                                foreach($playlistsUserLogado as $playlist) { ?>
-                                                                    <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
-                                                                    <?php
-                                                                } ?>
+                                                                if (isset($playlistUserLogado)) {
+                                                                    foreach ($playlistsUserLogado as $playlist) { ?>
+                                                                        <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
+                                                                        <?php
+                                                                    }
+                                                                }?>
                                                             </select>
                                                         </div>
                                                         <div class="modal-footer textAlignRight">
