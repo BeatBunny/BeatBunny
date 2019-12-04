@@ -3,11 +3,9 @@
 namespace frontend\controllers;
 
 use Yii;
-<<<<<<< HEAD
-
-=======
->>>>>>> d32e93403a3a85320ad2e8cea45f51b83aba60e1
+use yii\filters\AccessControl;
 use yii\helpers\BaseVarDumper;
+use yii\web\UploadedFile;
 use common\models\Albums;
 use common\models\SearchAlbums;
 use yii\web\Controller;
@@ -17,6 +15,7 @@ use common\models\User;
 use common\models\Profile;
 use common\models\ProfileHasMusics;
 use common\models\ProfileHasAlbums;
+use frontend\controllers\ProfileHasAlbumsController;
 use common\models\Genres;
 use common\models\Musics;
 
@@ -32,6 +31,20 @@ class AlbumsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
+                    [
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdelete'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -44,28 +57,23 @@ class AlbumsController extends Controller
     /**
      * Lists all Albums models.
      * @return mixed
+     * @throws NotFoundHttpException
      */
     public function actionIndex()
     {
-        //$allalbum = $this->getAlbuns();
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
         if(empty($currentProfile->albums)){
             return $this->render('index', [
-                /*'currentAlbumMusic' => $currentAlbumMusic,
-                'modelGenresMusic' => $modelGenresMusic,*/
                 'currentProfile' => $currentProfile,
                 'currentUser' => $currentUser,
-                //'albumsFromCurrentProfile'=>$albumsFromCurrentProfile,
             ]);
         }
-        $albumsFromCurrentProfile = $currentProfile->albums;
-        $albumsFromCurrentProfile = $this->putProducerInEveryMusicInTheAlbums($albumsFromCurrentProfile);
+        $albums = $currentProfile->albums;
+        $albumsFromCurrentProfile = $this->putProducerInEveryMusicInTheAlbums($albums);
         $currentAlbumMusic = $this->getMusicFromAlbum();
         $modelGenresMusic = $this->getMusicGenre();
         return $this->render('index', [
-            /*'currentAlbumMusic' => $currentAlbumMusic,
-            'modelGenresMusic' => $modelGenresMusic,*/
             'currentProfile' => $currentProfile,
             'currentUser' => $currentUser,
             'albumsFromCurrentProfile'=>$albumsFromCurrentProfile,
@@ -184,27 +192,65 @@ class AlbumsController extends Controller
     public function actionCreate()
     {
         $currentProfile = $this->getCurrentProfile();
-        $currentUser = $this->getCurrentUser();
+        $currentUser= $this->getCurrentUser();
+        $roles =Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if($role->name === 'producer'){
+                break;
+            }
+            else{
+                return $this->redirect(['albums/index']);
+            }
+        }
         $model = new Albums();
         $allgenres = Genres::find()->all();
 
         if ($model->load(Yii::$app->request->post())) {
+
+            $path = "uploads/";
+            if (!file_exists($path))
+                mkdir($path, 0777, true);
+
+            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'albumcover');
+
+            if (!empty($getImageFile))
+                $model->albumcover = $getImageFile;
+            else
+                return $this->render('augment');
+
+            if (!file_exists($path .$currentUser->id))
+                mkdir($path .$currentUser->id, 0777, true);
+
+            $pathToAlbumCover = $path . $currentUser->id ."/";
+            $model->albumcover = $pathToAlbumCover;
+
             $model->launchdate = date("Y/m/d");
             if($model->save()){
+                if(!empty($getImageFile)) {
+                    $getImageFile->saveAs($pathToAlbumCover . "albumcover_" . $model->id . "." . $getImageFile->extension);
+                }
                 $profileHasAlbums = new ProfileHasAlbums();
                 $profileHasAlbums->albums_id = $model->id;
                 $profileHasAlbums->profile_id = $currentProfile->id;
                 $profileHasAlbums->save();
-                return $this->redirect(['view', 'id' => $model->id]);
             }
+
+            return $this->redirect(['albums/index']);
         }
 
         return $this->render('create', [
             'allgenres' => $allgenres,
+            'currentProfile' =>$currentProfile,
             'model' => $model,
         ]);
     }
 
+    public function actionEdit(){
+        $currentProfile= $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
+        $model = $currentProfile->albums();
+        return $this->render('edit', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile, 'model'=> $model]);
+    }
     /**
      * Updates an existing Albums model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -214,28 +260,61 @@ class AlbumsController extends Controller
      */
     public function actionUpdate($id)
     {
+        $currentUser = $this->getCurrentUser();
+        $currentProfile= $this->getCurrentProfile();
+        $albumsFromCurrentProfile = $currentProfile->albums;
+        $modelGenres = Genres::find()->all();
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $path = "uploads/";
+            if (!file_exists($path))
+                mkdir($path, 0777, true);
+            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'albumcover');
+            if (!empty($getImageFile)){
+                $model->albumcover = $getImageFile;
+        }else {
+                return $this->render('augment');
+            }
+                $pathToAlbumCover = $path . $currentUser->id ."/";
+                $model->albumcover = $pathToAlbumCover;
+            if(!empty($getImageFile)) {
+                $getImageFile->saveAs($pathToAlbumCover . "albumcover_" . $model->id . "." . $getImageFile->extension);
+            }
+            $model->save();
+            return $this->redirect(['index']);
         }
-
         return $this->render('update', [
             'model' => $model,
-        ]);
+            'modelGenres' => $modelGenres,
+            'albumsFromCurrentProfile' => $albumsFromCurrentProfile]);
     }
 
     /**
      * Deletes an existing Albums model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param $music_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \yii\db\Exception
      */
+//        public function actionMusicdelete($album, $music)
+//    {
+//        $currentAlbum = $this->findModel($album)->id;
+//        $currentPrifile= $this->getCurrentProfile();
+//        $currentMusic=  $this->findModel($music_id)->id;
+//        $delFromProfile = ProfileHasMusics::find()->where(['musics_id' => $currentMusic])->one()->delete();
+//        $delFromMusics= Yii::$app->db->createCommand()->delete('musics',['albums_id'=>$currentAlbum])->execute();
+//        $connect=Yii::$app->db->createCommand('Insert into profile_has_musics where profile_id'==$currentPrifile)->execute();
+//        BaseVarDumper::dump($delFromMusics);
+//        die();
+//        return $this->redirect(['index']);
+//    }
     public function actionDelete($id)
     {
+        $currentAlbum = $this->findModel($id)->id;
+        $profileHasAlbumAlbumid = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -256,6 +335,18 @@ class AlbumsController extends Controller
     /**
     ****************************************************************************************
      **/
+
+
+    private function getProducerAlbumsIds(){
+        $profile = $this->getCurrentProfile();
+        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
+        $albums[] = null;
+        foreach ($ProfileHasAlbums as $album ) {
+            array_push($albums, $album->albums_id);
+        }
+        return $albums;
+    }
+
     private function getCurrentUser(){
         return User::find()->where(['id'=>Yii::$app->user->id])->one();
     }

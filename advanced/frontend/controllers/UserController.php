@@ -418,23 +418,16 @@ class UserController extends Controller
             $path = "uploads/";
             if (!file_exists($path))
                 mkdir($path, 0777, true);
-
             $getImageFile = \yii\web\UploadedFile::getInstance($currentProfile, 'profileFile');
-
             if (!empty($getImageFile)) 
                 $currentProfile->profileFile = $getImageFile;
             else
                 return $this->render('augment');
-
             if (!file_exists($path . $currentUser->id))
                 mkdir($path . $currentUser->id, 0777, true);
-
             $pathToProfileimage = $path . $currentUser->id . "/";
             $currentProfile->profileimage = $pathToProfileimage;
-
-
             $currentProfile->save();
-
             if (!empty($getImageFile))
                 $getImageFile->saveAs($pathToProfileimage . "profileimage_" . $currentUser->id . "." . $getImageFile->extension);
         }

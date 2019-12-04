@@ -566,8 +566,6 @@ class MusicsController extends Controller
             else
                 return $this->render('augment');
 
-
-
             $pathToSong = $path.$currentUser->id."/";
             $model->musiccover = $pathToSong;
 

@@ -37,10 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="row">
                 <div class="col-lg-4 textAlignRight"><p>Genres:<br> </p></div><div class="col-lg-8"><p>
                     <?php
-<<<<<<< HEAD
-=======
-
->>>>>>> d32e93403a3a85320ad2e8cea45f51b83aba60e1
                         if(empty($playlist->generosDaPlaylist))
                             echo "None defined yet";
                         else{
