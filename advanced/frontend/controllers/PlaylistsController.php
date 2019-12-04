@@ -44,13 +44,11 @@ class PlaylistsController extends Controller
     {
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
+        $playlistHasMusics = new PlaylistsHasMusics();
+
         foreach ($playlistsUserLogado as $cadaUmaDasPlaylists) {
-<<<<<<< HEAD
-            //BaseVarDumper::dump($cadaUmaDasPlaylists);
-            $cadaUmaDasPlaylists = $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
-=======
+
             $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
->>>>>>> d32e93403a3a85320ad2e8cea45f51b83aba60e1
         }
         $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
@@ -58,6 +56,7 @@ class PlaylistsController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'currentUser' => $currentUser,
+            'playlistHasMusics' => $playlistHasMusics,
             'playlistsUserLogado' => $playlistsUserLogado,
         ]);
     }
@@ -186,16 +185,11 @@ class PlaylistsController extends Controller
         return $cadaUmaDasPlaylists;
     }
 
-    public function actionAddsong($music_id) {
+    public function actionAddsong($musics_id, $playlists_id) {
 
-        $profile = $this->getCurrentProfile();
+        $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
 
-        $modelPlaylists = $profile->playlists;
-
-        $modelMusics = Musics::find()->where(['id' => $music_id])->one();
-
-
-
+        $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
 
         $playlistsHasMusics = new PlaylistsHasMusics();
 
@@ -204,6 +198,8 @@ class PlaylistsController extends Controller
         $playlistsHasMusics->musics_id = $modelMusics->id;
 
         $playlistsHasMusics->save();
+
+        return $this->redirect(['musics/index']);
     }
 
 

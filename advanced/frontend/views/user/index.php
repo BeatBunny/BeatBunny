@@ -220,6 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 <div class="modal fade textAlignCenter" id="exampleModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
+                                                            <form action="<?= "../playlists/addsong" ?>">
                                                             <div class="modal-header">
                                                                 <h4 class="modal-title floatLeft" id="exampleModalLabel"><?= $musica->title ?></h4>
                                                                 <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
@@ -227,21 +228,23 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form type="submit">
-                                                                    <select name="playlistlist" id="playlistlist">
-                                                                        <?php
 
+                                                                    <input type="hidden" id="musics_id" name="musics_id" value="<?= $musica->id ?>">
+                                                                    <select name="playlists_id" id="playlists_id">
+                                                                        <?php
                                                                         foreach($playlistsUserLogado as $playlist) { ?>
-                                                                            <option value="<?= $playlist['nome'] ?>"><?= $playlist['nome'] ?></option>
+                                                                            <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
                                                                             <?php
                                                                         } ?>
                                                                     </select>
-                                                                </form>
+
+
 
                                                             </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary " data-dismiss="modal">Add to this playlist</button>
+                                                            <div class="modal-footer textAlignRight">
+                                                                <input class="btn btn-primary" type="submit" value="Add to this playlist">
                                                             </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>

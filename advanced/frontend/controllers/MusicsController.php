@@ -51,7 +51,7 @@ class MusicsController extends Controller
     {
 
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
-        $playlistsUserLogado = $this->getPlaylistsDoUser();
+
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $currentUser = $this->getCurrentUser();
@@ -63,6 +63,7 @@ class MusicsController extends Controller
         }
 
         if(!is_null($currentUser)){
+            $playlistsUserLogado = $this->getPlaylistsDoUser();
             if(!is_null($serchedMusicsWithProducer)){
                 if(!empty($this->getMusicasCompradasdoUserLogado())){
                     $musicasCompradasPeloUser = $this->putProducersInMusicsProcuradas($this->getMusicasCompradasdoUserLogado());
@@ -119,10 +120,14 @@ class MusicsController extends Controller
             'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-            'playlistsUserLogado' => $playlistsUserLogado,
         ]);
         
     }
+
+
+
+
+
 
 
     public function getMusicasCompradasdoUserLogado(){
@@ -632,8 +637,22 @@ class MusicsController extends Controller
 
 
 
+    public $modelClass = 'common\models\Musics';
+    public $userProvider = 'common\models\User';
 
 
-
+    // TESTES PARA A API
+    public function actionMusicswithproducer(){
+        $models = $this->modelClass::find()->all();
+        foreach ($models as $music) {
+            foreach ($music->profiles as $profile) {
+                $user = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+                $music->producerOfThisSong = $user->username;
+            }
+        }
+        
+        BaseVarDumper::dump($models);
+        die();
+    }
 
 }

@@ -51,5 +51,10 @@ return [
         ],*/    
         
     ],
+    'modules' => [
+        'v1' => [
+            'class' => 'common\modules\v1\Module',
+        ],
+    ],
     'params' => $params,
 ];
