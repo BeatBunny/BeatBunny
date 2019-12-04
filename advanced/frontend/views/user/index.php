@@ -356,7 +356,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
                 <?php
-                if (isset($playlistsUserLogado)) {
+                if (!isset($playlistsUserLogado)) {
                     foreach ($playlistsUserLogado as $playlist) {
                         ?>
                         <?php
@@ -398,7 +398,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
 
                     <?php }
-                }?>
+                } else{?>
+                <div class="textAlignCenter">
+                    <p class="textAlignCenter">You haven't created a playlist yet? You can do it here!</p>
+                    <?php echo Html::a('Create a playlist!', Url::toRoute(['/playlists/create']), ['class' => 'btn btn-default'])?>
+                </div>
+                <?php
+                } ?>
 
 
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
