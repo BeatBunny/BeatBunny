@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\PlaylistsHasMusics;
+use common\models\ProfileHasPlaylists;
 use Faker\Provider\Base;
 use common\models\Musics;
 use Yii;
@@ -100,11 +101,18 @@ class PlaylistsController extends Controller
      */
     public function actionCreate()
     {
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser= $this->getCurrentUser();
         $model = new Playlists();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $profileHasPlaylists = new ProfileHasPlaylists();
+            $profileHasPlaylists->playlists_id = $model->id;
+            $profileHasPlaylists->profile_id = $currentProfile->id;
+            $profileHasPlaylists->save();
+            return $this->redirect(['playlists/index']);
         }
+
 
         return $this->render('create', [
             'model' => $model,
