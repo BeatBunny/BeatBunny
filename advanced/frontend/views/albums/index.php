@@ -48,12 +48,14 @@ if($currentProfile->isprodutor=="S") {
                                     <div class="col-lg-12"><?= $album->title ?></div>
                                     <div class="col-lg-12"><?= $album->launchdate ?></div>
                                     <div class="row  buttonAlignCenter">
-                                        <button class="btn btn-default  marginTop2Percent" type="button" data-toggle="collapse" data-target="#collapseAlbum<?php echo $counterAlbum ?>" aria-expanded="false" aria-controls="collapseExample">
-                                            See musics
-                                        </button>
+                                        <?php if (count($album->musics)!=null)
+                                            echo '<button class="btn btn-default  marginTop2Percent" type="button" data-toggle="collapse" data-target="#collapseAlbum'.$counterAlbum.'" aria-expanded="false" aria-controls="collapseExample">
+                                            See musics</button>';?>
                                         <?= Html::a('Edit Album', Url::toRoute(['albums/update', 'id'=>$album->id]), ['class' => 'btn btn-default marginTop2Percent ']); ?>
-                                        <?= Html::a('Delete', ['/albums/delete', 'id'=>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'post']) ?>
-                                </div>
+                                        <?= Html::a('Delete Album', ['/albums/delete', 'id'=>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'post']) ?>
+                                        <?php if (count($album->musics)!=null)
+                                            echo Html::a('Delete All Musics', ['/albums/deleteallmusic', 'album' =>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']) ?>
+                                    </div>
                                 </div>
                                 <div class="col-lg-10 collapse" id="collapseAlbum<?= $counterAlbum ?>">
                                     <?php
@@ -91,6 +93,7 @@ if($currentProfile->isprodutor=="S") {
                                                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal<?=$counterLyrics?>">
                                                                     See Lyrics
                                                                 </button>
+                                                                <?= Html::a('Delete', ['/albums/musicdel', 'album' =>$album->id, 'music' =>$music->id], ['class' => 'btn btn-default', 'data-method'=>'delete']) ?>
                                                             </div>
                                                         </div>
                                                     </div>

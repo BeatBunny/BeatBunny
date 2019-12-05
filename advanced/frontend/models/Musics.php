@@ -94,7 +94,7 @@ class Musics extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAlbums()
+    public function getAlbum()
     {
         return $this->hasOne(Albums::className(), ['id' => 'albums_id']);
     }

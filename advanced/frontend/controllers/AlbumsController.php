@@ -15,7 +15,6 @@ use common\models\User;
 use common\models\Profile;
 use common\models\ProfileHasMusics;
 use common\models\ProfileHasAlbums;
-use frontend\controllers\ProfileHasAlbumsController;
 use common\models\Genres;
 use common\models\Musics;
 
@@ -39,7 +38,7 @@ class AlbumsController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdelete'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdel','deleteallmusic'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -292,24 +291,30 @@ class AlbumsController extends Controller
     /**
      * Deletes an existing Albums model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @param $music_id
+     * @param $album
+     * @param $music
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
+     * @throws \Throwable
      */
-//        public function actionMusicdelete($album, $music)
-//    {
-//        $currentAlbum = $this->findModel($album)->id;
-//        $currentPrifile= $this->getCurrentProfile();
-//        $currentMusic=  $this->findModel($music_id)->id;
-//        $delFromProfile = ProfileHasMusics::find()->where(['musics_id' => $currentMusic])->one()->delete();
-//        $delFromMusics= Yii::$app->db->createCommand()->delete('musics',['albums_id'=>$currentAlbum])->execute();
-//        $connect=Yii::$app->db->createCommand('Insert into profile_has_musics where profile_id'==$currentPrifile)->execute();
-//        BaseVarDumper::dump($delFromMusics);
-//        die();
-//        return $this->redirect(['index']);
-//    }
+
+    public function actionMusicdel($album, $music)
+    {
+            $getOneMusicFromAll=Musics::find($music)->one();
+            $getAlbumId=$this->findModel($album)->id;
+            $currentMusic=Musics::find($getOneMusicFromAll)->where(['albums_id' => $getAlbumId])->one();
+            $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
+            return $this->redirect(['index']);
+    }
+    public function actionDeleteallmusic($album){
+        $albums=$this->findModel($album)->id;
+        $allMusic=Musics::find()->where(['albums_id' => $albums])->all();
+        foreach ($allMusic as $currentMusic)
+            $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
+        return $this->redirect(['index']);
+    }
     public function actionDelete($id)
     {
         $currentAlbum = $this->findModel($id)->id;
