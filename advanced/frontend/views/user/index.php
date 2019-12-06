@@ -355,6 +355,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-6 ">
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
+
+                <br>
                 <?php
                 if (!isset($playlistsUserLogado)) {
                     foreach ($playlistsUserLogado as $playlist) {

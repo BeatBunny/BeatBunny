@@ -37,7 +37,7 @@ class PlaylistsController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete','addsong'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete','musicdel','addsong'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -179,8 +179,11 @@ class PlaylistsController extends Controller
                 return $this->goBack();
             }
         }
+        $currentPlaylist = $this->findModel($id)->id;
+        if(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one() != null)
+            $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()->delete();
+        //$playlistToDelete->unlink();
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 
@@ -264,6 +267,16 @@ class PlaylistsController extends Controller
         $playlistsHasMusics->save();
 
         return $this->redirect(['musics/index']);
+    }
+
+    public function actionMusicdel($musics_id, $playlists_id)
+    {
+        $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
+        $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
+        PlaylistsHasMusics::find($modelMusics)->where(['playlists_id' => $modelPlaylists])->one()->delete();
+//        $deleteMusic=$modelMusics->unlink('musics',$currentMusic, $delete=true);
+
+        return $this->redirect(['index']);
     }
 
 

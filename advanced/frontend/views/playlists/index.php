@@ -27,7 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
     die();*/
     ?>
     <div class="row borderTopBlack">
+
         <div class="col-lg-12 ">
+
             <div class="row">
                 <div class="col-lg-8 textAlignLeft"><h2><?php echo $playlist->nome?></h2></div>
             </div>
@@ -53,12 +55,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if(empty($playlist->musics)) {
         echo Html::a('Go add songs to your playlist', Url::toRoute(['/musics/index']), ['class' => 'btn btn-default']);
+        echo Html::a('Delete playlist', ['/playlists/delete', 'id' =>$playlist->id], ['class' => 'btn btn-success', 'data-method'=>'post']);
         echo '<br><br>';
         }
     else { ?>
     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsePlaylist<?php echo $counter ?>" aria-expanded="false" aria-controls="collapseExample">
         Open playlist
     </button>
+    <?php echo Html::a('Delete playlist', ['/playlists/delete', 'id' =>$playlist->id], ['class' => 'btn btn-success', 'data-method'=>'post']) ?>
     <br>
     <div class="collapse" id="collapsePlaylist<?php echo $counter; ?>">
         <?php foreach ($playlist->musics as $music) { ?>
@@ -96,8 +100,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             } ?> style="width: 100%"></audio>
                         <div class="col-lg-12">&nbsp;</div>
                         <div class="col-lg-12 textAlignCenter">
-                        <?php if (!Yii::$app->user->isGuest) { ?>
-                            <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Remove from this playlist</a></button>
+                        <?php if (!Yii::$app->user->isGuest) {
+                             echo Html::a('Delet from Playlis', ['/playlists/musicdel', 'playlists_id' =>$playlist->id, 'musics_id'=>$music->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']);
+                            ?>
+
+<!--                            <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Remove from this playlist</a></button>-->
                         <?php }else { ?>
                             <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
                         <?php } ?>
@@ -114,3 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <br>
     <?php } ?>
 <?php } ?>
+
+    <div class="row">
+        <?php echo Html::a('Create a playlist!', Url::toRoute(['/playlists/create']), ['class' => 'btn btn-info '])?>
+    </div>
