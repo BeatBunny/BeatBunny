@@ -54,7 +54,7 @@ if($currentProfile->isprodutor=="S") {
                                         <?= Html::a('Edit Album', Url::toRoute(['albums/update', 'id'=>$album->id]), ['class' => 'btn btn-default marginTop2Percent ']); ?>
                                         <?= Html::a('Delete Album', ['/albums/delete', 'id'=>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'post']) ?>
                                         <?php if (count($album->musics)!=null)
-                                            echo Html::a('Delete All Musics', ['/albums/deleteallmusic', 'album' =>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']) ?>
+                                        echo Html::a('Delete All Musics', ['/albums/deleteallmusic', 'album' =>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']) ?>
                                     </div>
                                 </div>
                                 <div class="col-lg-10 collapse" id="collapseAlbum<?= $counterAlbum ?>">

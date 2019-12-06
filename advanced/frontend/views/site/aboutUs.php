@@ -19,10 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 Hey! I'm Oleksandr Oliynyk currently a finalist in Leiria's Polytechnic Institute (IPL).
             </p>
             <p>
-                I’m the Slav member of this group, that enjoys sports and listening to some good music, that was one of reasons that made me take part of this project.
-            </p><p>
-
+             I confess that music takes big part of my life, since i'm able to listen all kind of music, depending of mood that i'm on. That was one of the reasons that made me take part of this project.
             </p>
+            <p>
+                Working whit Yii2 was an interesting experience, more likely process of trial and error, since we didn't had much experience on this kind of platform.
+            </p>
+            <p>At the end of the day we managed to perform well overcoming all difficulties and land our objectives</p>
         </div>
         <div class="col-md-4 centerThemBitches">
             <span class="userImage"><?= Html::img('@web/images/about-us/ricardo.png', ['alt'=>"User"],[ "id"=>"userImage"]); ?></span>

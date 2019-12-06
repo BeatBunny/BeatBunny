@@ -12,6 +12,7 @@ use common\models\Albums;
 use common\models\Musics;
 use common\models\Iva;
 use common\models\SearchMusics;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -34,6 +35,7 @@ class MusicsController extends Controller
     public function behaviors()
     {
         return [
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -120,7 +122,6 @@ class MusicsController extends Controller
             'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-            'playlistsUserLogado' => $playlistsUserLogado,
         ]);
         
     }

@@ -37,7 +37,7 @@ class PlaylistsController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete','addsong'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -58,6 +58,15 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'client') {
+                break;
+            } else {
+                return $this->goBack();
+            }
+        }
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
         $playlistHasMusics = new PlaylistsHasMusics();
@@ -66,7 +75,6 @@ class PlaylistsController extends Controller
 
             $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
         }
-        $currentUser = $this->getCurrentUser();
         $searchModel = new SearchPlaylists();
 
         return $this->render('index', [
@@ -101,10 +109,17 @@ class PlaylistsController extends Controller
      */
     public function actionCreate()
     {
-        $currentProfile = $this->getCurrentProfile();
         $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'client') {
+                break;
+            } else {
+                return $this->goBack();
+            }
+        }
+        $currentProfile = $this->getCurrentProfile();
         $model = new Playlists();
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $profileHasPlaylists = new ProfileHasPlaylists();
             $profileHasPlaylists->playlists_id = $model->id;
@@ -128,6 +143,15 @@ class PlaylistsController extends Controller
      */
     public function actionUpdate($id)
     {
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'client') {
+                break;
+            } else {
+                return $this->goBack();
+            }
+        }
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -146,6 +170,15 @@ class PlaylistsController extends Controller
      */
     public function actionDelete($id)
     {
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'client') {
+                break;
+            } else {
+                return $this->goBack();
+            }
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -156,7 +189,7 @@ class PlaylistsController extends Controller
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
      * @return Playlists the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException if the model cannot be founds
      */
     protected function findModel($id)
     {
@@ -209,7 +242,15 @@ class PlaylistsController extends Controller
     }
 
     public function actionAddsong($musics_id, $playlists_id) {
-
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'client') {
+                break;
+            } else {
+                return $this->goBack();
+            }
+        }
         $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
 
         $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();

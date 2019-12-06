@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\BaseVarDumper;
@@ -60,6 +61,15 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->goBack();
+            }
+        }
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
         if(empty($currentProfile->albums)){
@@ -88,9 +98,6 @@ class AlbumsController extends Controller
         }
         return $albumsFromCurrentProfile;
     }
-
-
-
 
     public function getMusicasComProdutorReturnsArray(){
         $profileHasMusics = ProfileHasMusics::find()->all();
@@ -190,61 +197,69 @@ class AlbumsController extends Controller
      */
     public function actionCreate()
     {
-        $currentProfile = $this->getCurrentProfile();
-        $currentUser= $this->getCurrentUser();
-        $roles =Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if($role->name === 'producer'){
-                break;
+            $currentProfile = $this->getCurrentProfile();
+            $currentUser = $this->getCurrentUser();
+            $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+            foreach ($roles as $role) {
+                if ($role->name === 'producer') {
+                    break;
+                } else {
+                    return $this->redirect(['albums/index']);
+                }
             }
-            else{
+            $model = new Albums();
+            $allgenres = Genres::find()->all();
+
+            if ($model->load(Yii::$app->request->post())) {
+
+                $path = "uploads/";
+                if (!file_exists($path))
+                    mkdir($path, 0777, true);
+
+                $getImageFile = \yii\web\UploadedFile::getInstance($model, 'albumcover');
+
+                if (!empty($getImageFile))
+                    $model->albumcover = $getImageFile;
+                else
+                    return $this->render('augment');
+
+                if (!file_exists($path . $currentUser->id))
+                    mkdir($path . $currentUser->id, 0777, true);
+
+                $pathToAlbumCover = $path . $currentUser->id . "/";
+                $model->albumcover = $pathToAlbumCover;
+
+                $model->launchdate = date("Y/m/d");
+                if ($model->save()) {
+                    if (!empty($getImageFile)) {
+                        $getImageFile->saveAs($pathToAlbumCover . "albumcover_" . $model->id . "." . $getImageFile->extension);
+                    }
+                    $profileHasAlbums = new ProfileHasAlbums();
+                    $profileHasAlbums->albums_id = $model->id;
+                    $profileHasAlbums->profile_id = $currentProfile->id;
+                    $profileHasAlbums->save();
+                }
+
                 return $this->redirect(['albums/index']);
             }
-        }
-        $model = new Albums();
-        $allgenres = Genres::find()->all();
 
-        if ($model->load(Yii::$app->request->post())) {
-
-            $path = "uploads/";
-            if (!file_exists($path))
-                mkdir($path, 0777, true);
-
-            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'albumcover');
-
-            if (!empty($getImageFile))
-                $model->albumcover = $getImageFile;
-            else
-                return $this->render('augment');
-
-            if (!file_exists($path .$currentUser->id))
-                mkdir($path .$currentUser->id, 0777, true);
-
-            $pathToAlbumCover = $path . $currentUser->id ."/";
-            $model->albumcover = $pathToAlbumCover;
-
-            $model->launchdate = date("Y/m/d");
-            if($model->save()){
-                if(!empty($getImageFile)) {
-                    $getImageFile->saveAs($pathToAlbumCover . "albumcover_" . $model->id . "." . $getImageFile->extension);
-                }
-                $profileHasAlbums = new ProfileHasAlbums();
-                $profileHasAlbums->albums_id = $model->id;
-                $profileHasAlbums->profile_id = $currentProfile->id;
-                $profileHasAlbums->save();
-            }
-
-            return $this->redirect(['albums/index']);
-        }
-
-        return $this->render('create', [
-            'allgenres' => $allgenres,
-            'currentProfile' =>$currentProfile,
-            'model' => $model,
-        ]);
+            return $this->render('create', [
+                'allgenres' => $allgenres,
+                'currentProfile' => $currentProfile,
+                'model' => $model,
+            ]);
     }
 
     public function actionEdit(){
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->redirect(['albums/index']);
+            }
+        }
         $currentProfile= $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
         $model = $currentProfile->albums();
@@ -261,6 +276,14 @@ class AlbumsController extends Controller
     {
         $currentUser = $this->getCurrentUser();
         $currentProfile= $this->getCurrentProfile();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->redirect(['albums/index']);
+            }
+        }
         $albumsFromCurrentProfile = $currentProfile->albums;
         $modelGenres = Genres::find()->all();
         $model = $this->findModel($id);
@@ -302,6 +325,15 @@ class AlbumsController extends Controller
 
     public function actionMusicdel($album, $music)
     {
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->redirect(['albums/index']);
+            }
+        }
             $getOneMusicFromAll=Musics::find($music)->one();
             $getAlbumId=$this->findModel($album)->id;
             $currentMusic=Musics::find($getOneMusicFromAll)->where(['albums_id' => $getAlbumId])->one();
@@ -309,6 +341,15 @@ class AlbumsController extends Controller
             return $this->redirect(['index']);
     }
     public function actionDeleteallmusic($album){
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->redirect(['albums/index']);
+            }
+        }
         $albums=$this->findModel($album)->id;
         $allMusic=Musics::find()->where(['albums_id' => $albums])->all();
         foreach ($allMusic as $currentMusic)
@@ -317,6 +358,15 @@ class AlbumsController extends Controller
     }
     public function actionDelete($id)
     {
+        $currentUser= $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->redirect(['site/index']);
+            }
+        }
         $currentAlbum = $this->findModel($id)->id;
         $profileHasAlbumAlbumid = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
         $this->findModel($id)->delete();
