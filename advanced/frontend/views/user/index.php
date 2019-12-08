@@ -9,11 +9,9 @@ use yii\helpers\BaseVarDumper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchUser */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Your Profile';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
 <div class="user-index">
     <div class="row">
         <div class="col-lg-12">  
@@ -184,7 +182,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     </div>
                                                 </div>
                                                 <div class="row marginTop2Percent">
-                                                    <div class="col-lg-12 "><?php echo Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                                    <div class="col-lg-12 "><?= Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                                        <?= Html::a('Delete Music', ['/user/musicdelete', 'id'=>$musica->id], ['class' => 'btn btn-default', 'data-method'=>'delete']) ?>
                                                     </div>
                                                 </div>
                                             </div>

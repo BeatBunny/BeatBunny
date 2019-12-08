@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use Behat\Gherkin\Exception\Exception;
+use common\models\PlaylistsHasMusics;
 use Yii;
 use common\models\User;
 use common\models\Profile;
@@ -615,10 +617,9 @@ class MusicsController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
         //$this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

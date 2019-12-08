@@ -12,6 +12,11 @@ use common\widgets\Alert;
 use yii\helpers\Url;
 
 AppAsset::register($this);
+$isProducer=false;
+$checkRole=Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+foreach ($checkRole as $curentRole)
+    if($curentRole->name ==='producer')
+        $isProducer=true;
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -66,7 +71,6 @@ AppAsset::register($this);
         ['label' => 'Music', 'url' => ['/musics/index']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
-        ['label' => 'Albums', 'url' => ['/albums/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -78,13 +82,14 @@ AppAsset::register($this);
         $menuItems[] = '<div class="dropdown"><a href="'.Url::toRoute(['/user/index']).'">
                             <button class="dropbtn">Profile</button></a>
                             <ul class="dropdown-content">
-                                <li><a href="'.Url::toRoute(['/user/settings']).'">Settings</a></li>
-                                
-                                <li><a href="'.Url::toRoute(['/playlists/index']).'">Playlists</a></li>
-                                
-                                <li><a href="'. Url::toRoute(['/site/logout']) .'">Logout</a></li>
+                                   <li><a href="'.Url::toRoute(['/playlists/index']).'">Playlists</a></li>                                
+                                   <li><a href="'.Url::toRoute(['/user/settings']).'">Settings</a></li>
+                                   <li><a href="'. Url::toRoute(['/site/logout']) .'">Logout</a></li>
                             </ul>
                         </div>';
+        if($isProducer==true)
+            $menuItems[] = ['label' => 'Albums', 'url' => ['/albums/index']];
+
         $menuItems[] = ['label' => 'My Stuff', 'url' => ['/user/index']];
     }
     echo Nav::widget([

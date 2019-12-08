@@ -6,6 +6,8 @@ use common\models\Musics;
 use common\models\PlaylistsHasMusics;
 use frontend\controllers\PlaylistsController;
 use common\models\User;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\helpers\BaseVarDumper;
 use yii\web\NotFoundHttpException;
@@ -22,20 +24,34 @@ use common\models\Linhavenda;
 class UserController extends Controller
 {
 
-    // /**
-    //  * {@inheritdoc}
-    //  */
-    // public function behaviors()
-    // {
-    //     return [
-    //         'verbs' => [
-    //             'class' => VerbFilter::className(),
-    //             'actions' => [
-    //                 'delete' => ['POST'],
-    //             ],
-    //         ],
-    //     ];
-    // }
+     /**
+      * {@inheritdoc}
+      */
+     public function behaviors()
+     {
+         return [
+                 'access' => [
+                     'class' => AccessControl::className(),
+                     'rules' => [
+                         [
+                             'actions' => ['login', 'error'],
+                             'allow' => true,
+                         ],
+                         [
+                             'actions' => ['logout', 'index', 'view', 'create', 'update', 'settings','musicdelete'],
+                             'allow' => true,
+                             'roles' => ['@'],
+                         ],
+                     ],
+                 ],
+             'verbs' => [
+                 'class' => VerbFilter::className(),
+                 'actions' => [
+                     'delete' => ['POST'],
+                 ],
+             ],
+         ];
+     }
 
     // /**
     //  * Lists all User models.
@@ -416,8 +432,8 @@ class UserController extends Controller
     //GUARDAR SETTINGS
     public function actionSettings()
     {
-        $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
+        $currentProfile = $this->getCurrentProfile();
         if ($currentProfile->load(Yii::$app->request->post())) {
             $path = "uploads/";
             if (!file_exists($path))
@@ -439,6 +455,33 @@ class UserController extends Controller
 //        $currentUser->password = md5($currentUser->new_password);
         $currentUser->save();
         return $this->render('settings', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile]);
+    }
+
+    public function actionMusicdelete($id)
+    {
+        $currentUser = $this->getCurrentUser();
+        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+        foreach ($roles as $role) {
+            if ($role->name === 'producer') {
+                break;
+            } else {
+                return $this->redirect(['index']);
+            }
+        }
+        $getCurrentProfile= $this->getCurrentProfile();
+        $getCurrentMusic=Musics::find($id)->one();
+        $verificarNaPlaylist= PlaylistsHasMusics::find($getCurrentMusic)->one();
+        $verificarNaLinhaVenda=Linhavenda::find($getCurrentMusic)->one();
+        if(count($verificarNaLinhaVenda)!=null)
+        {
+            return $this->render('index');
+        }
+        if(count($verificarNaPlaylist)!=null) {
+            $delMusicPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
+        }
+        $delMusicProfile = ProfileHasMusics::find($getCurrentProfile)->where(['musics_id' => $getCurrentMusic])->one()->delete();
+        $delMusic = Musics::find($getCurrentMusic)->one()->delete();
+        return $this->redirect(['index']);
     }
 }
 

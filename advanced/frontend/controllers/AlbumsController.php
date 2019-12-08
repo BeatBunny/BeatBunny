@@ -67,7 +67,7 @@ class AlbumsController extends Controller
             if ($role->name === 'producer') {
                 break;
             } else {
-                return $this->goBack();
+                return $this->redirect(['site/index']);
             }
         }
         $currentProfile = $this->getCurrentProfile();
@@ -204,7 +204,7 @@ class AlbumsController extends Controller
                 if ($role->name === 'producer') {
                     break;
                 } else {
-                    return $this->redirect(['albums/index']);
+                    return $this->redirect(['index']);
                 }
             }
             $model = new Albums();
@@ -257,7 +257,7 @@ class AlbumsController extends Controller
             if ($role->name === 'producer') {
                 break;
             } else {
-                return $this->redirect(['albums/index']);
+                return $this->redirect(['index']);
             }
         }
         $currentProfile= $this->getCurrentProfile();
@@ -281,7 +281,7 @@ class AlbumsController extends Controller
             if ($role->name === 'producer') {
                 break;
             } else {
-                return $this->redirect(['albums/index']);
+                $this->redirect(['index']);
             }
         }
         $albumsFromCurrentProfile = $currentProfile->albums;
@@ -331,11 +331,11 @@ class AlbumsController extends Controller
             if ($role->name === 'producer') {
                 break;
             } else {
-                return $this->redirect(['albums/index']);
+                return $this->redirect(['index']);
             }
         }
-            $getOneMusicFromAll=Musics::find($music)->one();
             $getAlbumId=$this->findModel($album)->id;
+            $getOneMusicFromAll=Musics::find($music)->one();
             $currentMusic=Musics::find($getOneMusicFromAll)->where(['albums_id' => $getAlbumId])->one();
             $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
             return $this->redirect(['index']);
@@ -347,7 +347,7 @@ class AlbumsController extends Controller
             if ($role->name === 'producer') {
                 break;
             } else {
-                return $this->redirect(['albums/index']);
+                return $this->redirect(['index']);
             }
         }
         $albums=$this->findModel($album)->id;
@@ -364,11 +364,11 @@ class AlbumsController extends Controller
             if ($role->name === 'producer') {
                 break;
             } else {
-                return $this->redirect(['site/index']);
+                return $this->redirect(['index']);
             }
         }
         $currentAlbum = $this->findModel($id)->id;
-        $profileHasAlbumAlbumid = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
+        $profileHasAlbumAlbumDelete = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
         $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
