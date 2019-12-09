@@ -19,6 +19,7 @@ use yii\helpers\BaseVarDumper;
 use yii\web\UploadedFile;
 use common\models\Venda;
 use common\models\Linhavenda;
+use yii\helpers\BaseUrl;
 
 
 /**
@@ -57,8 +58,12 @@ class MusicsController extends Controller
         $currentUser = $this->getCurrentUser();
         
         $serchedMusicsWithProducer = null;
-        if(!is_null($searchModel->title)){
-            $searchedMusics = Musics::find()->where("title LIKE '%".$searchModel->title."%'")->all();
+        if(!is_null($searchModel->title) && !empty($searchModel->title)){
+            $musicWithTitlesToLower = null;
+            foreach ($allTheMusicsWithProducer as $music) {
+                $music->title = strtolower($music->title);
+            }
+            $searchedMusics = Musics::find()->where("lower(title) LIKE '%".strtolower($searchModel->title)."%'")->all();
             $serchedMusicsWithProducer = $this->putProducersInMusicsProcuradas($searchedMusics);
         }
 
@@ -653,7 +658,7 @@ class MusicsController extends Controller
             }
         }
         
-        BaseVarDumper::dump($models);
+        BaseVarDumper::dump(BaseUrl::base());
         die();
     }
 

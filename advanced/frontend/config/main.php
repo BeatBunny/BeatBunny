@@ -11,6 +11,11 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'v1' => [
+            'class' => 'backend\modules\v1\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -50,11 +55,6 @@ return [
             ),
         ],*/    
         
-    ],
-    'modules' => [
-        'v1' => [
-            'class' => 'common\modules\v1\Module',
-        ],
     ],
     'params' => $params,
 ];
