@@ -217,9 +217,15 @@ if(isset($popup)){
                                                 <audio id="player" controls  <?php echo 'src="'.Yii::getAlias('@web').'/'.$musica->musicpath.'/music_'.$musica->id.'_'.$musica->title.'.mp3"';?> style="width: 100%"></audio>
                                                 <!-- controlsList="nodownload" -->
                                                 <div class="col-lg-12 textAlignCenter">
-                                                    <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModal<?=$i?>">
-                                                        Add to one of your playlists
-                                                    </button>
+                                                    <?php if(isset($playlistsUserLogado)) { ?>
+                                                        <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModal<?=$i?>">
+                                                            Add to one of your playlists
+                                                        </button>
+                                                    <?php } else { ?>
+                                                        <button type="button" class="btn btn-default " title="Create playlist to be able to add this song to one" disabled="disabled" data-toggle="modal" data-target="#exampleModal<?=$i?>">
+                                                            Add to one of your playlists
+                                                        </button>
+                                                    <?php } ?>
                                                 </div>
                                                 <div class="modal fade textAlignCenter" id="exampleModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
