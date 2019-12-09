@@ -39,7 +39,7 @@ class AlbumsController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdel','deleteallmusic'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdel'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -340,22 +340,14 @@ class AlbumsController extends Controller
             $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
             return $this->redirect(['index']);
     }
-    public function actionDeleteallmusic($album){
-        $currentUser= $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'producer') {
-                break;
-            } else {
-                return $this->redirect(['index']);
-            }
-        }
+    
+    public function dellAllMusic($album){
         $albums=$this->findModel($album)->id;
         $allMusic=Musics::find()->where(['albums_id' => $albums])->all();
         foreach ($allMusic as $currentMusic)
             $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
-        return $this->redirect(['index']);
     }
+
     public function actionDelete($id)
     {
         $currentUser= $this->getCurrentUser();
@@ -368,6 +360,7 @@ class AlbumsController extends Controller
             }
         }
         $currentAlbum = $this->findModel($id)->id;
+        $deleteAllMusicsOnAlbum=$this->dellAllMusic($id);
         $profileHasAlbumAlbumDelete = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
         $this->findModel($id)->delete();
         return $this->redirect(['index']);

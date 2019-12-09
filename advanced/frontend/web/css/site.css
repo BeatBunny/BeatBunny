@@ -442,6 +442,16 @@ h2{
 .buttonAlignCenter{
     text-align: center;
 }
+.eyeColorBlue{
+    color: #337ab7;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+.eyeColorBlue:hover{
+    color: #23527C;
+
+}
 .searchButton{
     background-color: #0099ff;
     border: none;

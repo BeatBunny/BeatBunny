@@ -464,17 +464,22 @@ class UserController extends Controller
         foreach ($roles as $role) {
             if ($role->name === 'producer') {
                 break;
-            } else {
-                return $this->redirect(['index']);
+            } else{
+                return $this->goBack();
             }
         }
+        $musicsFromProducerWithUsername = $this->meterUsernameNoCampoProducer();
+        $playlistsUserLogado = $this->getPlaylistsDoUser();
+        $numberOfSongsYouHave = count($musicsFromProducerWithUsername);
         $getCurrentProfile= $this->getCurrentProfile();
         $getCurrentMusic=Musics::find($id)->one();
         $verificarNaPlaylist= PlaylistsHasMusics::find($getCurrentMusic)->one();
         $verificarNaLinhaVenda=Linhavenda::find($getCurrentMusic)->one();
         if(count($verificarNaLinhaVenda)!=null)
         {
-            return $this->render('index');
+            $popup=true;
+            return $this->render('index',['popup'=>$popup, 'profileProvider'=>$getCurrentProfile,'userProvider' => $currentUser,'numberOfSongsYouHave' => $numberOfSongsYouHave,'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'playlistsUserLogado' => $playlistsUserLogado]);
+
         }
         if(count($verificarNaPlaylist)!=null) {
             $delMusicPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
