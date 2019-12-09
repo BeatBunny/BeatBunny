@@ -18,6 +18,7 @@ if($currentProfile->isprodutor=="S") {
     $addAlbum="";
     $produtor=false;
 }
+
 ?>
 <div class="musics-index">
     <div class="row">
@@ -48,13 +49,15 @@ if($currentProfile->isprodutor=="S") {
                                     <div class="col-lg-12"><?= $album->title ?></div>
                                     <div class="col-lg-12"><?= $album->launchdate ?></div>
                                     <div class="row  buttonAlignCenter">
+                                        <div class="col-lg-12">
                                         <?php if (count($album->musics)!=null)
-                                            echo '<button class="btn btn-default  marginTop2Percent" type="button" data-toggle="collapse" data-target="#collapseAlbum'.$counterAlbum.'" aria-expanded="false" aria-controls="collapseExample">
-                                            See musics</button>';?>
-                                        <?= Html::a('Edit Album', Url::toRoute(['albums/update', 'id'=>$album->id]), ['class' => 'btn btn-default marginTop2Percent ']); ?>
-                                        <?= Html::a('Delete Album', ['/albums/delete', 'id'=>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'post']) ?>
-                                        <?php if (count($album->musics)!=null)
-                                        echo Html::a('Delete All Musics', ['/albums/deleteallmusic', 'album' =>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']) ?>
+                                            echo '<span class="glyphicon glyphicon-eye-open eyeColorBlue" type="button" data-toggle="collapse" data-target="#collapseAlbum'.$counterAlbum.'" aria-expanded="false" aria-controls="collapseExample">
+                                           </span>';?>
+                                        <?= Html::a(null, Url::toRoute(['albums/update', 'id'=>$album->id]), ['class' => 'glyphicon glyphicon-pencil']); ?>
+                                      <?= Html::a(null, ['/albums/delete', 'id'=>$album->id], ['class' => 'glyphicon glyphicon-trash', 'data-method'=>'post']) ?>
+<!--                                        --><?php //if (count($album->musics)!=null)
+//                                        echo Html::a('Delete All Musics', ['/albums/deleteallmusic', 'album' =>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']) ?>
+                                    </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-10 collapse" id="collapseAlbum<?= $counterAlbum ?>">

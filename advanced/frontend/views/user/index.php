@@ -11,6 +11,11 @@ use yii\helpers\BaseVarDumper;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $this->title = 'Your Profile';
 $this->params['breadcrumbs'][] = $this->title;
+if(isset($popup)){
+    if($popup==true){
+        echo'<script>alert("Music has been already sold. You cannot delete it")</script>';
+    }
+}
 ?>
 <div class="user-index">
     <div class="row">
