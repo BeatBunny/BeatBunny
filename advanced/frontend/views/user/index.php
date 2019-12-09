@@ -9,11 +9,9 @@ use yii\helpers\BaseVarDumper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\SearchUser */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = 'Your Profile';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
 <div class="user-index">
     <div class="row">
         <div class="col-lg-12">  
@@ -184,7 +182,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     </div>
                                                 </div>
                                                 <div class="row marginTop2Percent">
-                                                    <div class="col-lg-12 "><?php echo Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                                    <div class="col-lg-12 "><?= Html::a('Edit Music', Url::toRoute(['/musics/update', 'id' => $musica->id]), ['class' => 'btn btn-default'])?>
+                                                        <?= Html::a('Delete Music', ['/user/musicdelete', 'id'=>$musica->id], ['class' => 'btn btn-default', 'data-method'=>'delete']) ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -355,8 +354,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-6 ">
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
+
+                <br>
                 <?php
-                if (isset($playlistsUserLogado)) {
+                if (!isset($playlistsUserLogado)) {
                     foreach ($playlistsUserLogado as $playlist) {
                         ?>
                         <?php
@@ -398,7 +399,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
 
                     <?php }
-                }?>
+                } else{?>
+                <div class="textAlignCenter">
+                    <p class="textAlignCenter">You haven't created a playlist yet? You can do it here!</p>
+                    <?php echo Html::a('Create a playlist!', Url::toRoute(['/playlists/create']), ['class' => 'btn btn-default'])?>
+                </div>
+                <?php
+                } ?>
 
 
                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>

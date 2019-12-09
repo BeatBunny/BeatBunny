@@ -10,9 +10,8 @@ use yii\helpers\ArrayHelper;
 ?>
 <div class="albums-form">
     <?php $form = ActiveForm::begin();
-    $genresList = ArrayHelper::map($allgenres,'id','nome');  ?>
+    $genresList = ArrayHelper::map($modelGenres,'id','nome');  ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'launchdate')->textInput(['readonly' => true, 'value' => date("Y/m/d")]) ?>
     <?= $form ->field($model, 'albumcover')->fileInput()->label("Album Cover (.png)")?>
     <?= $form->field($model, 'genres_id')->dropDownList( $genresList )->label("Genre"); ?>
     <div class="form-group">

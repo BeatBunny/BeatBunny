@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use Behat\Gherkin\Exception\Exception;
+use common\models\PlaylistsHasMusics;
 use Yii;
 use common\models\User;
 use common\models\Profile;
@@ -12,6 +14,7 @@ use common\models\Albums;
 use common\models\Musics;
 use common\models\Iva;
 use common\models\SearchMusics;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,6 +38,7 @@ class MusicsController extends Controller
     public function behaviors()
     {
         return [
+
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -52,11 +56,11 @@ class MusicsController extends Controller
     {
 
         $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
-        $playlistsUserLogado = $this->getPlaylistsDoUser();
+
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $currentUser = $this->getCurrentUser();
-        
+
         $serchedMusicsWithProducer = null;
         if(!is_null($searchModel->title) && !empty($searchModel->title)){
             $musicWithTitlesToLower = null;
@@ -68,6 +72,7 @@ class MusicsController extends Controller
         }
 
         if(!is_null($currentUser)){
+            $playlistsUserLogado = $this->getPlaylistsDoUser();
             if(!is_null($serchedMusicsWithProducer)){
                 if(!empty($this->getMusicasCompradasdoUserLogado())){
                     $musicasCompradasPeloUser = $this->putProducersInMusicsProcuradas($this->getMusicasCompradasdoUserLogado());
@@ -106,7 +111,7 @@ class MusicsController extends Controller
                     ]);
                 }
                 else{
-                    
+
                     return $this->render('index', [
                         'searchModel' => $searchModel,
                         'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
@@ -124,7 +129,6 @@ class MusicsController extends Controller
             'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
             'searchModel' => $searchModel,
             'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-            'playlistsUserLogado' => $playlistsUserLogado,
         ]);
         
     }
@@ -618,10 +622,9 @@ class MusicsController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
         //$this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

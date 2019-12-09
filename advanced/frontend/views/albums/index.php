@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\BaseVarDumper;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\SearchAlbums */
@@ -10,39 +11,50 @@ use yii\helpers\BaseVarDumper;
 
 $this->title = 'Albums';
 $this->params['breadcrumbs'][] = $this->title;
-
+if($currentProfile->isprodutor=="S") {
+    $produtor=true;
+    $addAlbum= Html::a('Create Album', Url::toRoute(['albums/create']), ['class' => 'btn btn-default']);
+}else{
+    $addAlbum="";
+    $produtor=false;
+}
 ?>
 <div class="musics-index">
     <div class="row">
         <div class="col-lg-6">  
             <h1><?= Html::encode($this->title) ?></h1>
         </div>
-        <div class="col-lg-6 textAlignRight h1mf">  
-            
-            <?php /*echo $this->render('_search', [
-                'searchModel' => $searchModel,
-            ])*/ ?>
+        <div class="col-lg-6 textAlignRight h1mf">
         </div>
     </div>
     <div class="row borderTopBlack">
             <?php 
                 $counterAlbum = 0;
                 $counterLyrics = 0;
-
-                if (isset($albumsFromCurrentProfile)) {
+                if (!isset($albumsFromCurrentProfile)) {
+                    if($produtor==true) {
+                        echo '<h4>You have no albums available, do you want to create?</h4>';
+                        echo $addAlbum;
+                    }else{
+                        echo '<h4>You have no albums available</h4>';
+                    }
+                }else{
                     foreach( $albumsFromCurrentProfile as $album ){
-
                         ?>
                         <div class="col-lg-12">
                             <div class="row marginTop2Percent" id="<?= $album->id ?>">
                                 <div class="col-lg-2 userImage textAlignCenter borderRightBlack">
-                                    <?= Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]); ?>
+                                    <?= Html::img( "@web/uploads/". $currentUser->id ."/albumcover_". $album->id. '.png'); ?>
                                     <div class="col-lg-12"><?= $album->title ?></div>
                                     <div class="col-lg-12"><?= $album->launchdate ?></div>
                                     <div class="row  buttonAlignCenter">
-                                        <button class="btn btn-default marginTop2Percent" type="button" data-toggle="collapse" data-target="#collapseAlbum<?php echo $counterAlbum ?>" aria-expanded="false" aria-controls="collapseExample">
-                                            See musics
-                                        </button>
+                                        <?php if (count($album->musics)!=null)
+                                            echo '<button class="btn btn-default  marginTop2Percent" type="button" data-toggle="collapse" data-target="#collapseAlbum'.$counterAlbum.'" aria-expanded="false" aria-controls="collapseExample">
+                                            See musics</button>';?>
+                                        <?= Html::a('Edit Album', Url::toRoute(['albums/update', 'id'=>$album->id]), ['class' => 'btn btn-default marginTop2Percent ']); ?>
+                                        <?= Html::a('Delete Album', ['/albums/delete', 'id'=>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'post']) ?>
+                                        <?php if (count($album->musics)!=null)
+                                        echo Html::a('Delete All Musics', ['/albums/deleteallmusic', 'album' =>$album->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']) ?>
                                     </div>
                                 </div>
                                 <div class="col-lg-10 collapse" id="collapseAlbum<?= $counterAlbum ?>">
@@ -50,9 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     foreach ($album->musics as $music) {
                                         $counterLyrics++;
                                         ?>
-
                                         <div class="col-lg-12">
-
                                             <!-- Modal com os Lyrics -->
                                             <div class="modal fade" id="exampleModal<?=$counterLyrics?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
@@ -72,7 +82,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="col-lg-12">
                                                 <br>
                                                 <div class="row">
@@ -84,10 +93,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                                                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#exampleModal<?=$counterLyrics?>">
                                                                     See Lyrics
                                                                 </button>
+                                                                <?= Html::a('Delete', ['/albums/musicdel', 'album' =>$album->id, 'music' =>$music->id], ['class' => 'btn btn-default', 'data-method'=>'delete']) ?>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-4 borderLeftBlack borderRightBlack">
                                                         <div class="row">
                                                             <div class="col-lg-12 textAlignCenter"><h3><?= $music->title; ?></h3></div>
@@ -133,32 +142,24 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         <audio id="player" controls <?php
                                                         echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
                                                         ?> style="width: 100%"></audio>
-
                                                         <div class="col-lg-12">&nbsp;</div>
                                                         <div class="col-lg-12 textAlignCenter">
-
                                                             <button class="btn btn-default"><a href="#">Add to one of your playlists</a></button>
-
                                                         </div>
                                                     </div>
-
                                                 </div>
-
                                             </div>
-
                                         </div>
                                     <?php  } ?>
                                 </div>
-
                                 <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
-
                             </div>
                         </div>
                         <?php
                         $counterAlbum++;
                     }
-                }
-                        ?>
+                    echo $addAlbum;
+                } ?>
         </div>
     </div>
 </div>
