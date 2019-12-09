@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </button>
     <?php echo Html::a('Delete playlist', ['/playlists/delete', 'id' =>$playlist->id], ['class' => 'btn btn-success', 'data-method'=>'post']) ?>
     <br>
-    <div class="collapse" id="collapsePlaylist<?php echo $counter; ?>">
+    <div class="collapse marginTop2Percent" id="collapsePlaylist<?php echo $counter; ?>">
         <?php foreach ($playlist->musics as $music) { ?>
         <div class="row borderTopBlack">
             <div class="col-lg-12">
@@ -101,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-lg-12">&nbsp;</div>
                         <div class="col-lg-12 textAlignCenter">
                         <?php if (!Yii::$app->user->isGuest) {
-                             echo Html::a('Delet from Playlis', ['/playlists/musicdel', 'playlists_id' =>$playlist->id, 'musics_id'=>$music->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']);
+                             echo Html::a('Remove from this Playlist', ['/playlists/musicdel', 'playlists_id' =>$playlist->id, 'musics_id'=>$music->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']);
                             ?>
 
 <!--                            <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Remove from this playlist</a></button>-->
