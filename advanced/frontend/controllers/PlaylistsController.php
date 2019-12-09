@@ -180,11 +180,15 @@ class PlaylistsController extends Controller
             }
         }
         $currentPlaylist = $this->findModel($id)->id;
-        if(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one() != null)
+        BaseVarDumper::dump(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one());
+        //  die();
+        if(!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()))
             $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()->delete();
+        if(!is_null(ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()))
+            $deletePlaylistFromProfileHasPlaylists = ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()->delete();
         //$playlistToDelete->unlink();
         $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        return $this->goBack();
     }
 
     /**

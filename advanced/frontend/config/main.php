@@ -11,6 +11,11 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
+    'modules' => [
+        'v1' => [
+            'class' => 'backend\modules\v1\Module',
+        ],
+    ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
@@ -37,7 +42,7 @@ return [
             'errorAction' => 'site/error',
         ],
         
-        /*'urlManager' => [
+        'urlManager' => [
             'class' => 'yii\web\UrlManager',
             // Disable index.php
             'showScriptName' => false,
@@ -48,13 +53,8 @@ return [
                     '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                     '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
-        ],*/    
+        ],  
         
-    ],
-    'modules' => [
-        'v1' => [
-            'class' => 'common\modules\v1\Module',
-        ],
     ],
     'params' => $params,
 ];
