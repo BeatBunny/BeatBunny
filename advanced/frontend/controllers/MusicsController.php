@@ -35,8 +35,7 @@ class MusicsController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
+    public function behaviors(){
         return [
 
             'verbs' => [
@@ -55,99 +54,118 @@ class MusicsController extends Controller
     public function actionIndex()
     {
 
-        $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
+        //$allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
 
         $searchModel = new SearchMusics();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $currentUser = $this->getCurrentUser();
 
-        $serchedMusicsWithProducer = null;
+        $userProvider = $this->getCurrentUser();
+        $profileProvider = $this->getCurrentProfile();
+
+        $allMusics = Musics::find()->all();
+        $searchedMusics = null;
+
         if(!is_null($searchModel->title) && !empty($searchModel->title)){
-            $musicWithTitlesToLower = null;
-            foreach ($allTheMusicsWithProducer as $music) {
-                $music->title = strtolower($music->title);
-            }
             $searchedMusics = Musics::find()->where("lower(title) LIKE '%".strtolower($searchModel->title)."%'")->all();
-            $serchedMusicsWithProducer = $this->putProducersInMusicsProcuradas($searchedMusics);
         }
 
-        if(!is_null($currentUser)){
-            $playlistsUserLogado = $this->getPlaylistsDoUser();
-            if(!is_null($serchedMusicsWithProducer)){
-                if(!empty($this->getMusicasCompradasdoUserLogado())){
-                    $musicasCompradasPeloUser = $this->putProducersInMusicsProcuradas($this->getMusicasCompradasdoUserLogado());
+        if(!is_null($searchedMusics)){
 
-                    return $this->render('index', [
-                        'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-                        'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
-                }
-                else{
-                    
-                    return $this->render('index', [
-                        'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
+            if(!is_null($userProvider)){
+                $playlistsUserLogado = $this->getPlaylistsDoUser();
 
-                }
+                $albums = null;
+                $musics = null;
+                $playlists = null;
+                $vendas = null;
+
+                //se tem albums
+                if(!is_null($profileProvider->albums) || !empty($profileProvider->albums))
+                    $albums = $profileProvider->albums;
+                
+                //se tem musicas
+                if(!is_null($profileProvider->musics) || !empty($profileProvider->musics))
+                    $musics = $profileProvider->musics;
+                
+                //se tem playlists
+                if(!is_null($profileProvider->playlists) || !empty($profileProvider->playlists))
+                    $playlists = $profileProvider->playlists;
+                
+                //se tem vendas
+                if(!is_null($profileProvider->vendas) || !empty($profileProvider->vendas))
+                    $vendas = $profileProvider->vendas;
+
+                return $this->render('index', [
+                    'searchedMusics' => $searchedMusics,
+                    'musics' => $musics,
+                    'playlists' => $playlists,
+                    'searchModel' => $searchModel,
+                    'allMusics' => $allMusics,
+                    'userProvider' => $userProvider,
+                ]);
+
             }
             else{
-                if(!empty($this->getMusicasCompradasdoUserLogado())){
-                    $musicasCompradasPeloUser = $this->putProducersInMusics($this->getMusicasCompradasdoUserLogado());
-
-                    return $this->render('index', [
-                        'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
-                }
-                else{
-
-                    return $this->render('index', [
-                        'searchModel' => $searchModel,
-                        'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
-                        'currentUser' => $currentUser,
-                        'playlistsUserLogado' => $playlistsUserLogado,
-                    ]);
-
-                }
+                return $this->render('index', [
+                    'searchedMusics' => $searchedMusics,
+                    'searchModel' => $searchModel,
+                    'allMusics' => $allMusics,
+                ]);
             }
-                
+        }
 
+        if(!is_null($userProvider)){
+            $playlistsUserLogado = $this->getPlaylistsDoUser();
+
+            $albums = null;
+            $musics = null;
+            $playlists = null;
+            $vendas = null;
+
+            //se tem albums
+            if(!is_null($profileProvider->albums) || !empty($profileProvider->albums))
+                $albums = $profileProvider->albums;
+            
+            //se tem musicas
+            if(!is_null($profileProvider->musics) || !empty($profileProvider->musics))
+                $musics = $profileProvider->musics;
+            
+            //se tem playlists
+            if(!is_null($profileProvider->playlists) || !empty($profileProvider->playlists))
+                $playlists = $profileProvider->playlists;
+            
+            //se tem vendas
+            if(!is_null($profileProvider->vendas) || !empty($profileProvider->vendas))
+                $vendas = $profileProvider->vendas;
+
+            return $this->render('index', [
+                'searchedMusics' => $searchedMusics,
+                'albums' => $albums,
+                'musics' => $musics,
+                'playlists' => $playlists,
+                'vendas' => $vendas,
+                'searchModel' => $searchModel,
+                'allMusics' => $allMusics,
+                'userProvider' => $userProvider,
+            ]);
+
+        }
+        else{
+            return $this->render('index', [
+                'searchedMusics' => $searchedMusics,
+                'searchModel' => $searchModel,
+                'allMusics' => $allMusics,
+            ]);
         }
 
         return $this->render('index', [
-            'serchedMusicsWithProducer' => $serchedMusicsWithProducer,
             'searchModel' => $searchModel,
-            'allTheMusicsWithProducer' => $allTheMusicsWithProducer,
+            'allMusics' => $allMusics,
         ]);
+
         
     }
 
-
-
-
-
-
-
-    public function getMusicasCompradasdoUserLogado(){
-        $profileProvider = $this->getCurrentProfile();
-        $userProvider = $this->getCurrentUser();
-        $comprasDoUser = [];
-        foreach ($profileProvider->vendas as $venda) {
-            array_push($comprasDoUser, $venda->linhavendas[0]->musics);
-        }
-        return $comprasDoUser;
-    }
 
     public function getPlaylistsDoUser()
     {
@@ -162,52 +180,6 @@ class MusicsController extends Controller
         return $playlistsDoUser;
     }
 
-
-    public function putProducersInMusicsProcuradas($searchedMusics){
-
-        $allTheMusicsWithProducer = $this->converterMusicasComProducerArrayParaObject();
-
-
-        $todosOsProfiles = Profile::find()->all();
-        
-        for ($i=0; $i < count($allTheMusicsWithProducer); $i++) { 
-            foreach ($searchedMusics as $musicaProcurada) {
-                if($allTheMusicsWithProducer[$i]->id === $musicaProcurada->id){
-                    $musicaProcurada->producerOfThisSong = $allTheMusicsWithProducer[$i]->producerOfThisSong;
-                }
-            }
-        }
-
-        return $searchedMusics;
-
-    }
-
-
-
-    public function putProducersInMusics($musicasCompradas){
-
-        $profileProvider = $this->getCurrentProfile();
-        $userProvider = $this->getCurrentUser();
-
-        $todosOsProfiles = Profile::find()->all();
-
-        for ($i = 0; $i < count($todosOsProfiles); $i++) {
-            $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->user_id])->one();
-            foreach ($musicasCompradas as $musicaComprada) {
-                if($todosOsProfiles[$i]->id === $musicaComprada->id){
-                    $musicaComprada->producerOfThisSong = $thisUser->username;
-                }
-            }
-        }
-
-        return $musicasCompradas;
-
-    }
-
-
-
-
-
     /**
      * Displays a single Musics model.
      * @param integer $id
@@ -216,14 +188,15 @@ class MusicsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->redirect(['musics/index']);
+        /*return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
+        ]);*/
     }
 
     
 
-    public function actionBuymusic($id, $producerOfThisSong){
+    public function actionBuymusic($id){
 
 
         $model = $this->findModel($id);
@@ -245,7 +218,6 @@ class MusicsController extends Controller
 
             return $this->render('buymusic', [
                 'model' => $model,
-                'producerOfThisSong' => $producerOfThisSong,
                 'currentUser' => $currentUser,
                 'currentProfile' => $currentProfile,
             ]);
@@ -253,7 +225,6 @@ class MusicsController extends Controller
         else{
             return $this->render('buymusic', [
                 'model' => $model,
-                'producerOfThisSong' => $producerOfThisSong,
                 'currentUser' => $currentUser,
                 'currentProfile' => $currentProfile,
                 'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
@@ -269,8 +240,6 @@ class MusicsController extends Controller
 
         if($this->checkIfMusicIsBought($model->id))
             return $this->goBack();
-        
-
 
         $currentProfile->saldo = $currentProfile->saldo-$model->pvp;
 
@@ -278,15 +247,10 @@ class MusicsController extends Controller
         $newVenda->data = date("Y/m/d");
         $newVenda->valorTotal = $model->pvp;
         $newVenda->profile_id = $currentProfile->id;
+        $newVenda->musics_id = $model->id;
         
         $newVenda->save();
 
-        $newLinhaVenda = new Linhavenda();
-        $newLinhaVenda->precoVenda = $model->pvp;
-        $newLinhaVenda->venda_id = $newVenda->id;
-        $newLinhaVenda->musics_id = $model->id;
-        
-        $newLinhaVenda->save();
         $currentProfile->save();
 
         return $this->redirect(['/user/index']);
@@ -342,22 +306,13 @@ class MusicsController extends Controller
             $model->musicpath = $pathToSong;
             $model->musiccover = $pathToSong;
             $model->launchdate = date("Y/m/d");
+            $model->profile_id = $currentProfile->id;
             if($model->save())
             {
                 if (!empty($getMusicFile))
                     $getMusicFile->saveAs( $pathToSong . "music_" .$model->id . "_" . $model->title ."." . $getMusicFile->extension);
                 if (!empty($getImageFile))
                     $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);
-
-                $currentUser = $this->getCurrentUser();
-                $profileHasMusics = new ProfileHasMusics();
-
-                $profileHasMusics->profile_id = $currentProfile->id;
-
-                $profileHasMusics->musics_id = $model->id;
-
-                $profileHasMusics->save(); 
-
             }
 
             return $this->redirect(['user/index']);
@@ -382,147 +337,11 @@ class MusicsController extends Controller
         return $profileProvider;
     }
 
-
-    private function getProducerAlbumsIds(){
-        $profile = $this->getCurrentProfile();
-        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
-        $albums[] = null;
-        foreach ($ProfileHasAlbums as $album ) {
-            array_push($albums, $album->albums_id);
-        }
-        return $albums;
-    }
-    public function getProducerAlbums(){
-        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
-        $arrayDeAlbums = null;
-        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
-            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
-        }
-        return $arrayDeAlbums;
-    }
-
-    //GET TODAS AS MUSICAS COM PRODUTOR
-        public function getMusicasComProdutorReturnsArray(){
-            $profileHasMusics = ProfileHasMusics::find()->all();
-            $arrayComTodasAsMusicas = [];
-            $criadorDestaMusica = null;
-            $musicaDesteProfile = null;
-            array_filter($arrayComTodasAsMusicas);
-            foreach ($profileHasMusics as $phm) {
-
-                $criadorDestaMusicaProfile = Profile::find()->where(['id' => $phm->profile_id])->one();
-                $criadorDestaMusicaUser = User::find()->where(['id' => $criadorDestaMusicaProfile->user_id])->one();
-                $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
-
-                //BaseVarDumper::dump($criadorDestaMusica);
-                $musicaDesteProfile->producerOfThisSong = $criadorDestaMusicaUser->username;
-                //BaseVarDumper::dump($musicaDesteProfile);
-                array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
-                //BaseVarDumper::dump($arrayComTodasAsMusicas);
-                //echo "<br><br><br>";
-            }
-            return $arrayComTodasAsMusicas;
-        }
-
-        public function converterMusicasComProducerArrayParaObject(){
-            $todasAsMusicas = Musics::find()->all();
-
-            $todasAsMusicasArray = $this->getMusicasComProdutorReturnsArray();
-
-            
-
-            for ($i=0; $i < count($todasAsMusicasArray); $i++) { 
-                if($todasAsMusicas[$i]->id == $todasAsMusicasArray[$i]->id){
-                    $todasAsMusicas[$i]->producerOfThisSong = $todasAsMusicasArray[$i]->producerOfThisSong;
-                }
-            }
-
-            return $todasAsMusicas;
-        }
-
-
-    //GET MUSICAS DO USER LOGADO
-        public function getVendasUserLogado(){
-        $profile = $this->getCurrentProfile();
-        $vendaDoUserLogado = Venda::find()->where(['profile_id' => $profile->id])->all();
-        
-        return $vendaDoUserLogado;
-    }
-    
-
-    public function getLinhavendaUserLogado(){
-        $arrayVendasIds = $this->getVendasUserLogado();
-
-        // BaseVarDumper::dump($arrayVendasIds);
-
-        // die();
-
-        $LinhavendaUserLogado = [];
-        array_filter($LinhavendaUserLogado);
-
-        foreach ($arrayVendasIds as $venda) {
-            array_push($LinhavendaUserLogado, Linhavenda::find()->where(['venda_id' => $venda->id ])->one());
-        }
-
-
-        // BaseVarDumper::dump($LinhavendaUserLogado);
-
-        // die();
-
-        return $LinhavendaUserLogado;
-    }
-
-
-    public function getMusicasPelasLinhaDeVendaDoUserLogado(){
-        
-        $LinhavendaDoUser = $this->getLinhavendaUserLogado();
-        $musicasCompradasPeloUser = [];
-
-        for ($i=0; $i < count($LinhavendaDoUser); $i++) { 
-            array_push($musicasCompradasPeloUser, Musics::find()->where(['id' => $LinhavendaDoUser[$i]->musics_id])->one());
-        }
-
-        return $musicasCompradasPeloUser;
-
-    }
-
-    public function getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica(){
-        
-        $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogado();
-
-        $profileHasMusics = ProfileHasMusics::find()->all();
-
-        $arrayComTodasAsMusicas = [];
-        array_filter($arrayComTodasAsMusicas);
-
-        foreach ($profileHasMusics as $phm) {
-            $criadorDestaMusica = User::find()->where(['id' => $phm->profile_id])->one();
-            $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
-            $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
-            array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
-        }       
-        if(!is_null($musicasCompradasPeloUser) && !empty($musicasCompradasPeloUser)) {
-            for ($l=0; $l < count($musicasCompradasPeloUser); $l++) { 
-                
-                for ($i = 0; $i < count($arrayComTodasAsMusicas); $i++) {
-                    if($musicasCompradasPeloUser[$l]->id === $arrayComTodasAsMusicas[$i]->id){
-                        $musicasCompradasPeloUser[$l]->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
-                    }
-                }
-            }
-            return $musicasCompradasPeloUser;
-        }
-        else{
-            return null;
-        }
-    }
-
     public function checkIfMusicIsBought($id){
         $currentProfile = $this->getCurrentProfile();
         foreach ($currentProfile->vendas as $venda) 
-            foreach ($venda->linhavendas as $lv) 
-                if($lv->musics_id === $id)
-                    return true;
+            if($venda->musics_id === $id)
+                return true;
         return false;
     }
 
@@ -530,17 +349,12 @@ class MusicsController extends Controller
     public function checkIfCurrentUserIsProducer(){
         $roles = Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
         foreach ($roles as $role) {
-            if($role->name === 'producer'){
+            if($role->name === 'producer' || $role->name === 'admin'){
                 return true;
             }
         }
         return false;
     }
-
-
-
-
-
 
 
 
@@ -585,23 +399,8 @@ class MusicsController extends Controller
             $pathToSong = $path.$currentUser->id."/";
             $model->musiccover = $pathToSong;
 
-            try{
-                $model->save(false);
-            }
-            catch (\yii\db\Exception $exception) {
-                echo $exception->getMessage();
-                die();
-            }
-            catch (\yii\base\Exception $exception){
-                echo $exception->getMessage();
-                die();
-            }
-            catch (\Exception $exception){
-                echo $exception->getMessage();
-                die();
-            }
-
-
+            $model->save(false);
+            
             if (!empty($getImageFile))
                 $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);
             

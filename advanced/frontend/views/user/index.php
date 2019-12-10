@@ -173,7 +173,7 @@ if(isset($popup)){
                     if ($profileProvider->isprodutor == 'S')
                     {
                         if($numberOfSongsYouHave > 0) {
-                            foreach ($musicsFromProducerWithUsername as $musica) {
+                            foreach ($profileProvider->musics as $musica) {
                                 $i++;?>
                                 
                                 <div class="row">
@@ -241,13 +241,16 @@ if(isset($popup)){
 
                                                                     <input type="hidden" id="musics_id" name="musics_id" value="<?= $musica->id ?>">
                                                                     <select name="playlists_id" id="playlists_id">
+
+                                                                <?php if(isset($playlistsUserLogado)) { ?>
                                                                         <?php
+
                                                                         foreach($playlistsUserLogado as $playlist) { ?>
                                                                             <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
                                                                             <?php
                                                                         } ?>
                                                                     </select>
-
+                                                                <?php } ?>
 
 
                                                             </div>
@@ -322,7 +325,7 @@ if(isset($popup)){
                                     <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><p><?= $musicaComprada->pvp ?></p></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8"><p><?= $musicaComprada->producerOfThisSong; ?></p></div>
+                                    <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8"><p><?= $musicaComprada->profile; ?></p></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4">&nbsp;</div>
@@ -362,53 +365,50 @@ if(isset($popup)){
             </div>
 
 
-            <div class="col-lg-6 ">
+            <div class="col-lg-6">
 
                 <h2 class="textAlignCenter">Your Playlists</h2>
 
                 <br>
                 <?php
-                if (!isset($playlistsUserLogado)) {
+                if (isset($playlistsUserLogado)) {
                     foreach ($playlistsUserLogado as $playlist) {
                         ?>
                         <?php
                         /*BaseVarDumper::dump($playlistsUserLogado);
                         die();*/
                         ?>
-                        <div class="row borderTopBlack">
-                            <div class="col-lg-12 ">
-                                <div class="row">
-                                    <div class="col-lg-12 textAlignCenter"><h2><?php echo $playlist->nome ?></h2></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 textAlignRight"><p>Creation Date:<br></p></div>
-                                    <div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 textAlignRight"><p>Genres:<br></p></div>
-                                    <div class="col-lg-8"><p>
-                                            <?php
-                                                if(empty($playlist->generosDaPlaylist))
-                                                    echo "None defined yet";
-                                                else{
-                                                    foreach ($playlist->generosDaPlaylist as $listar) {
-                                                        echo $listar;
+                        <div class="col-lg-12">
+                            <div class="row borderTopBlack">
+                                <div class="col-lg-12 ">
+                                    <div class="row">
+                                        <div class="col-lg-12 textAlignCenter"><h2><?php echo $playlist->nome ?></h2></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 textAlignRight"><p>Creation Date:<br></p></div>
+                                        <div class="col-lg-8"><p><?php echo $playlist->creationdate ?></p></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 textAlignRight"><p>Genres:<br></p></div>
+                                        <div class="col-lg-8"><p>
+                                                <?php
+                                                    if(empty($playlist->generosDaPlaylist))
+                                                        echo "None defined yet";
+                                                    else{
+                                                        foreach ($playlist->generosDaPlaylist as $listar) {
+                                                            echo $listar;
+                                                        }
                                                     }
-                                                }
 
-                                            ?></p>
-                                    </div>
-                                    <br><br>
-                                    <div class="col-lg-12 textAlignCenter"><p><?php echo Html::a('Take me there!', Url::toRoute(['/playlists/view/'.$playlist->id.'/']), ['class' => 'btn btn-default'])?> </p>
+                                                ?></p>
+                                        </div>
+                                        <br><br>
+                                        <div class="col-lg-12 textAlignCenter"><p><?php echo Html::a('Take me there!', Url::toRoute(['/playlists/view/'.$playlist->id.'/']), ['class' => 'btn btn-default'])?> </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-4">&nbsp;</div>
-                                <div class="col-lg-8"></div>
                             </div>
                         </div>
-
                     <?php }
                 } else{?>
                 <div class="textAlignCenter">
@@ -419,7 +419,7 @@ if(isset($popup)){
                 } ?>
 
 
-                <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
+                <div class="col-lg-12 borderBottomBlack">&nbsp;</div>
 
 
 

@@ -27,8 +27,7 @@ class UserController extends Controller
      /**
       * {@inheritdoc}
       */
-     public function behaviors()
-     {
+     public function behaviors(){
          return [
                  'access' => [
                      'class' => AccessControl::className(),
@@ -53,103 +52,17 @@ class UserController extends Controller
          ];
      }
 
-    // /**
-    //  * Lists all User models.
-    //  * @return mixed
-    //  */
-    // public function actionIndex()
-    // {
-    //     $searchModel = new SearchUser();
-    //     $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+    public function getCurrentUser(){
 
-    //     return $this->render('index', [
-    //         'searchModel' => $searchModel,
-    //         'dataProvider' => $dataProvider,
-    //     ]);
-    // }
-
-    // /**
-    //  * Displays a single User model.
-    //  * @param integer $id
-    //  * @return mixed
-    //  * @throws NotFoundHttpException if the model cannot be found
-    //  */
-    // public function actionView($id)
-    // {
-    //     return $this->render('view', [
-    //         'model' => $this->findModel($id),
-    //     ]);
-    // }
-
-    // /**
-    //  * Creates a new User model.
-    //  * If creation is successful, the browser will be redirected to the 'view' page.
-    //  * @return mixed
-    //  */
-    // public function actionCreate()
-    // {
-    //     $model = new User();
-
-    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
-    //         return $this->redirect(['view', 'id' => $model->id]);
-    //     }
-
-    //     return $this->render('create', [
-    //         'model' => $model,
-    //     ]);
-    // }
-
-    // /**
-    //  * Updates an existing User model.
-    //  * If update is successful, the browser will be redirected to the 'view' page.
-    //  * @param integer $id
-    //  * @return mixed
-    //  * @throws NotFoundHttpException if the model cannot be found
-    //  */
-    // public function actionUpdate($id)
-    // {
-    //     $model = $this->findModel($id);
-
-    //     if ($model->load(Yii::$app->request->post()) && $model->save()) {
-    //         return $this->redirect(['view', 'id' => $model->id]);
-    //     }
-
-    //     return $this->render('update', [
-    //         'model' => $model,
-    //     ]);
-    // }
-
-    // /**
-    //  * Deletes an existing User model.
-    //  * If deletion is successful, the browser will be redirected to the 'index' page.
-    //  * @param integer $id
-    //  * @return mixed
-    //  * @throws NotFoundHttpException if the model cannot be found
-    //  */
-    // public function actionDelete($id)
-    // {
-    //     $this->findModel($id)->delete();
-
-    //     return $this->redirect(['index']);
-    // }
-
-    public function getCurrentUser()
-    {
         return User::find()->where(['id' => Yii::$app->user->id])->one();
     }
 
-    public function getCurrentProfile()
-    {
+    public function getCurrentProfile(){
+
         return Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
     }
 
-    public function countHowManyMusicsProducerHas()
-    {
-        return count(ProfileHasMusics::find()->where(['profile_id' => Yii::$app->user->id])->all());
-    }
-
-    public function getPlaylistsDoUser()
-    {
+    public function getPlaylistsDoUser(){
         $currentProfile = $this->getCurrentProfile();
 
         $playlistsDoUser = [];
@@ -161,8 +74,7 @@ class UserController extends Controller
         return $playlistsDoUser;
     }
 
-    public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
-    {
+    public function getGenerosDasPlaylists($cadaUmaDasPlaylists){
         $currentProfile = $this->getCurrentProfile();
 
         $genresDasMusicas = [];
@@ -182,187 +94,18 @@ class UserController extends Controller
         return $cadaUmaDasPlaylists;
     }
 
-    //BUSCA A LISTA DE MUSICAS DO PRODUTOR
-    private function getProducerMusicsIds()
-    {
-        $profile = $this->getCurrentProfile();
-        $user = $this->getCurrentUser();
-        $ProfileHasMusics = ProfileHasMusics::find()->where(['profile_id' => $user->id])->all();
-        $musicas[] = null;
-        foreach ($ProfileHasMusics as $music) {
-            array_push($musicas, $music->musics_id);
-        }
-        return $musicas;
-    }
-
-    public function getProducerMusics()
-    {
-        $arrayDeMusicasIds[] = $this->getProducerMusicsIds();
-        $arrayDeMusicas = null;
-        foreach ($arrayDeMusicasIds as $idDaMusica) {
-            $arrayDeMusicas = Musics::find()->where(['id' => $idDaMusica])->all();
-        }
-        return $arrayDeMusicas;
-    }
-
-
-    public function countHowManyAlbumsProducerHas()
-    {
-        return count(ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all());
-    }
-
-    private function getProducerAlbumsIds()
-    {
-        $profile = $this->getCurrentProfile();
-        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => $profile->user_id])->all();
-        $albums[] = null;
-        foreach ($ProfileHasAlbums as $album) {
-            array_push($albums, $album->albums_id);
-        }
-        return $albums;
-    }
-
-    public function getProducerAlbums()
-    {
-        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
-        $arrayDeAlbums = null;
-        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
-            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
-        }
-        return $arrayDeAlbums;
-    }
-
-
-    public function getVendasUserLogado()
-    {
-        $profile = $this->getCurrentProfile();
-        $vendaDoUserLogado = Venda::find()->where(['profile_id' => $profile->id])->all();
-
-        return $vendaDoUserLogado;
-    }
-
-
-    public function getLinhavendaUserLogado()
-    {
-        $arrayVendasIds = $this->getVendasUserLogado();
-
-        // BaseVarDumper::dump($arrayVendasIds);
-
-        // die();
-
-        $LinhavendaUserLogado = [];
-        array_filter($LinhavendaUserLogado);
-
-        foreach ($arrayVendasIds as $venda) {
-            array_push($LinhavendaUserLogado, Linhavenda::find()->where(['venda_id' => $venda->id])->one());
-        }
-
-
-        // BaseVarDumper::dump($LinhavendaUserLogado);
-
-        // die();
-
-        return $LinhavendaUserLogado;
-    }
-
-
-    public function getMusicasPelasLinhaDeVendaDoUserLogado()
-    {
-
-        $LinhavendaDoUser = $this->getLinhavendaUserLogado();
-        $musicasCompradasPeloUser = [];
-
-        for ($i = 0; $i < count($LinhavendaDoUser); $i++) {
-            array_push($musicasCompradasPeloUser, Musics::find()->where(['id' => $LinhavendaDoUser[$i]->musics_id])->one());
-        }
-
-        return $musicasCompradasPeloUser;
-
-    }
-
-    public function getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica()
-    {
-
-        $musicasCompradasPeloUser = $this->getMusicasPelasLinhaDeVendaDoUserLogado();
-
-        $profileHasMusics = ProfileHasMusics::find()->all();
-
-        $arrayComTodasAsMusicas = [];
-        array_filter($arrayComTodasAsMusicas);
-
-        foreach ($profileHasMusics as $phm) {
-            $criadorDestaMusica = User::find()->where(['id' => $phm->profile_id])->one();
-            $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
-            $musicaDesteProfile->producerOfThisSong = $criadorDestaMusica->username;
-            array_push($arrayComTodasAsMusicas, $musicaDesteProfile);
-        }
-        if (!is_null($musicasCompradasPeloUser) && !empty($musicasCompradasPeloUser)) {
-            for ($l = 0; $l < count($musicasCompradasPeloUser); $l++) {
-
-                for ($i = 0; $i < count($arrayComTodasAsMusicas); $i++) {
-                    if ($musicasCompradasPeloUser[$l]->id === $arrayComTodasAsMusicas[$i]->id) {
-                        $musicasCompradasPeloUser[$l]->producerOfThisSong = $arrayComTodasAsMusicas[$i]->producerOfThisSong;
-                    }
-                }
-            }
-            return $musicasCompradasPeloUser;
-        } else {
-            return null;
-        }
-    }
-
-
-    public function meterUsernameNoCampoProducer(){
-        $profileProvider = $this->getCurrentProfile();
-        $userProvider = $this->getCurrentUser();
-
-        foreach ($profileProvider->musics as $musicFromProfile) {
-            $musicFromProfile->producerOfThisSong = $userProvider->username;
-        }
-
-        return $profileProvider->musics;
-
-    }
-
-
     public function getMusicasCompradasdoUserLogado(){
         $profileProvider = $this->getCurrentProfile();
         $userProvider = $this->getCurrentUser();
-        $comprasDoUser = [];
-        foreach ($profileProvider->vendas as $venda) {
-            array_push($comprasDoUser, $venda->linhavendas[0]->musics);
-        }
-        return $comprasDoUser;
-    }
 
-    public function meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas){
-        $profileProvider = $this->getCurrentProfile();
-        $userProvider = $this->getCurrentUser();
-
-        $musicasSemProducer = Musics::find()->all();
-        $todosOsProfiles = Profile::find()->all();
-
-
-
-        foreach ($todosOsProfiles as $profile) {
-            $thisUser = User::find()->where(['id' => $profile->user_id])->one();
-            foreach ($profile->musics as $music) {
-                foreach ($musicasCompradas as $musicaComprada) {
-                    if($music->id === $musicaComprada->id){
-                        $musicaComprada->producerOfThisSong = $thisUser->username;
-                    }
-                } 
-            }
-        }
-        return $musicasCompradas;
+        BaseVarDumper::dump($profileProvider->vendas);
+        die();
 
     }
 
+    public function actionIndex(){
 
-
-
-    public function actionIndex()
-    {
+       // $this->getMusicasCompradasdoUserLogado();
 
 
         $profileProvider = $this->getCurrentProfile();
@@ -372,11 +115,9 @@ class UserController extends Controller
 
         $playlistHasMusics = new PlaylistsHasMusics();
 
-        $musicsFromProducerWithUsername = $this->meterUsernameNoCampoProducer();
+        $numberOfSongsYouHave = count($profileProvider->musics);
 
-        $numberOfSongsYouHave = count($musicsFromProducerWithUsername);
-
-        $musicasCompradas = $this->getMusicasCompradasdoUserLogado();
+        //$musicasCompradas = $this->getMusicasCompradasdoUserLogado();
 
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
@@ -386,10 +127,17 @@ class UserController extends Controller
             //BaseVarDumper::dump($cadaUmaDasPlaylists);
         }
 
+        if(!empty($playlistsUserLogado)){
+
+            return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado]);
+        }
+
+
+        return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'numberOfSongsYouHave' => $numberOfSongsYouHave]);
 
 
 
-        if(empty($musicasCompradas))
+        /*if(empty($musicasCompradas))
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado, 'playlistHasMusics' => $playlistHasMusics]);
 
         elseif(empty($playlistsUserLogado)) {
@@ -402,16 +150,8 @@ class UserController extends Controller
         else{
             $musicasCompradas = $this->meterUsernameNoCampoProducerNasMusicasCompradas($musicasCompradas);
             return $this->render('index', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider, 'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'musicasCompradas' => $musicasCompradas, 'playlistsUserLogado' => $playlistsUserLogado, 'playlistHasMusics' => $playlistHasMusics]);
-        }
+        }*/
     }
-
-    /* public function actionSettings(){
-
-         $profileProvider = $this->getCurrentProfile();
-         $userProvider = $this->getCurrentUser();
-         //$userProvider = Yii::$app->user;
-         return $this->render('settings', ['userProvider' => $userProvider, 'profileProvider' => $profileProvider]);
-     }*
 
      /**
       * Finds the User model based on its primary key value.
@@ -430,8 +170,7 @@ class UserController extends Controller
     }
 
     //GUARDAR SETTINGS
-    public function actionSettings()
-    {
+    public function actionSettings(){
         $currentUser = $this->getCurrentUser();
         $currentProfile = $this->getCurrentProfile();
         if ($currentProfile->load(Yii::$app->request->post())) {
@@ -457,8 +196,7 @@ class UserController extends Controller
         return $this->render('settings', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile]);
     }
 
-    public function actionMusicdelete($id)
-    {
+    public function actionMusicdelete($id){
         $currentUser = $this->getCurrentUser();
         $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
         foreach ($roles as $role) {
@@ -469,12 +207,19 @@ class UserController extends Controller
             }
         }
         $musicsFromProducerWithUsername = $this->meterUsernameNoCampoProducer();
+
         $playlistsUserLogado = $this->getPlaylistsDoUser();
+
         $numberOfSongsYouHave = count($musicsFromProducerWithUsername);
+
         $getCurrentProfile= $this->getCurrentProfile();
+
         $getCurrentMusic=Musics::find($id)->one();
+
         $verificarNaPlaylist= PlaylistsHasMusics::find($getCurrentMusic)->one();
+
         $verificarNaLinhaVenda=Linhavenda::find($getCurrentMusic)->one();
+
         if(count($verificarNaLinhaVenda)!=null)
         {
             $popup=true;
@@ -482,11 +227,17 @@ class UserController extends Controller
 
         }
         if(count($verificarNaPlaylist)!=null) {
+
             $delMusicPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
+
         }
+
         $delMusicProfile = ProfileHasMusics::find($getCurrentProfile)->where(['musics_id' => $getCurrentMusic])->one()->delete();
+
         $delMusic = Musics::find($getCurrentMusic)->one()->delete();
+
         return $this->redirect(['index']);
+
     }
 }
 

@@ -34,10 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
     $i = 0;
     if(empty($searchModel->title)){
 
-
-
-        
-      foreach ($allTheMusicsWithProducer as $music) {
+      foreach ($allMusics as $music) {
           $i++;
         ?>
 
@@ -95,14 +92,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8">
                                     <?php
-                                    $titleToStuff = $music->producerOfThisSong;
+                                        $titleToStuff = $music->profile->user->username;
                                         if (!Yii::$app->user->isGuest) {
-                                            if($currentUser->username === $music->producerOfThisSong){
-                                                $titleToStuff = $music->producerOfThisSong ." (Hey that's you!)";
+                                            if($userProvider->username === $music->profile->user->username){
+                                                $titleToStuff = $music->profile->user->username ." (Hey that's you!)";
                                             }
                                         }
                                     ?>
-                                    <p class="overflowThatBi" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
+                                    <p class="overflowThatBi marginTop2Percent" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -134,7 +131,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-12">&nbsp;</div>
                             <div class="col-lg-12 textAlignCenter">
                         <?php   if (!Yii::$app->user->isGuest) { 
-                                    if($musicaCompradaQuestionMark == true || $music->producerOfThisSong === $currentUser->username)
+                                    if($musicaCompradaQuestionMark == true || $music->profile->user->username === $userProvider->username)
                                     {
                                 ?>
                                         <div class="col-lg-12 textAlignCenter">
@@ -157,7 +154,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
                                                             <select name="playlists_id" id="playlists_id">
                                                                 <?php
-                                                                foreach($playlistsUserLogado as $playlist) { ?>
+                                                                foreach($playlists as $playlist) { ?>
                                                                     <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
                                                                     <?php
                                                                 } ?>
@@ -174,7 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     }
                                     else{
                                     ?>
-                                        <button class="btn btn-default"><?php echo Html::a('Buy this song!', Url::toRoute(['/musics/buymusic', 'id'=> $music->id, 'producerOfThisSong' => $music->producerOfThisSong]))?></button>
+                                        <button class="btn btn-default"><?php echo Html::a('Buy this song!', Url::toRoute(['/musics/buymusic', 'id'=> $music->id]))?></button>
                                     <?php
                                     }
                                     ?>
@@ -196,7 +193,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     else{
         $i = 0;
-        foreach ($serchedMusicsWithProducer as $music) {
+        foreach ($searchedMusics as $music) {
             $i++;
             ?>
             
@@ -254,15 +251,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="row">
                                 <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8">
                                     <?php
-                                    $titleToStuff = $music->producerOfThisSong;
+                                    $titleToStuff = $music->profile->user->username;
                                         if (!Yii::$app->user->isGuest) {
-                                            if($currentUser->username === $music->producerOfThisSong){
-                                                $titleToStuff = $music->producerOfThisSong ." (Hey that's you!)";
-                                                
+                                            if($userProvider->username === $music->profile->user->username){
+                                                $titleToStuff = $music->profile->user->username ." (Hey that's you!)";  
                                             }
                                         }
                                     ?>
-                                    <p class="overflowThatBi" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
+                                    <p class="overflowThatBi marginTop2Percent" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -293,7 +289,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="col-lg-12">&nbsp;</div>
                             <div class="col-lg-12 textAlignCenter">
                         <?php   if (!Yii::$app->user->isGuest) { 
-                                    if($musicaCompradaQuestionMark == true || $music->producerOfThisSong === $currentUser->username)
+                                    if($musicaCompradaQuestionMark == true || $music->profile->user->username === $userProvider->username)
                                     {
                                 ?>
                                         <div class="col-lg-12 textAlignCenter">
@@ -316,7 +312,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                             <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
                                                             <select name="playlists_id" id="playlists_id">
                                                                 <?php
-                                                                foreach($playlistsUserLogado as $playlist) { ?>
+                                                                foreach($playlists as $playlist) { ?>
                                                                     <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
                                                                     <?php
                                                                 } ?>

@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = 'Purchase';
                     </div>
                     <div class="row">
                         <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8">
-                            <p class="overflowThatBi" title="<?= $producerOfThisSong; ?>"><?= $producerOfThisSong; ?></p>
+                            <p class="overflowThatBi" title="<?= $model->profile->user->username; ?>"><?= $model->profile->user->username; ?></p>
                         </div>
                     </div>
                     <div class="row"><div class="col-lg-4">&nbsp;</div><div class="col-lg-8"></div></div>
