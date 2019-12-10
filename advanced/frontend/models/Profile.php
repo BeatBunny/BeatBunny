@@ -13,7 +13,7 @@ use Yii;
  * @property int $nif
  * @property string $isprodutor
  * @property string $profileimage
- * @property int $id_user
+ * @property int $user_id
  *
  * @property ProfileHasAlbums[] $profileHasAlbums
  * @property Albums[] $albums
@@ -43,8 +43,8 @@ class Profile extends \yii\db\ActiveRecord
         return [
             [['saldoAdd'], 'number'],
             [['profileFile'], 'file', 'extensions' => 'png'],
-            [['saldo', 'nif', 'id_user'], 'integer'],
-            [['nome', 'isprodutor', 'id_user'], 'required'],
+            [['saldo', 'nif', 'user_id'], 'integer'],
+            [['nome', 'isprodutor', 'user_id'], 'required'],
             [['isprodutor'], 'string'],
             [['nome'], 'string', 'max' => 45],
             [['profileimage'], 'string', 'max' => 100],
@@ -63,7 +63,7 @@ class Profile extends \yii\db\ActiveRecord
             'nif' => 'Nif',
             'isprodutor' => 'Isprodutor',
             'profileimage' => 'Profileimage',
-            'id_user' => 'Id User',
+            'user_id' => 'Id User',
         ];
     }
 

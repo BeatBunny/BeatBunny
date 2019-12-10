@@ -140,7 +140,7 @@ class UserController extends Controller
 
     public function getCurrentProfile()
     {
-        return Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        return Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
     }
 
     public function countHowManyMusicsProducerHas()
@@ -214,7 +214,7 @@ class UserController extends Controller
     private function getProducerAlbumsIds()
     {
         $profile = $this->getCurrentProfile();
-        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => $profile->id_user])->all();
+        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => $profile->user_id])->all();
         $albums[] = null;
         foreach ($ProfileHasAlbums as $album) {
             array_push($albums, $album->albums_id);
@@ -345,7 +345,7 @@ class UserController extends Controller
 
 
         foreach ($todosOsProfiles as $profile) {
-            $thisUser = User::find()->where(['id' => $profile->id_user])->one();
+            $thisUser = User::find()->where(['id' => $profile->user_id])->one();
             foreach ($profile->musics as $music) {
                 foreach ($musicasCompradas as $musicaComprada) {
                     if($music->id === $musicaComprada->id){

@@ -192,7 +192,7 @@ class MusicsController extends Controller
         $todosOsProfiles = Profile::find()->all();
 
         for ($i = 0; $i < count($todosOsProfiles); $i++) {
-            $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->id_user])->one();
+            $thisUser = User::find()->where(['id' => $todosOsProfiles[$i]->user_id])->one();
             foreach ($musicasCompradas as $musicaComprada) {
                 if($todosOsProfiles[$i]->id === $musicaComprada->id){
                     $musicaComprada->producerOfThisSong = $thisUser->username;
@@ -378,7 +378,7 @@ class MusicsController extends Controller
     }
 
     private function getCurrentProfile(){
-        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        $profileProvider = Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
         return $profileProvider;
     }
 
@@ -411,7 +411,7 @@ class MusicsController extends Controller
             foreach ($profileHasMusics as $phm) {
 
                 $criadorDestaMusicaProfile = Profile::find()->where(['id' => $phm->profile_id])->one();
-                $criadorDestaMusicaUser = User::find()->where(['id' => $criadorDestaMusicaProfile->id_user])->one();
+                $criadorDestaMusicaUser = User::find()->where(['id' => $criadorDestaMusicaProfile->user_id])->one();
                 $musicaDesteProfile = Musics::find()->where(['id' => $phm->musics_id])->one();
 
                 //BaseVarDumper::dump($criadorDestaMusica);
@@ -648,7 +648,9 @@ class MusicsController extends Controller
 
 
     public $modelClass = 'common\models\Musics';
+    public $playlistsProvider = 'common\models\Playlists';
     public $userProvider = 'common\models\User';
+    public $profileProvider = 'common\models\Profile';
 
 
     // TESTES PARA A API
@@ -656,13 +658,36 @@ class MusicsController extends Controller
         $models = $this->modelClass::find()->all();
         foreach ($models as $music) {
             foreach ($music->profiles as $profile) {
-                $user = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+                $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
                 $music->producerOfThisSong = $user->username;
             }
         }
         
         BaseVarDumper::dump(BaseUrl::base());
         die();
+    }
+
+    public function actionCreatorplaylist($id){
+        $playlistEmQuestao = new $this->playlistsProvider;
+        $modelPlaylist = $playlistEmQuestao::findOne($id);
+        $modelProfiles = new $this->profileProvider;
+        $modelUser = new $this->userProvider;
+        $profiles = $this->profileProvider::find()->all();
+        foreach ($profiles as $profile) {
+            
+            $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
+            foreach ($profile->playlists as $playlist) {
+                BaseVarDumper::dump($playlist);
+                BaseVarDumper::dump($modelPlaylist);
+                if($playlist->id == $modelPlaylist->id){
+                    BaseVarDumper::dump($user->username);
+                }
+            }
+        }
+        die();
+        //BaseVarDumper::dump($modelPlaylist);
+        //die();
+
     }
 
 }

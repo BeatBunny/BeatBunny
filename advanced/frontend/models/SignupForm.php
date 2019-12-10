@@ -70,7 +70,7 @@ class SignupForm extends Model
             $profile->saldo = 0;
 
             $user->save(false);
-            $profile->id_user = $user->getId();
+            $profile->user_id = $user->getId();
             $profile->save(false);
 
             // the following three lines were added:

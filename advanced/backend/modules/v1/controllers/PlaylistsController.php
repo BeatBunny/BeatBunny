@@ -10,6 +10,7 @@ class PlaylistsController extends ActiveController
 	public $modelClass = 'common\models\Playlists';
     public $modelMusic = 'common\models\Musics';
     public $userProvider = 'common\models\User';
+    public $profileProvider = 'common\models\Profile';
     public $modelPHM = 'common\models\PlaylistsHasMusics';
     public $genresProvider = 'common\models\Genres';
     public $user = null;
@@ -26,9 +27,9 @@ class PlaylistsController extends ActiveController
         return $verbs;
     }
 
-    /*private function putProducerInMusic($model){
+    private function putProducerInMusic($model){
         foreach ($model->profiles as $profile) {
-            $userAux = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+            $userAux = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
             $this->user = $userAux;
             $model->producerOfThisSong = $userAux->username;
         }
@@ -38,12 +39,12 @@ class PlaylistsController extends ActiveController
     private function putProducerInMusics($models){
         foreach ($models as $music) {
             foreach ($music->profiles as $profile) {
-                $user = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+                $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
                 $music->producerOfThisSong = $user->username;
             }
         }
         return $models;
-    }*/
+    }
 
     /*
     'GET musicswithproducer' => 'musicswithproducer',
@@ -159,6 +160,23 @@ class PlaylistsController extends ActiveController
         $modelPHM->musics_id = $musicaParaInserirNaPlaylist->id;
         $ret = $modelPHM->save();
         return ['SaveError' => $ret];
+    }
+
+    public function actionCreatorplaylist($id){
+        $modelPlaylist = new $this->modelClass;
+        $playlistEmQuestao = $modelPlaylist::findOne($id);
+        $modelProfiles = new $this->profileProvider;
+        $modelUser = new $this->userProvider;
+        $profiles = $this->profileProvider::find()->all();
+        foreach ($profiles as $profile) {
+            $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
+            foreach ($profile->playlists as $playlist) {
+                if($playlist->id == $playlistEmQuestao->id){
+                    return $user->username;
+                }
+            }
+        }
+        return 0;
     }
 
 

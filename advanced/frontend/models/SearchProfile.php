@@ -17,7 +17,7 @@ class SearchProfile extends Profile
     public function rules()
     {
         return [
-            [['id', 'nif', 'id_user'], 'integer'],
+            [['id', 'nif', 'user_id'], 'integer'],
             [['saldo'], 'number'],
             [['nome', 'isprodutor'], 'safe'],
         ];
@@ -62,7 +62,7 @@ class SearchProfile extends Profile
             'id' => $this->id,
             'saldo' => $this->saldo,
             'nif' => $this->nif,
-            'id_user' => $this->id_user,
+            'user_id' => $this->user_id,
         ]);
 
         $query->andFilterWhere(['like', 'nome', $this->nome])

@@ -98,6 +98,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/playlists'], 'pluralize' => false,
                     'extraPatterns' => [
                         'GET {id}/nome' => 'nomeplaylist', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/creator' => 'creatorplaylist', // 'xxxx' é 'actionXxxx'
                         'GET {id}/creationdate' => 'creationdateplaylist', // 'xxxx' é 'actionXxxx'
                         'GET {id}/genres' => 'genresplaylist', // 'xxxx' é 'actionXxxx'
                         'GET {id}/musics' => 'musicsplaylist', // 'xxxx' é 'actionXxxx'

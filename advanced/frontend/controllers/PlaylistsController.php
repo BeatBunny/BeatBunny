@@ -214,7 +214,7 @@ class PlaylistsController extends Controller
     }
 
     private function getCurrentProfile(){
-        $profileProvider = Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        $profileProvider = Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
         return $profileProvider;
     }
 

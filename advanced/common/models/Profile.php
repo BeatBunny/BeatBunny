@@ -8,33 +8,31 @@ use Yii;
  * This is the model class for table "{{%profile}}".
  *
  * @property int $id
- * @property string $saldo
+ * @property int $saldo
  * @property string $nome
  * @property int $nif
  * @property string $isprodutor
- * @property int $id_user
+ * @property string $profileimage
+ * @property int $user_id
  *
+ * @property Musics[] $musics
  * @property User $user
- * @property ProfileHasAlbum[] $profileHasAlbums
- * @property Album[] $albums
- * @property ProfileHasMusic[] $profileHasMusics
- * @property Music[] $musics
- * @property ProfileHasPlaylist[] $profileHasPlaylists
- * @property Playlist[] $playlists
+ * @property ProfileHasAlbums[] $profileHasAlbums
+ * @property Albums[] $albums
+ * @property ProfileHasPlaylists[] $profileHasPlaylists
+ * @property Playlists[] $playlists
  * @property Venda[] $vendas
  */
 class Profile extends \yii\db\ActiveRecord
 {
-
-    public $profileFile;
     public $saldoAdd;
-
+    public $profileFile;
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%profile%}}';
+        return '{{%profile}}';
     }
 
     /**
@@ -43,14 +41,14 @@ class Profile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['saldo'], 'number'],
+            [['saldo', 'nif', 'user_id'], 'integer'],
+            [['nome', 'isprodutor', 'user_id'], 'required'],
+            [['saldoAdd'], 'integer'],
             [['profileFile'], 'file', 'extensions' => 'png'],
-            [['saldoAdd'],'number','max'=>100 ],
-            [['nome', 'id_user'], 'required'],
-            [['nif', 'id_user'], 'integer'],
             [['isprodutor'], 'string'],
             [['nome'], 'string', 'max' => 45],
-            [['id_user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['id_user' => 'id']],
+            [['profileimage'], 'string', 'max' => 100],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -65,8 +63,17 @@ class Profile extends \yii\db\ActiveRecord
             'nome' => 'Nome',
             'nif' => 'Nif',
             'isprodutor' => 'Isprodutor',
-            'id_user' => 'Id User',
+            'profileimage' => 'Profileimage',
+            'user_id' => 'User ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMusics()
+    {
+        return $this->hasMany(Musics::className(), ['profile_id' => 'id']);
     }
 
     /**
@@ -74,7 +81,7 @@ class Profile extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'id_user']);
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -91,22 +98,6 @@ class Profile extends \yii\db\ActiveRecord
     public function getAlbums()
     {
         return $this->hasMany(Albums::className(), ['id' => 'albums_id'])->viaTable('{{%profile_has_albums}}', ['profile_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProfileHasMusics()
-    {
-        return $this->hasMany(ProfileHasMusics::className(), ['profile_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getMusics()
-    {
-        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('{{%profile_has_musics}}', ['profile_id' => 'id']);
     }
 
     /**

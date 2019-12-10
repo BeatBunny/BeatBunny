@@ -5,14 +5,15 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "venda".
+ * This is the model class for table "{{%venda}}".
  *
  * @property int $id
  * @property string $data
  * @property double $valorTotal
+ * @property int $musics_id
  * @property int $profile_id
  *
- * @property Linhavenda[] $linhavendas
+ * @property Musics $musics
  * @property Profile $profile
  */
 class Venda extends \yii\db\ActiveRecord
@@ -22,7 +23,7 @@ class Venda extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'venda';
+        return '{{%venda}}';
     }
 
     /**
@@ -33,8 +34,9 @@ class Venda extends \yii\db\ActiveRecord
         return [
             [['data'], 'safe'],
             [['valorTotal'], 'number'],
-            [['profile_id'], 'required'],
-            [['profile_id'], 'integer'],
+            [['musics_id', 'profile_id'], 'required'],
+            [['musics_id', 'profile_id'], 'integer'],
+            [['musics_id'], 'exist', 'skipOnError' => true, 'targetClass' => Musics::className(), 'targetAttribute' => ['musics_id' => 'id']],
             [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
         ];
     }
@@ -48,6 +50,7 @@ class Venda extends \yii\db\ActiveRecord
             'id' => 'ID',
             'data' => 'Data',
             'valorTotal' => 'Valor Total',
+            'musics_id' => 'Musics ID',
             'profile_id' => 'Profile ID',
         ];
     }
@@ -55,9 +58,9 @@ class Venda extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getLinhavendas()
+    public function getMusics()
     {
-        return $this->hasMany(Linhavenda::className(), ['venda_id' => 'id']);
+        return $this->hasOne(Musics::className(), ['id' => 'musics_id']);
     }
 
     /**

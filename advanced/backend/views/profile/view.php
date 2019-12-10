@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nif',
             'isprodutor',
             'profileimage',
-            'id_user',
+            'user_id',
         ],
     ]) ?>
 

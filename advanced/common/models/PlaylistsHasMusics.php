@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "playlists_has_musics".
+ * This is the model class for table "{{%playlists_has_musics}}".
  *
  * @property int $playlists_id
  * @property int $musics_id
@@ -20,7 +20,7 @@ class PlaylistsHasMusics extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'playlists_has_musics';
+        return '{{%playlists_has_musics}}';
     }
 
     /**

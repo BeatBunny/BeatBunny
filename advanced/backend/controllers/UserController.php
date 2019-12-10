@@ -79,7 +79,7 @@ class UserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        /*$model = new User();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -87,7 +87,7 @@ class UserController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-        ]);
+        ]);*/
     }
 
     /**

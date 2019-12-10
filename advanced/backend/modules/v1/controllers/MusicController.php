@@ -18,7 +18,7 @@ class MusicController extends \yii\rest\ActiveController
 
     private function putProducerInMusic($model){
         foreach ($model->profiles as $profile) {
-            $userAux = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+            $userAux = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
             $this->user = $userAux;
             $model->producerOfThisSong = $userAux->username;
         }
@@ -28,7 +28,7 @@ class MusicController extends \yii\rest\ActiveController
     private function putProducerInMusics($models){
         foreach ($models as $music) {
             foreach ($music->profiles as $profile) {
-                $user = $this->userProvider::find()->where(['id' => $profile->id_user])->one();
+                $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
                 $music->producerOfThisSong = $user->username;
             }
         }

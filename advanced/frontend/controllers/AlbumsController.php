@@ -400,6 +400,6 @@ class AlbumsController extends Controller
     }
 
     private function getCurrentProfile(){
-        return Profile::find()->where(['id_user' => Yii::$app->user->id])->one();
+        return Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
     }
 }

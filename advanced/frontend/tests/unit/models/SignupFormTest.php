@@ -25,9 +25,9 @@ class SignupFormTest extends \Codeception\Test\Unit
     public function testCorrectSignup()
     {
         $model = new SignupForm([
-            'username' => 'some_username',
-            'email' => 'some_email@example.com',
-            'password' => 'some_password',
+            'username' => 'BeatBunnyAdmin',
+            'email' => 'beatbunnyg06@gmail.com',
+            'password' => 'BeatBunnyAdmin',
         ]);
 
         $user = $model->signup();
@@ -35,9 +35,9 @@ class SignupFormTest extends \Codeception\Test\Unit
 
         /** @var \common\models\User $user */
         $user = $this->tester->grabRecord('common\models\User', [
-            'username' => 'some_username',
-            'email' => 'some_email@example.com',
-            'status' => \common\models\User::STATUS_INACTIVE
+            'username' => 'BeatBunnyAdmin',
+            'email' => 'beatbunnyg06@gmail.com',
+            'status' => \common\models\User::STATUS_ACTIVE
         ]);
 
         $this->tester->seeEmailIsSent();
@@ -45,7 +45,7 @@ class SignupFormTest extends \Codeception\Test\Unit
         $mail = $this->tester->grabLastSentEmail();
 
         expect($mail)->isInstanceOf('yii\mail\MessageInterface');
-        expect($mail->getTo())->hasKey('some_email@example.com');
+        expect($mail->getTo())->hasKey('beatbunnyg06@gmail.com');
         expect($mail->getFrom())->hasKey(\Yii::$app->params['supportEmail']);
         expect($mail->getSubject())->equals('Account registration at ' . \Yii::$app->name);
         expect($mail->toString())->stringContainsString($user->verification_token);

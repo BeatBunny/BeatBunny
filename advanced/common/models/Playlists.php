@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "playlists".
+ * This is the model class for table "{{%playlists}}".
  *
  * @property int $id
  * @property string $nome
@@ -19,14 +19,12 @@ use Yii;
  */
 class Playlists extends \yii\db\ActiveRecord
 {
-
-	public $generosDaPlaylist = []; 
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'playlists';
+        return '{{%playlists}}';
     }
 
     /**
@@ -68,7 +66,7 @@ class Playlists extends \yii\db\ActiveRecord
      */
     public function getMusics()
     {
-        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('playlists_has_musics', ['playlists_id' => 'id']);
+        return $this->hasMany(Musics::className(), ['id' => 'musics_id'])->viaTable('{{%playlists_has_musics}}', ['playlists_id' => 'id']);
     }
 
     /**
@@ -84,7 +82,7 @@ class Playlists extends \yii\db\ActiveRecord
      */
     public function getProfiles()
     {
-        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('profile_has_playlists', ['playlists_id' => 'id']);
+        return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('{{%profile_has_playlists}}', ['playlists_id' => 'id']);
     }
 
     /**

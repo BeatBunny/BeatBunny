@@ -30,7 +30,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'profileimage') ?>
 
-    <?php // echo $form->field($model, 'id_user') ?>
+    <?php // echo $form->field($model, 'user_id') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
