@@ -247,7 +247,7 @@ class PlaylistsController extends Controller
         $currentUser= $this->getCurrentUser();
         $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
         foreach ($roles as $role) {
-            if ($role->name === 'client') {
+            if ($role->name === 'client'|| $role->name === 'producer') {
                 break;
             } else {
                 return $this->goBack();
