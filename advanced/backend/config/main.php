@@ -82,16 +82,16 @@ return [
                         'GET {id}/creator' => 'creatorplaylist', // 'xxxx' é 'actionXxxx'
                         'GET {id}/creationdate' => 'creationdateplaylist', // 'xxxx' é 'actionXxxx'
                         'GET {id}/genres' => 'genresplaylist', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics' => 'musicsplaylist', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}' => 'music', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/title' => 'titlemusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/launchdate' => 'launchdatemusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/lyrics' => 'lyricsmusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/pvp' => 'pvpmusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/musicpath' => 'musicpathmusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/genre' => 'genremusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/producer' => 'producermusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics/{idmusic}/mp3file' => 'mp3filemusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music' => 'musicsplaylist', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}' => 'music', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/title' => 'titlemusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/launchdate' => 'launchdatemusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/lyrics' => 'lyricsmusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/pvp' => 'pvpmusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/musicpath' => 'musicpathmusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/genre' => 'genremusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/producer' => 'producermusic', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/music/{idmusic}/mp3file' => 'mp3filemusic', // 'xxxx' é 'actionXxxx'
                         'POST playlistcreate' => 'playlistcreate', // 'xxxx' é 'actionXxxx'
                         'PUT playlistupdate/{id}' => 'playlistupdate', // 'xxxx' é 'actionXxxx'
                         'DELETE delete/{id}' => 'playlistdelete', // 'xxxx' é 'actionXxxx'
@@ -102,9 +102,9 @@ return [
                         '{idmusic}' => '<idmusic:\\d+>',
                     ],
                 ],
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/musics'], 'pluralize' => false,
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/music'], 'pluralize' => false,
                     'extraPatterns' => [
-                        'GET index/{id}' => 'index', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/indexmusic' => 'indexmusic', // 'xxxx' é 'actionXxxx'
                         'GET {id}/titlemusic' => 'titlemusic', // 'xxxx' é 'actionXxxx'
                         'GET {id}/launchdatemusic' => 'launchdatemusic', // 'xxxx' é 'actionXxxx'
                         'GET {id}/lyricsmusic' => 'lyricsmusic', // 'xxxx' é 'actionXxxx'
