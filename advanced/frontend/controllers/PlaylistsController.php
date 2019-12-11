@@ -58,8 +58,9 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
+        $currentProfile= $this->getCurrentProfile();
         $currentUser= $this->getCurrentUser();
-        
+
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
         $playlistHasMusics = new PlaylistsHasMusics();
@@ -105,15 +106,6 @@ class PlaylistsController extends Controller
      */
     public function actionCreate()
     {
-        $currentUser= $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'client'|| $role->name==='producer') {
-                break;
-            } else {
-                return $this->goBack();
-            }
-        }
         $currentProfile = $this->getCurrentProfile();
         $model = new Playlists();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -139,15 +131,6 @@ class PlaylistsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $currentUser= $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'client') {
-                break;
-            } else {
-                return $this->goBack();
-            }
-        }
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -167,24 +150,14 @@ class PlaylistsController extends Controller
     public function actionDelete($id)
     {
         $currentUser= $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'client') {
-                break;
-            } else {
-                return $this->goBack();
-            }
-        }
         $currentPlaylist = $this->findModel($id)->id;
-        BaseVarDumper::dump(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one());
-        //  die();
         if(!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()))
             $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()->delete();
         if(!is_null(ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()))
             $deletePlaylistFromProfileHasPlaylists = ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()->delete();
         //$playlistToDelete->unlink();
         $this->findModel($id)->delete();
-        return $this->goBack();
+        return $this->redirect(['index']);
     }
 
     /**
@@ -218,19 +191,15 @@ class PlaylistsController extends Controller
     public function getPlaylistsDoUser()
     {
         $currentProfile = $this->getCurrentProfile();
-
         $playlistsDoUser = [];
-
         foreach ($currentProfile->playlists as $musicInPlaylist) {
             array_push($playlistsDoUser, $musicInPlaylist);
         }
-
         return $playlistsDoUser;
     }
 
     public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
     {
-
         foreach ($cadaUmaDasPlaylists->musics as $musicaDaPlaylist) {
             //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
 
@@ -239,8 +208,6 @@ class PlaylistsController extends Controller
             }
 
         }
-
-
         return $cadaUmaDasPlaylists;
     }
 
@@ -251,7 +218,7 @@ class PlaylistsController extends Controller
             if ($role->name === 'client'|| $role->name === 'producer') {
                 break;
             } else {
-                return $this->goBack();
+                return $this->redirect(['index']);
             }
         }
         $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
