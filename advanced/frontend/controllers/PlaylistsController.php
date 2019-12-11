@@ -60,8 +60,6 @@ class PlaylistsController extends Controller
     {
         $currentUser= $this->getCurrentUser();
         
-
-        
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
         $playlistHasMusics = new PlaylistsHasMusics();
@@ -88,11 +86,14 @@ class PlaylistsController extends Controller
      */
     public function actionView($id)
     {
+        $currentUser= $this->getCurrentUser();
+        
         $model = $this->findModel($id);
 
         $model = $this->getGenerosDasPlaylists($model);
 
         return $this->render('view', [
+            'currentUser' => $currentUser,
             'model' => $model,
         ]);
     }

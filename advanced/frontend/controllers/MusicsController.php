@@ -72,7 +72,6 @@ class MusicsController extends Controller
         if(!is_null($searchedMusics)){
 
             if(!is_null($userProvider)){
-                $playlistsUserLogado = $this->getPlaylistsDoUser();
 
                 $albums = null;
                 $musics = null;
@@ -95,6 +94,8 @@ class MusicsController extends Controller
                 if(!is_null($profileProvider->vendas) || !empty($profileProvider->vendas))
                     $vendas = $profileProvider->vendas;
 
+
+
                 return $this->render('index', [
                     'searchedMusics' => $searchedMusics,
                     'musics' => $musics,
@@ -115,7 +116,6 @@ class MusicsController extends Controller
         }
 
         if(!is_null($userProvider)){
-            $playlistsUserLogado = $this->getPlaylistsDoUser();
 
             $albums = null;
             $musics = null;

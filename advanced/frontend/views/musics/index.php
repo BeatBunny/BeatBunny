@@ -112,10 +112,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php 
 
                         $musicaCompradaQuestionMark = false;
-                        if(isset($musicasCompradasPeloUser)) {
+                        if(isset($vendas)) {
 
-                            foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                                if ($musicaComprada->id === $music->id)
+                            foreach ($vendas as $venda) {
+                                if ($venda->musics_id === $music->id)
                                     $musicaCompradaQuestionMark = true;
                             }
                         }
@@ -133,41 +133,49 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php   if (!Yii::$app->user->isGuest) { 
                                     if($musicaCompradaQuestionMark == true || $music->profile->user->username === $userProvider->username)
                                     {
-                                ?>
-                                        <div class="col-lg-12 textAlignCenter">
-                                            <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModalPlaylist<?=$i?>">
-                                                Add to one of your playlists
-                                            </button>
-                                        </div>
-                                        <div class="modal fade textAlignCenter" id="exampleModalPlaylist<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <form action="<?= "../playlists/addsong" ?>">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title floatLeft" id="exampleModalLabel"><?= $music->title ?></h4>
-                                                            <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                        if(!empty($playlists)){
 
-                                                            <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
-                                                            <select name="playlists_id" id="playlists_id">
-                                                                <?php
-                                                                foreach($playlists as $playlist) { ?>
-                                                                    <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
+                                    ?>
+                                            <div class="col-lg-12 textAlignCenter">
+                                                <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModalPlaylist<?=$i?>">
+                                                    Add to one of your playlists
+                                                </button>
+                                            </div>
+                                            <div class="modal fade textAlignCenter" id="exampleModalPlaylist<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <form action="<?= "../playlists/addsong" ?>">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title floatLeft" id="exampleModalLabel"><?= $music->title ?></h4>
+                                                                <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
+                                                                <select name="playlists_id" id="playlists_id">
                                                                     <?php
-                                                                } ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="modal-footer textAlignRight">
-                                                            <input class="btn btn-primary" type="submit" value="Add to this playlist">
-                                                        </div>
-                                                    </form>
+                                                                    foreach($playlists as $playlist) { ?>
+                                                                        <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
+                                                                        <?php
+                                                                    } ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="modal-footer textAlignRight">
+                                                                <input class="btn btn-primary" type="submit" value="Add to this playlist">
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     <?php
+                                        }
+                                        else{ ?>
+
+                                            <button class="btn btn-default"><?php echo Html::a('Create playlist!', Url::toRoute(['/playlists/create']))?></button>
+                                            <?php
+                                        }
                                     }
                                     else{
                                     ?>
@@ -291,45 +299,53 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php   if (!Yii::$app->user->isGuest) { 
                                     if($musicaCompradaQuestionMark == true || $music->profile->user->username === $userProvider->username)
                                     {
-                                ?>
-                                        <div class="col-lg-12 textAlignCenter">
-                                            <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModal<?=$i?>">
-                                                Add to one of your playlists
-                                            </button>
-                                        </div>
-                                        <div class="modal fade" id="exampleModal<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <form action="<?= "../playlists/addsong" ?>">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title floatLeft" id="exampleModalLabel"><?= $music->title ?></h4>
-                                                            <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
+                                        if(!empty($playlists)){
 
-                                                            <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
-                                                            <select name="playlists_id" id="playlists_id">
-                                                                <?php
-                                                                foreach($playlists as $playlist) { ?>
-                                                                    <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
+                                    ?>
+                                            <div class="col-lg-12 textAlignCenter">
+                                                <button type="button" class="btn btn-default " data-toggle="modal" data-target="#exampleModalPlaylist<?=$i?>">
+                                                    Add to one of your playlists
+                                                </button>
+                                            </div>
+                                            <div class="modal fade textAlignCenter" id="exampleModalPlaylist<?=$i?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <form action="<?= "../playlists/addsong" ?>">
+                                                            <div class="modal-header">
+                                                                <h4 class="modal-title floatLeft" id="exampleModalLabel"><?= $music->title ?></h4>
+                                                                <button type="button" class="close floatRight" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+
+                                                                <input type="hidden" id="musics_id" name="musics_id" value="<?= $music->id ?>">
+                                                                <select name="playlists_id" id="playlists_id">
                                                                     <?php
-                                                                } ?>
-                                                            </select>
-                                                        </div>
-                                                        <div class="modal-footer textAlignRight">
-                                                            <input class="btn btn-primary" type="submit" value="Add to this playlist">
-                                                        </div>
-                                                    </form>
+                                                                    foreach($playlists as $playlist) { ?>
+                                                                        <option value="<?= $playlist->id ?>"><?= $playlist['nome'] ?></option>
+                                                                        <?php
+                                                                    } ?>
+                                                                </select>
+                                                            </div>
+                                                            <div class="modal-footer textAlignRight">
+                                                                <input class="btn btn-primary" type="submit" value="Add to this playlist">
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     <?php
+                                        }
+                                        else{ ?>
+
+                                            <button class="btn btn-default"><?php echo Html::a('Create playlist!', Url::toRoute(['/playlists/create']))?></button>
+                                            <?php
+                                        }
                                     }
                                     else{
                                     ?>
-                                        <button class="btn btn-default"><?php echo Html::a('Buy this song!', Url::toRoute(['/musics/buymusic', 'id'=> $music->id, 'producerOfThisSong' => $music->producerOfThisSong]))?></button>
+                                        <button class="btn btn-default"><?php echo Html::a('Buy this song!', Url::toRoute(['/musics/buymusic', 'id'=> $music->id]))?></button>
                                     <?php
                                     }
                                     ?>

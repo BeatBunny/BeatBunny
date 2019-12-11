@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Playlists */
 
-$this->title = $model->id;
+$this->title = $model->nome;
 $this->params['breadcrumbs'][] = ['label' => 'Playlists', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -17,7 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row borderTopBlack">
             <div class="col-lg-12 ">
                 <div class="row">
-                    <div class="col-lg-8 textAlignLeft"><h2><?php echo $model->nome?></h2></div>
+                    <div class="col-lg-8 textAlignLeft">
+                        <h2><?php // echo $model->nome?>&nbsp;</h2>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-4 textAlignRight"><p>Creation Date:<br> </p></div><div class="col-lg-8"><p><?php echo $model->creationdate ?></p></div>
@@ -45,13 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo '<br><br>';
             }
             else { ?>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsePlaylist" aria-expanded="false" aria-controls="collapseExample">
-                Open playlist
-            </button>
-            <br>
-            <div class="collapse" id="collapsePlaylist">
+            <div class="col-lg-12">
                 <?php foreach ($model->musics as $music) { ?>
-                    <div class="row borderTopBlack">
+                    <div class="row borderTopBlack marginTop2Percent">
                         <div class="col-lg-12">
                             <br>
                             <div class="row">
@@ -72,6 +70,19 @@ $this->params['breadcrumbs'][] = $this->title;
                                         <div class="col-lg-4 textAlignRight"><p>Price: </p></div><div class="col-lg-8"><?php if (!Yii::$app->user->isGuest) { ?><p>XX€</p> <?php } else { ?><button class="btn btn-default"><?php echo Html::a('Login to see prices', Url::toRoute(['/site/login']))?></button> <?php } ?></div>
                                     </div>
                                     <div class="row">
+                                        <div class="col-lg-4 textAlignRight"><p>Producer: </p></div><div class="col-lg-8">
+                                            <?php
+                                            $titleToStuff = $music->profile->user->username;
+                                                if (!Yii::$app->user->isGuest) {
+                                                    if($currentUser->username === $music->profile->user->username){
+                                                        $titleToStuff = $music->profile->user->username ." (Hey that's you!)";  
+                                                    }
+                                                }
+                                            ?>
+                                            <p class="overflowThatBi marginTop2Percent" title="<?= $titleToStuff; ?>"><?= $titleToStuff; ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-lg-4">&nbsp;</div>
                                         <div class="col-lg-8">
                                         </div>
@@ -79,14 +90,15 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
-                                    <audio id="player" controls src="sound.mp3" style="width: 100%"></audio>
+                                    <audio id="player" controls <?php
+                            if(!Yii::$app->user->isGuest){
+                                echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
+                            } ?> style="width: 100%"></audio>
                                     <div class="col-lg-12">&nbsp;</div>
                                     <div class="col-lg-12 textAlignCenter">
-                                        <?php if (!Yii::$app->user->isGuest) { ?>
-                                            <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Remove from this playlist</a></button>
-                                        <?php }else { ?>
-                                            <button class="btn btn-default" onclick="stopThatShit(/*THIS SONG ID*/)"><a href="#">Buy this song!</a></button>
-                                        <?php } ?>
+                                        <?php if (!Yii::$app->user->isGuest) { 
+                                            echo Html::a('Remove from this Playlist', ['/playlists/musicdel', 'playlists_id' =>$model->id, 'musics_id'=>$music->id], ['class' => 'btn btn-default marginTop2Percent', 'data-method'=>'delete']);
+                                        } ?>
                                     </div>
                                 </div>
                             </div>

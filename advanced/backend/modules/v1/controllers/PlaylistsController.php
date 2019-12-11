@@ -27,24 +27,6 @@ class PlaylistsController extends ActiveController
         return $verbs;
     }
 
-    private function putProducerInMusic($model){
-        foreach ($model->profiles as $profile) {
-            $userAux = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
-            $this->user = $userAux;
-            $model->producerOfThisSong = $userAux->username;
-        }
-        return $model;
-    }
-
-    private function putProducerInMusics($models){
-        foreach ($models as $music) {
-            foreach ($music->profiles as $profile) {
-                $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
-                $music->producerOfThisSong = $user->username;
-            }
-        }
-        return $models;
-    }
 
     /*
     'GET musicswithproducer' => 'musicswithproducer',
@@ -58,57 +40,75 @@ class PlaylistsController extends ActiveController
     'GET count' => 'count',
     */
 
+    public function actionMusic($id, $idmusic){
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
+        return $model;
+    }
+
     public function actionNomeplaylist($id){
-        $model = $this->modelClass::findOne($id);
+        $models = new $this->modelClass;
+        $model = $models::findOne($id);
         return $model->nome;
     }
 
     public function actionCreationdateplaylist($id){
-        $model = $this->modelClass::findOne($id);
+        $models = new $this->modelClass;
+        $model = $models::findOne($id);
         return $model->creationdate;
     }
     public function actionMusicsplaylist($id){
-        $model = $this->modelClass::findOne($id);
+        $models = new $this->modelClass;
+        $model = $models::findOne($id);
         return $model->musics;
     }
 
-    public function actionMusic($id, $idmusic){
-        $modelMusic = $this->modelMusic::findOne($idmusic);
-        return $modelMusic;
+    public function actionSearch($id, $txcode){
+        $models = new $this->modelMusic;
+        $model = $models::find()->all();
+        $request = $model::find()->where("lower(title) LIKE '%".strtolower($txcode)."%'")->all();
+        return $request;
     }
     public function actionTitlemusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
         return $model->title;
     }
     public function actionLaunchdatemusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
         return $model->launchdate;
     }
     public function actionLyricsmusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
         return $model->lyrics;
     }
     public function actionPvpmusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
         return $model->pvp;
     }
     public function actionMusicpathmusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
         return $model->musicpath;
     }
     public function actionGenremusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
         return $model->genres->nome;
     }
-    public function actionProducermusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
-        $model = $this->putProducerInMusic($model);
-        return $model->producerOfThisSong;
+    public function actionCountmusic(){
+        $models = new $this->modelMusic;
+        $model = $models::find()->all();
+        return count($model);
     }
+
     public function actionMp3filemusic($id, $idmusic){
-        $model = $this->modelMusic::findOne($idmusic);
-        $model = $this->putProducerInMusic($model);
-        return 'BeatBunny/advanced/frontend/web/uploads/'.$this->user->id.'/music_'.$model->id.'_'.$model->title.'.mp3';
+        $models = new $this->modelMusic;
+        $model = $models::findOne($idmusic);
+        return Yii::getAlias('@web').'frontend/'.$model->musicpath.'music_'.$model->id.'_'.$model->title.'.mp3"';
     }
 
     public function actionPlaylistcreate(){
@@ -161,24 +161,5 @@ class PlaylistsController extends ActiveController
         $ret = $modelPHM->save();
         return ['SaveError' => $ret];
     }
-
-    public function actionCreatorplaylist($id){
-        $modelPlaylist = new $this->modelClass;
-        $playlistEmQuestao = $modelPlaylist::findOne($id);
-        $modelProfiles = new $this->profileProvider;
-        $modelUser = new $this->userProvider;
-        $profiles = $this->profileProvider::find()->all();
-        foreach ($profiles as $profile) {
-            $user = $this->userProvider::find()->where(['id' => $profile->user_id])->one();
-            foreach ($profile->playlists as $playlist) {
-                if($playlist->id == $playlistEmQuestao->id){
-                    return $user->username;
-                }
-            }
-        }
-        return 0;
-    }
-
-
 
 }
