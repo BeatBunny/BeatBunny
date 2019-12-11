@@ -2,7 +2,10 @@
 
 namespace frontend\controllers;
 
+use bar\baz\source_with_namespace;
 use common\models\LoginForm;
+use DeepCopy\f001\B;
+use Faker\Provider\Base;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\BaseVarDumper;
@@ -41,7 +44,7 @@ class AlbumsController extends Controller
                     [
                         'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdel'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['producer'],
                     ],
                 ],
             ],
@@ -62,41 +65,13 @@ class AlbumsController extends Controller
     public function actionIndex()
     {
         $currentUser= $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'producer') {
-                break;
-            } else {
-                return $this->redirect(['site/index']);
-            }
-        }
         $currentProfile = $this->getCurrentProfile();
-        $currentUser = $this->getCurrentUser();
-        if(empty($currentProfile->albums)){
-            return $this->render('index', [
-                'currentProfile' => $currentProfile,
-                'currentUser' => $currentUser,
-            ]);
-        }
         $albums = $currentProfile->albums;
-        $albumsFromCurrentProfile = $this->putProducerInEveryMusicInTheAlbums($albums);
-        $currentAlbumMusic = $this->getMusicFromAlbum();
-        $modelGenresMusic = $this->getMusicGenre();
         return $this->render('index', [
             'currentProfile' => $currentProfile,
             'currentUser' => $currentUser,
-            'albumsFromCurrentProfile'=>$albumsFromCurrentProfile,
+            'albums'=>$albums,
         ]);
-    }
-
-    public function putProducerInEveryMusicInTheAlbums($albumsFromCurrentProfile){
-        $currentUser = $this->getCurrentUser();
-        foreach ($albumsFromCurrentProfile as $album) {
-            foreach ($album->musics as $music) {
-                $music->producerOfThisSong = $currentUser->username;
-            }
-        }
-        return $albumsFromCurrentProfile;
     }
 
     public function getMusicasComProdutorReturnsArray(){
@@ -117,6 +92,7 @@ class AlbumsController extends Controller
         }
         return $ArrayAlbuns;
     }
+
     public function getMusicFromAlbum(){
         $currentUser= $this->getCurrentProfile();
         $ArrayMusicasDoAlbum =[];
@@ -124,9 +100,7 @@ class AlbumsController extends Controller
             array_push($ArrayMusicasDoAlbum, $MusicasDoAlbum);
         }
         return $ArrayMusicasDoAlbum;
-
     }
-
 
     private function getProfileHasAlbumsIds(){
         $profile = $this->getCurrentProfile();
@@ -334,18 +308,17 @@ class AlbumsController extends Controller
                 return $this->redirect(['index']);
             }
         }
-            $getAlbumId=$this->findModel($album)->id;
-            $getOneMusicFromAll=Musics::find($music)->one();
-            $currentMusic=Musics::find($getOneMusicFromAll)->where(['albums_id' => $getAlbumId])->one();
-            $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
-            return $this->redirect(['index']);
+        $currentAlbum=$this->findModel($album);
+        $currentMusic=Musics::find($music)->where(['albums_id' => $album])->one();
+        $deleteMusic=$currentAlbum->unlink('musics',$currentMusic);
+        return $this->redirect(['index']);
     }
     
     public function dellAllMusic($album){
-        $albums=$this->findModel($album)->id;
+        $albums=$this->findModel($album);
         $allMusic=Musics::find()->where(['albums_id' => $albums])->all();
         foreach ($allMusic as $currentMusic)
-            $deleteMusic=$currentMusic->unlink('albums',$currentMusic);
+            $deleteMusic=$albums->unlink('musics',$currentMusic);
     }
 
     public function actionDelete($id)
@@ -362,7 +335,6 @@ class AlbumsController extends Controller
         $currentAlbum = $this->findModel($id)->id;
         $deleteAllMusicsOnAlbum=$this->dellAllMusic($id);
         $profileHasAlbumAlbumDelete = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
-        $this->findModel($id)->delete();
         return $this->redirect(['index']);
     }
 

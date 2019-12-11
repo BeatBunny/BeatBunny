@@ -206,36 +206,18 @@ class UserController extends Controller
                 return $this->goBack();
             }
         }
-        $musicsFromProducerWithUsername = $this->meterUsernameNoCampoProducer();
-
         $playlistsUserLogado = $this->getPlaylistsDoUser();
-
-        $numberOfSongsYouHave = count($musicsFromProducerWithUsername);
-
         $getCurrentProfile= $this->getCurrentProfile();
-
         $getCurrentMusic=Musics::find($id)->one();
-
         $verificarNaPlaylist= PlaylistsHasMusics::find($getCurrentMusic)->one();
-
-        $verificarNaLinhaVenda=Linhavenda::find($getCurrentMusic)->one();
-
+        $verificarNaLinhaVenda=Venda::find($getCurrentMusic)->one();
         if(count($verificarNaLinhaVenda)!=null)
         {
             $popup=true;
             return $this->render('index',['popup'=>$popup, 'profileProvider'=>$getCurrentProfile,'userProvider' => $currentUser,'numberOfSongsYouHave' => $numberOfSongsYouHave,'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'playlistsUserLogado' => $playlistsUserLogado]);
 
         }
-        if(count($verificarNaPlaylist)!=null) {
-
-            $delMusicPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
-
-        }
-
-        $delMusicProfile = ProfileHasMusics::find($getCurrentProfile)->where(['musics_id' => $getCurrentMusic])->one()->delete();
-
         $delMusic = Musics::find($getCurrentMusic)->one()->delete();
-
         return $this->redirect(['index']);
 
     }
