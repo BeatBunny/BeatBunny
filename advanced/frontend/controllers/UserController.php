@@ -112,7 +112,6 @@ class UserController extends Controller
 
         $userProvider = $this->getCurrentUser();
 
-
         $playlistHasMusics = new PlaylistsHasMusics();
 
         $numberOfSongsYouHave = count($profileProvider->musics);
