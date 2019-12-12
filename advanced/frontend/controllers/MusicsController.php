@@ -94,12 +94,12 @@ class MusicsController extends Controller
                 if(!is_null($profileProvider->vendas) || !empty($profileProvider->vendas))
                     $vendas = $profileProvider->vendas;
 
-
-
                 return $this->render('index', [
                     'searchedMusics' => $searchedMusics,
+                    'albums' => $albums,
                     'musics' => $musics,
                     'playlists' => $playlists,
+                    'vendas' => $vendas,
                     'searchModel' => $searchModel,
                     'allMusics' => $allMusics,
                     'userProvider' => $userProvider,

@@ -279,19 +279,20 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php 
 
                         $musicaCompradaQuestionMark = false;
-                        if(isset($musicasCompradasPeloUser))
-                            
-                                foreach ($musicasCompradasPeloUser as $musicaComprada) {
-                                    if($musicaComprada->id === $music->id)
-                                        $musicaCompradaQuestionMark = true;
-                                }
-                            
+                        if(isset($vendas)) {
+
+                            foreach ($vendas as $venda) {
+                                if ($venda->musics_id === $music->id)
+                                    $musicaCompradaQuestionMark = true;
+                            }
+                        }
+
                         ?>
                         <div class="col-lg-4">
                             <div class="col-lg-12 textAlignCenter"><h2>&nbsp;</h2></div>
                             <audio id="player" controls <?php 
                             if(!Yii::$app->user->isGuest){ 
-                                 echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
+                                echo 'src="'.Yii::getAlias('@web').'/'.$music->musicpath.'/music_'.$music->id.'_'.$music->title.'.mp3"';
                             } ?> style="width: 100%"></audio>
                             
                             <div class="col-lg-12">&nbsp;</div>

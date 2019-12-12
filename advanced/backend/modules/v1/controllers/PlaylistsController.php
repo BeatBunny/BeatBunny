@@ -2,7 +2,6 @@
 
 namespace backend\modules\v1\controllers;
 use yii\rest\ActiveController;
-use yii\web\Request;
 use Yii;
 
 class PlaylistsController extends ActiveController
@@ -26,19 +25,6 @@ class PlaylistsController extends ActiveController
         ];
         return $verbs;
     }
-
-
-    /*
-    'GET musicswithproducer' => 'musicswithproducer',
-    'GET {id}/title' => 'title', // 'x' é 'actionX'
-    'GET {id}/launchdate' => 'launchdate', // 'x' é 'actionX'
-    'GET {id}/lyrics' => 'lyrics', // 'x' é 'actionX'
-    'GET {id}/pvp' => 'pvp', // 'x' é 'actionX'
-    'GET {id}/musicpath' => 'musicpath', // 'x' é 'actionX'
-    'GET {id}/genre' => 'genre', // 'x' é 'actionX'
-    'GET {id}/producer' => 'producer', // 'xxxx' é 'actionXxxx'
-    'GET count' => 'count',
-    */
 
     public function actionMusic($id, $idmusic){
         $models = new $this->modelMusic;
@@ -119,7 +105,6 @@ class PlaylistsController extends ActiveController
         if($model->save())
             return ['SaveError' => 'YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSS'];
         return ['SaveError' => 'NOOOOOO'];
-        
     }
 
     public function actionPlaylistupdate($id){
