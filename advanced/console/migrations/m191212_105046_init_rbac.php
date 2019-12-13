@@ -1,21 +1,22 @@
 <?php
-namespace console\controllers;
 
-use Yii;
-use yii\console\Controller;
+use yii\db\Migration;
 
-class RbacController extends Controller
+/**
+ * Class m191212_105046_init_rbac
+ */
+class m191212_105046_init_rbac extends Migration
 {
-    public function actionInit()
+    public function up()
     {
         $auth = Yii::$app->authManager;
         $auth->removeAll();
-                             /**AllPages**/
+        /**AllPages**/
         $accessAll = $auth->createPermission('accessAll');
         $accessAll->description = 'Acess All pages';
         $auth->add($accessAll);
 
-                            /**PlayLists**/
+        /**PlayLists**/
         $accessPlaylists = $auth->createPermission('accessPlaylists');
         $accessPlaylists->description = 'Acess Playlist';
         $auth->add($accessPlaylists);
@@ -38,5 +39,11 @@ class RbacController extends Controller
         $auth->assign($client, 3);
         $auth->assign($producer, 2);
         $auth->assign($admin, 1);
+    }
+
+    public function down()
+    {
+        $auth = Yii::$app->authManager;
+        $auth->removeAll();
     }
 }

@@ -197,39 +197,35 @@ class MusicsController extends Controller
     
 
     public function actionBuymusic($id){
+            $model = $this->findModel($id);
+            if ($model->load(Yii::$app->request->post())) {
+                return $this->goBack();
+            }
+            $currentUser = $this->getCurrentUser();
+            $currentProfile = $this->getCurrentProfile();
+
+            if ($this->checkIfMusicIsBought($model->id))
+                return $this->goBack();
 
 
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post())) {
-            return $this->goBack();
-        }
-
-        $currentUser = $this->getCurrentUser();
-        $currentProfile = $this->getCurrentProfile();
-
-        if($this->checkIfMusicIsBought($model->id))
-            return $this->goBack();
-        
-
-        $musicasCompradasPeloUser = $currentProfile->vendas; //$this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
+            $musicasCompradasPeloUser = $currentProfile->vendas; //$this->getMusicasPelasLinhaDeVendaDoUserLogadoTesteMeterNomeProdutorNaMusica();
 
 
-        if(is_null($musicasCompradasPeloUser)){
+            if (is_null($musicasCompradasPeloUser)) {
 
-            return $this->render('buymusic', [
-                'model' => $model,
-                'currentUser' => $currentUser,
-                'currentProfile' => $currentProfile,
-            ]);
-        }
-        else{
-            return $this->render('buymusic', [
-                'model' => $model,
-                'currentUser' => $currentUser,
-                'currentProfile' => $currentProfile,
-                'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
-            ]);
-        }
+                return $this->render('buymusic', [
+                    'model' => $model,
+                    'currentUser' => $currentUser,
+                    'currentProfile' => $currentProfile,
+                ]);
+            } else {
+                return $this->render('buymusic', [
+                    'model' => $model,
+                    'currentUser' => $currentUser,
+                    'currentProfile' => $currentProfile,
+                    'musicasCompradasPeloUser' => $musicasCompradasPeloUser,
+                ]);
+            }
     }
 
     public function actionFinishpayment($id){
@@ -268,61 +264,62 @@ class MusicsController extends Controller
 
     public function actionCreate()
     {
+        if (Yii::$app->user->can('accessAll')) {
+            $currentProfile = $this->getCurrentProfile();
+            $currentUser = $this->getCurrentUser();
+            $modelYourAlbums = $currentProfile->albums;
 
-        $currentProfile = $this->getCurrentProfile();
-        $currentUser = $this->getCurrentUser();
-        $modelYourAlbums = $currentProfile->albums;
-
-        if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor || $this->checkIfCurrentUserIsProducer() === false)){
-            return $this->redirect(['index']);
-        }
-
-
-        $model = new Musics();
-        $modelGenres = Genres::find()->all();
-
-        if ($model->load(Yii::$app->request->post())) {
-            
-            $path = "uploads/";
-            if(!file_exists($path))
-                mkdir($path, 0777, true);
-
-            $getMusicFile = \yii\web\UploadedFile::getInstance($model, 'musicFile');//Get the uploaded file
-            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
-
-            if (!empty($getMusicFile))
-                $model->musicFile = $getMusicFile;
-            else
-                return $this->render('augment');
-            if(!empty($getImageFile))
-                $model->imageFile = $getImageFile;
-            else
-                return $this->render('augment');
-
-            if (!file_exists($path.$currentUser->id)) 
-                    mkdir($path.$currentUser->id, 0777, true);
-                
-            $pathToSong = $path.$currentUser->id."/";
-            $model->musicpath = $pathToSong;
-            $model->musiccover = $pathToSong;
-            $model->launchdate = date("Y/m/d");
-            $model->profile_id = $currentProfile->id;
-            if($model->save())
-            {
-                if (!empty($getMusicFile))
-                    $getMusicFile->saveAs( $pathToSong . "music_" .$model->id . "_" . $model->title ."." . $getMusicFile->extension);
-                if (!empty($getImageFile))
-                    $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);
+            if ($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor || $this->checkIfCurrentUserIsProducer() === false)) {
+                return $this->redirect(['index']);
             }
 
-            return $this->redirect(['user/index']);
-        }
 
-        return $this->render('create', [
-            'model' => $model,
-            'modelGenres' => $modelGenres,
-            'modelYourAlbums' => $modelYourAlbums,
-        ]);
+            $model = new Musics();
+            $modelGenres = Genres::find()->all();
+
+            if ($model->load(Yii::$app->request->post())) {
+
+                $path = "uploads/";
+                if (!file_exists($path))
+                    mkdir($path, 0777, true);
+
+                $getMusicFile = \yii\web\UploadedFile::getInstance($model, 'musicFile');//Get the uploaded file
+                $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
+
+                if (!empty($getMusicFile))
+                    $model->musicFile = $getMusicFile;
+                else
+                    return $this->render('augment');
+                if (!empty($getImageFile))
+                    $model->imageFile = $getImageFile;
+                else
+                    return $this->render('augment');
+
+                if (!file_exists($path . $currentUser->id))
+                    mkdir($path . $currentUser->id, 0777, true);
+
+                $pathToSong = $path . $currentUser->id . "/";
+                $model->musicpath = $pathToSong;
+                $model->musiccover = $pathToSong;
+                $model->launchdate = date("Y/m/d");
+                $model->profile_id = $currentProfile->id;
+                if ($model->save()) {
+                    if (!empty($getMusicFile))
+                        $getMusicFile->saveAs($pathToSong . "music_" . $model->id . "_" . $model->title . "." . $getMusicFile->extension);
+                    if (!empty($getImageFile))
+                        $getImageFile->saveAs($pathToSong . "image_" . $model->id . "." . $getImageFile->extension);
+                }
+
+                return $this->redirect(['user/index']);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+                'modelGenres' => $modelGenres,
+                'modelYourAlbums' => $modelYourAlbums,
+            ]);
+        }
+        return $this->redirect(['user/index']);
     }
 
 
@@ -368,50 +365,51 @@ class MusicsController extends Controller
      */
     public function actionUpdate($id)
     {
-
-        $currentProfile = $this->getCurrentProfile();
-        $currentUser = $this->getCurrentUser();
-        $modelYourAlbums = $currentProfile->albums;
-
-
-        $model = $this->findModel($id);
-        $modelGenres = Genres::find()->all();
-        
-        if ($model->load(Yii::$app->request->post())) {
+        if (Yii::$app->user->can('accessAll')) {
+            $currentProfile = $this->getCurrentProfile();
+            $currentUser = $this->getCurrentUser();
+            $modelYourAlbums = $currentProfile->albums;
 
 
-            $path = "uploads/";
+            $model = $this->findModel($id);
+            $modelGenres = Genres::find()->all();
 
-            $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
+            if ($model->load(Yii::$app->request->post())) {
 
-            if(is_null($getImageFile)){
-                $model->save();
+
+                $path = "uploads/";
+
+                $getImageFile = \yii\web\UploadedFile::getInstance($model, 'imageFile');
+
+                if (is_null($getImageFile)) {
+                    $model->save();
+                    return $this->redirect(['user/index']);
+                }
+
+                if (!empty($getImageFile))
+                    $model->imageFile = $getImageFile;
+                else
+                    return $this->render('augment');
+
+
+                $pathToSong = $path . $currentUser->id . "/";
+                $model->musiccover = $pathToSong;
+
+                $model->save(false);
+
+                if (!empty($getImageFile))
+                    $getImageFile->saveAs($pathToSong . "image_" . $model->id . "." . $getImageFile->extension);
+
                 return $this->redirect(['user/index']);
             }
-            
-            if(!empty($getImageFile))
-                $model->imageFile = $getImageFile;
-            else
-                return $this->render('augment');
 
-
-
-            $pathToSong = $path.$currentUser->id."/";
-            $model->musiccover = $pathToSong;
-
-            $model->save(false);
-            
-            if (!empty($getImageFile))
-                $getImageFile->saveAs( $pathToSong . "image_" .$model->id . "." . $getImageFile->extension);
-            
-            return $this->redirect(['user/index']);
+            return $this->render('update', [
+                'model' => $model,
+                'modelGenres' => $modelGenres,
+                'modelYourAlbums' => $modelYourAlbums,
+            ]);
         }
-
-        return $this->render('update', [
-            'model' => $model,
-            'modelGenres' => $modelGenres,
-            'modelYourAlbums' => $modelYourAlbums,
-        ]);
+        $this->redirect(['index']);
     }
 
     /**
