@@ -55,6 +55,17 @@ return [
             'rules' => [ 
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/default'], 'pluralize' => false,
                 ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user'], 'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET {id}/username' => 'usernameget', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/authkey' => 'authkeyget', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/email' => 'emailget', // 'xxxx' é 'actionXxxx'
+                        'POST register' => 'registeruser',
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
+                    ],
+                ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/albums'], 'pluralize' => false,
                     'extraPatterns' => [
                         'GET {id}/title' => 'titlealbum', // 'xxxx' é 'actionXxxx'
