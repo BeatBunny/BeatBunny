@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     if(empty($playlist->musics)) {
         echo Html::a('Go add songs to your playlist', Url::toRoute(['/musics/index']), ['class' => 'btn btn-default']);
-        echo Html::a('Delete playlist', ['/playlists/delete', 'id' =>$playlist->id], ['class' => 'btn btn-success', 'data-method'=>'post']);
+        echo Html::a('Delete playlist', ['/playlists/delete', 'id' =>$playlist->id], ['class' => 'btn btn-danger', 'data-method'=>'post']);
         echo '<br><br>';
         }
     else { ?>
