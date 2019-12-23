@@ -58,8 +58,9 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
-        $currentProfile= $this->getCurrentProfile();
-        $currentUser= $this->getCurrentUser();
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))){
+        $currentProfile = $this->getCurrentProfile();
+        $currentUser = $this->getCurrentUser();
 
         $playlistsUserLogado = $this->getPlaylistsDoUser();
 
@@ -78,6 +79,8 @@ class PlaylistsController extends Controller
             'playlistsUserLogado' => $playlistsUserLogado,
         ]);
     }
+        return $this->redirect(['site/index']);
+    }
 
     /**
      * Displays a single Playlists model.
@@ -87,16 +90,19 @@ class PlaylistsController extends Controller
      */
     public function actionView($id)
     {
-        $currentUser= $this->getCurrentUser();
-        
-        $model = $this->findModel($id);
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+            $currentUser = $this->getCurrentUser();
 
-        $model = $this->getGenerosDasPlaylists($model);
+            $model = $this->findModel($id);
 
-        return $this->render('view', [
-            'currentUser' => $currentUser,
-            'model' => $model,
-        ]);
+            $model = $this->getGenerosDasPlaylists($model);
+
+            return $this->render('view', [
+                'currentUser' => $currentUser,
+                'model' => $model,
+            ]);
+        }
+        return $this->redirect(['site/index']);
     }
 
     /**
@@ -106,20 +112,23 @@ class PlaylistsController extends Controller
      */
     public function actionCreate()
     {
-        $currentProfile = $this->getCurrentProfile();
-        $model = new Playlists();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $profileHasPlaylists = new ProfileHasPlaylists();
-            $profileHasPlaylists->playlists_id = $model->id;
-            $profileHasPlaylists->profile_id = $currentProfile->id;
-            $profileHasPlaylists->save();
-            return $this->redirect(['playlists/index']);
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+            $currentProfile = $this->getCurrentProfile();
+            $model = new Playlists();
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                $profileHasPlaylists = new ProfileHasPlaylists();
+                $profileHasPlaylists->playlists_id = $model->id;
+                $profileHasPlaylists->profile_id = $currentProfile->id;
+                $profileHasPlaylists->save();
+                return $this->redirect(['playlists/index']);
+            }
+
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
-
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['site/index']);
     }
 
     /**
@@ -131,13 +140,16 @@ class PlaylistsController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+            $model = $this->findModel($id);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            return $this->render('update', [
+                'model' => $model,
+            ]);
         }
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['site/index']);
     }
 
     /**
@@ -149,15 +161,17 @@ class PlaylistsController extends Controller
      */
     public function actionDelete($id)
     {
-        $currentUser= $this->getCurrentUser();
-        $currentPlaylist = $this->findModel($id)->id;
-        if(!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()))
-            $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()->delete();
-        if(!is_null(ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()))
-            $deletePlaylistFromProfileHasPlaylists = ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()->delete();
-        //$playlistToDelete->unlink();
-        $this->findModel($id)->delete();
-        return $this->redirect(['index']);
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+            $currentUser = $this->getCurrentUser();
+            $currentPlaylist = $this->findModel($id)->id;
+            if (!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()))
+                $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()->delete();
+            if (!is_null(ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()))
+                $deletePlaylistFromProfileHasPlaylists = ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()->delete();
+            $this->findModel($id)->delete();
+            return $this->redirect(['index']);
+        }
+        return $this->redirect(['site/index']);
     }
 
     /**
@@ -212,38 +226,43 @@ class PlaylistsController extends Controller
     }
 
     public function actionAddsong($musics_id, $playlists_id) {
-        $currentUser= $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'client'|| $role->name === 'producer') {
-                break;
-            } else {
-                return $this->redirect(['index']);
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+            $currentUser = $this->getCurrentUser();
+            $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+            foreach ($roles as $role) {
+                if ($role->name === 'client' || $role->name === 'producer') {
+                    break;
+                } else {
+                    return $this->redirect(['index']);
+                }
             }
+            $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
+
+            $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
+
+            $playlistsHasMusics = new PlaylistsHasMusics();
+
+            $playlistsHasMusics->playlists_id = $modelPlaylists->id;
+
+            $playlistsHasMusics->musics_id = $modelMusics->id;
+
+            $playlistsHasMusics->save();
+
+            return $this->redirect(['musics/index']);
         }
-        $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
-
-        $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
-
-        $playlistsHasMusics = new PlaylistsHasMusics();
-
-        $playlistsHasMusics->playlists_id = $modelPlaylists->id;
-
-        $playlistsHasMusics->musics_id = $modelMusics->id;
-
-        $playlistsHasMusics->save();
-
-        return $this->redirect(['musics/index']);
+        return $this->redirect(['site/index']);
     }
 
     public function actionMusicdel($musics_id, $playlists_id)
     {
-        $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
-        $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
-        PlaylistsHasMusics::find($modelMusics)->where(['playlists_id' => $modelPlaylists])->one()->delete();
+        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+            $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
+            $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
+            PlaylistsHasMusics::find($modelMusics)->where(['playlists_id' => $modelPlaylists])->one()->delete();
 //        $deleteMusic=$modelMusics->unlink('musics',$currentMusic, $delete=true);
-
-        return $this->redirect(['index']);
+            return $this->redirect(['index']);
+        }
+        return $this->redirect(['site/index']);
     }
 
 
