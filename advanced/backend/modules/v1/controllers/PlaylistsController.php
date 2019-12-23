@@ -1,6 +1,7 @@
 <?php
 
 namespace backend\modules\v1\controllers;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use Yii;
 
@@ -11,8 +12,27 @@ class PlaylistsController extends ActiveController
     public $userProvider = 'common\models\User';
     public $profileProvider = 'common\models\Profile';
     public $modelPHM = 'common\models\PlaylistsHasMusics';
+    public $modelPHP = 'common\models\ProfileHasPlaylists';
     public $genresProvider = 'common\models\Genres';
     public $user = null;
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::className(),
+        ];
+        return $behaviors;
+    }
+
+
+
+
+    public function fields()
+    {
+        return ['id','nome'];
+    } 
+
 
     protected function verbs() {
         //$verbs = parent::verbs();
@@ -28,8 +48,9 @@ class PlaylistsController extends ActiveController
 
     public function actionMusic($id, $idmusic){
         $models = new $this->modelMusic;
-        $model = $models::findOne($idmusic);
-        return $model;
+        $musicsFromPlaylist = $models::findOne($id);
+        return $musicsFromPlaylist->musics;
+        
     }
 
     public function actionNomeplaylist($id){
@@ -98,13 +119,31 @@ class PlaylistsController extends ActiveController
     }
 
     public function actionPlaylistcreate(){
+
+        //CENAS DA TABELA PLAYLISTS
         $model = new $this->modelClass;
         $model->nome = Yii::$app->request->post('nome');
         $model->creationdate = date("Y-m-d"); //Yii::$app->request->post('creationdate');
         $model->ispublica = 'N'; //Yii::$app->request->post('ispublica');
-        if($model->save())
-            return ['SaveError' => 'YEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSS'];
-        return ['SaveError' => 'NOOOOOO'];
+
+        //IR BUSCAR O PROFILE DO USER
+        $userid = Yii::$app->request->post('id'); //USER ID
+        $modelProfile = new $this->profileProvider;
+        $profileQueCriou = $modelProfile::find()->where(['user_id' => $userid])->one();
+
+        //CRIAR A PLAYLIST E O PROFILE_HAS_PLAYLISTS
+        if($model->save()){
+            $modelProfileHasPlaylists = $this->modelPHP;
+            $modelProfileHasPlaylists->profile_id = $profileQueCriou->id;
+            $modelProfileHasPlaylists->playlists_id = $model->id;
+            if($modelProfileHasPlaylists->save()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
     }
 
     public function actionPlaylistupdate($id){
@@ -135,10 +174,9 @@ class PlaylistsController extends ActiveController
         $modelPHM = new $this->modelPHM;
         $model = new $this->modelClass;
         $modelmusica = new $this->modelMusic;
-        
-        $id = Yii::$app->request->post('id');
+        $id = Yii::$app->request->post('idPlaylist');
         $playlistParaInserir = $model::findOne($id);
-        $idmusic = Yii::$app->request->post('idmusic');        
+        $idmusic = Yii::$app->request->post('idMusic');        
         $musicaParaInserirNaPlaylist = $modelmusica::findOne($idmusic);
 
         $modelPHM->playlists_id = $playlistParaInserir->id;

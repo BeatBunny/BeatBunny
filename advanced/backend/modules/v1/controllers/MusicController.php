@@ -9,6 +9,7 @@ class MusicController extends ActiveController
     public $userProvider = 'common\models\User';
     public $genresProvider = 'common\models\Genres';
 
+
     // protected function verbs() {
     //     //$verbs = parent::verbs();
     //     $verbs =  [
@@ -20,7 +21,6 @@ class MusicController extends ActiveController
     //     ];
     //     return $verbs;
     // }
-
 
     public function actionIndexmusic($id){
         $models = new $this->modelClass;
@@ -57,6 +57,14 @@ class MusicController extends ActiveController
         $model = $models::findOne($id);
         return $model->musicpath;
     }
+
+
+    public function actionCovermusic($id){
+        $models = new $this->modelClass;
+        $model = $models::findOne($id);
+        return '/frontend/web/'.$model->musicpath.'image_'.$model->id.'.png';
+    }
+
     public function actionGenremusic($id){
         $models = new $this->modelClass;
         $model = $models::findOne($id);
@@ -71,7 +79,7 @@ class MusicController extends ActiveController
     public function actionMp3filemusic($id){
         $models = new $this->modelClass;
         $model = $models::findOne($id);
-        return '/frontend'.\Yii::getAlias('@web').'/'.$model->musicpath.'music_'.$model->id.'_'.$model->title.'.mp3';
+        return '/frontend/web/'.$model->musicpath.'music_'.$model->id.'_'.$model->title.'.mp3';
     }
 
 
