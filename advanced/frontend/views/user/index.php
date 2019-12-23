@@ -267,7 +267,6 @@ if(isset($popup)){
                                         </div>
                                         
                                     </div>
-                                </div>
                             <?php
                             }
                         }
@@ -283,6 +282,7 @@ if(isset($popup)){
                             <?php
                         } ?>
 
+            </div>
             <div class="col-lg-12 marginTop2Percent borderTopBlack">&nbsp;</div>
                         <?php
                     } 
