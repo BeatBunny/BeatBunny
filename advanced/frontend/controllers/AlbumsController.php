@@ -67,9 +67,9 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
+        $currentUser = $this->getCurrentUser();;
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
-            $currentUser = $this->getCurrentUser();
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $albums = $currentProfile->albums;
             if(!is_null($currentProfile->playlists) || !empty($currentProfile->playlists)) {
                 $playlists = $currentProfile->playlists;
@@ -158,7 +158,7 @@ class AlbumsController extends Controller
     public function actionCreate()
     {
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
             $model = new Albums();
             $allgenres = Genres::find()->all();
@@ -207,7 +207,7 @@ class AlbumsController extends Controller
 
     public function actionEdit(){
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
             $model = $currentProfile->albums();
             return $this->render('edit', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile, 'model' => $model]);
@@ -224,7 +224,7 @@ class AlbumsController extends Controller
     public function actionUpdate($id)
     {
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
             $albumsFromCurrentProfile = $currentProfile->albums;
             $modelGenres = Genres::find()->all();
@@ -270,7 +270,7 @@ class AlbumsController extends Controller
     public function actionMusicdel($album, $music)
     {
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentAlbum = $this->findModel($album);
             $currentMusic = Musics::find($music)->where(['albums_id' => $album])->one();
             $deleteMusic = $currentAlbum->unlink('musics', $currentMusic);
@@ -281,7 +281,7 @@ class AlbumsController extends Controller
     
     public function dellAllMusic($album){
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $albums = $this->findModel($album);
             $allMusic = Musics::find()->where(['albums_id' => $albums])->all();
             foreach ($allMusic as $currentMusic)
@@ -293,7 +293,7 @@ class AlbumsController extends Controller
     public function actionDelete($id)
     {
         $currentProfile = $this->getCurrentProfile();
-        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentAlbum = $this->findModel($id)->id;
             $deleteAllMusicsOnAlbum = $this->dellAllMusic($id);
             $profileHasAlbumAlbumDelete = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
@@ -318,18 +318,10 @@ class AlbumsController extends Controller
     }
 
     public function actionAddtoplaylist($musics_id, $playlists_id) {
-        if ((Yii::$app->user->can('accessAll'))) {
+        $currentProfile=$this->getCurrentProfile();
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
-            $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-            foreach ($roles as $role) {
-                if ($role->name === 'producer') {
-                    break;
-                } else {
-                    return $this->redirect(['index']);
-                }
-            }
             $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
-
             $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
 
             $playlistsHasMusics = new PlaylistsHasMusics();

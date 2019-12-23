@@ -13,7 +13,7 @@ class m180524_201442_init extends Migration
         $authManager->removeAll();
         /**AllPages**/
         $accessAll = $authManager->createPermission('accessAll');
-        $accessAll->description = 'Acess All pages';
+        $accessAll->description = 'Acess All pages (frontend) ';
         $authManager->add($accessAll);
 
         /**PlayLists**/
@@ -21,6 +21,9 @@ class m180524_201442_init extends Migration
         $accessPlaylists->description = 'Acess Playlist';
         $authManager->add($accessPlaylists);
 
+        $accessIsAdmin = $authManager->createPermission('accessIsAdmin');
+        $accessIsAdmin->description = 'Acess ALL';
+        $authManager->add($accessIsAdmin);
 
         $client = $authManager->createRole('client');
         $authManager->add($client);
@@ -32,7 +35,7 @@ class m180524_201442_init extends Migration
 
         $admin = $authManager->createRole('admin');
         $authManager->add($admin);
-        $authManager->addChild($admin, $accessAll);
+        $authManager->addChild($admin, $accessIsAdmin);
 
         $authManager->assign($client, 3);
         $authManager->assign($producer, 2);
