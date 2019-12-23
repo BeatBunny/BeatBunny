@@ -1,27 +1,36 @@
 <?php
 
 namespace backend\modules\v1\controllers;
+use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use Yii;
 
-class UserController extends ActiveController
+class UserController extends ActiveController 
 {
 	public $modelClass = 'common\models\User';
 	public $modelProfile = 'common\models\Profile';
+    public $modelPlaylists = 'common\models\Playlists';
 	public $modelSignin = 'common\models\Signupform';
 	public $modelLogin = 'common\models\Loginform';
 
-    protected function verbs() {
-        //$verbs = parent::verbs();
-        $verbs =  [
-            'index' => ['GET', 'HEAD'],
-            'view' => ['GET', 'HEAD'],
-            'create' => ['POST'],
-            'update' => ['PUT', 'PATCH'],
-            'delete' => ['DELETE'],
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+        'class' => QueryParamAuth::className(),
         ];
-        return $verbs;
+        return $behaviors;
     }
+
+    public function checkAccess($action, $model = null, $params = [])
+    {
+    //if ($action === ‘post' or $action === 'delete')
+        if ($action === 'usernameget' or $action === 'delete')
+            throw new \yii\web\ForbiddenHttpException('Apenas poderá '.$action.' utilizadores registados…');
+
+    }
+
+
 
     public function actionUsernameget($id){
     	$model = new $this->modelClass;
@@ -41,7 +50,28 @@ class UserController extends ActiveController
     	return $req->email;
     }
 
-    public function actionRegisteruser(){
+    public function actionPlaylistsget($id){
+        $model = new $this->modelClass;
+        $user = $model::findOne($id);
+        $modelProfile = new $this->modelProfile;
+        $profile = $modelProfile::find()->where(['user_id' => $user->id])->one();
+        return $profile->playlists;
+    }
+    public function actionPlaylistmusicsget($id, $idplaylist){
+        $modelPlaylists = new $this->modelPlaylists;
+
+        $modelProfile = new $this->modelProfile;
+        $profile = $modelProfile::find()->where(['user_id' => $id])->one();
+
+        foreach ($profile->playlists as $playlist) {
+            if($playlist->id == $idplaylist){
+                return $playlist->musics;
+            }
+        }
+
+    }
+
+    /*public function actionRegisteruser(){
         $signinModel = new $this->modelSignin;
 
         $signinModel->username = Yii::$app->request->post('username');
@@ -69,6 +99,26 @@ class UserController extends ActiveController
     		return $req;
     	}
         return ['Logged in' => 'false'];	
+    */
+
+    public function actionWithprofile(){
+        $modelsProfile = new $this->modelProfile;
+        $req = $modelsProfile::find()->all();
+        $usersWithProfile = [];
+        foreach ($req as $profile) {
+            array_push($usersWithProfile, $profile);
+        }
+        return $usersWithProfile;
     }
+
+    public function actionProfile($id){
+        $modelsUser = new $this->modelClass;
+        $modelsProfile = new $this->modelProfile;
+
+        $user = $modelsUser->findOne($id);
+        $profile = $modelsProfile::find()->where(['user_id' => $user->id])->one();
+        return $profile;
+    }
+
 
 }

@@ -1,6 +1,7 @@
 <?php 
 namespace frontend\tests\unit\models;
 use common\models\User;
+use common\models\SignupForm;
 
 class UserTest extends \Codeception\Test\Unit
 {
@@ -30,19 +31,6 @@ class UserTest extends \Codeception\Test\Unit
         return $user->username;
     }
 
-    public function testPasswordValidation(){
-        $user = new User();
-        /*$user->password = null;
-        $this->assertTrue($user->validate(['password']), 'Password null, NOP');
-        $user->password = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        $this->assertTrue($user->validate(['password']), 'Password demasiado longa, NOP');
-        $user->password = 123456789;
-        $this->assertTrue($user->validate(['password']), 'Password certa, NOP');*/
-        $user->password = "teste12345";
-        $this->assertTrue($user->validate(['password']), 'Password certa, YE');
-        return $user->password;
-    }
-
     public function testEmailValidation(){
         $user = new User();
         $user->email = null;
@@ -59,14 +47,5 @@ class UserTest extends \Codeception\Test\Unit
         $this->assertTrue($user->validate(['email']), 'Email tem uma letra , número ,  arroba e .com');
         return $user->email;
     }
-
-    public function testInsertUser(){
-        $user = new User();
-        $user->username = $this->testUsernameValidation();
-        $user->password = $this->testPasswordValidation();
-        $user->email = $this->testEmailValidation();
-        
-        $this->assertTrue($user->signup());
-        $this->tester->seeInDatabase("user", ['username' => "Richardus1"]);
-    }
+    
 }

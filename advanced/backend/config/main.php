@@ -55,15 +55,29 @@ return [
             'rules' => [ 
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/default'], 'pluralize' => false,
                 ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/userregisterandlogin'], 'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST register' => 'registeruser', // 'xxxx' é 'actionXxxx'
+                        'POST login' => 'loginuser', // 'xxxx' é 'actionXxxx'
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
+                    ],
+                ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/user'], 'pluralize' => false,
                     'extraPatterns' => [
                         'GET {id}/username' => 'usernameget', // 'xxxx' é 'actionXxxx'
                         'GET {id}/authkey' => 'authkeyget', // 'xxxx' é 'actionXxxx'
                         'GET {id}/email' => 'emailget', // 'xxxx' é 'actionXxxx'
+                        'GET profile' => 'profile', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/playlists' => 'playlistsget', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/playlists/{idplaylist}/musics' => 'playlistmusicsget', // 'xxxx' é 'actionXxxx'
+                        'GET {id}/profile' => 'profile', // 'xxxx' é 'actionXxxx'
                         'POST register' => 'registeruser',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!
+                        '{idplaylist}' => '<idplaylist:\\d+>',
                     ],
                 ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/albums'], 'pluralize' => false,
@@ -124,6 +138,7 @@ return [
                         'GET {id}/genremusic' => 'genremusic', // 'xxxx' é 'actionXxxx'
                         'GET countmusic' => 'countmusic',
                         'GET {id}/mp3filemusic' => 'mp3filemusic',
+                        'GET {id}/cover' => 'covermusic',
                         'GET search/{txcode}' => 'search',
                     ],
                     'tokens' => [

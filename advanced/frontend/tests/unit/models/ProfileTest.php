@@ -42,9 +42,9 @@ class ProfileTest extends \Codeception\Test\Unit
     public function testProfileIdUserValidation(){
         $profile = new Profile();
         $profile->user_id = null;
-        $this->assertFalse($profile->validate(['user_id']), 'ID USER é null');
+        $this->assertFalse($profile->validate(['user_id']), 'ID USER não pode ser null');
         $profile->user_id = 'a';
-        $this->assertFalse($profile->validate(['user_id']), 'ID USER é numérico');
+        $this->assertFalse($profile->validate(['user_id']), 'ID USER tem de ser numérico');
         $profile->user_id = 1;
         $this->assertTrue($profile->validate(['user_id']), 'ID USER é apenas um numero');
         return $profile->user_id;
