@@ -222,8 +222,8 @@ if(isset($popup)){
                                                             Add to one of your playlists
                                                         </button>
                                                     <?php } else { ?>
-                                                        <button type="button" class="btn btn-default " title="Create playlist to be able to add this song to one" disabled="disabled" data-toggle="modal" data-target="#exampleModal<?=$i?>">
-                                                            Add to one of your playlists
+                                                        <button type="button" class="btn btn-default " title="Create playlist">
+                                                            <?php echo Html::a('Create playlist!', Url::toRoute(['/playlists/create']))?>
                                                         </button>
                                                     <?php } ?>
                                                 </div>

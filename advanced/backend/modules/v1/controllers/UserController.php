@@ -70,5 +70,30 @@ class UserController extends ActiveController
     	}
         return ['Logged in' => 'false'];	
     }
+                        /** PROFILE PART **/
+    public function actionIndexprofile($id){
+        $modelProfile = new $this->modelClass;
+        return $modelProfile->findOne($id);
+    }
 
+    public function actionSearch($txcode){
+        $modelProfile = new $this->modelClass;
+        $request = $modelProfile::find()->where("lower(title) LIKE '%".strtolower($txcode)."%'")->all();
+        return $request;
+    }
+    public function actionNomeprofile($id){
+        $modelProfile = new $this->modelClass;
+        $model = $modelProfile::findOne($id);
+        return $model->nome;
+    }
+    public function actionSaldoprofile($id){
+        $modelProfile = new $this->modelClass;
+        $model = $modelProfile::findOne($id);
+        return $model->saldo;
+    }
+    public function actionProfileimage($id){
+        $modelProfile = new $this->modelClass;
+        $model = $modelProfile::findOne($id);
+        return $model->profileimage;
+    }
 }

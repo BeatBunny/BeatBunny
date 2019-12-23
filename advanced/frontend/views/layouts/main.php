@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use common\models\Profile;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -13,9 +14,8 @@ use yii\helpers\Url;
 
 AppAsset::register($this);
 $isProducer=false;
-$checkRole=Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
-foreach ($checkRole as $curentRole)
-    if($curentRole->name ==='producer')
+$currentProfile=Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
+if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))
         $isProducer=true;
 ?>
 <?php $this->beginPage() ?>
@@ -87,9 +87,9 @@ foreach ($checkRole as $curentRole)
                                    <li><a href="'. Url::toRoute(['/site/logout']) .'">Logout</a></li>
                             </ul>
                         </div>';
-        if($isProducer==true)
+        if($isProducer==true) {
             $menuItems[] = ['label' => 'Albums', 'url' => ['/albums/index']];
-
+        }
         $menuItems[] = ['label' => 'My Stuff', 'url' => ['/user/index']];
     }
     echo Nav::widget([

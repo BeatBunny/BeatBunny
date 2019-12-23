@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 You have the ability to buy musics that <i>Indie Producers</i> upload to our app.
             </p>
             <br>
+            <?php if (!Yii::$app->user->can('accessAll')){ ?>
             <p>
                 Not only the ability to buy those songs but you can also be a Producer yourself, all you have to do is email-us with a bit of your story.
             </p>
@@ -29,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p>
                 <?php echo Html::a('Be a Producer!', Url::toRoute(['site/contact']), ['class' => 'btn btn-default'] )?>
             </p>
+            <?php }?>
         </div>
     </div>
     

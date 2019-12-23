@@ -20,7 +20,6 @@ class RbacController extends Controller
         $accessPlaylists->description = 'Acess Playlist';
         $auth->add($accessPlaylists);
 
-
         $client = $auth->createRole('client');
         $auth->add($client);
         $auth->addChild($client, $accessPlaylists);

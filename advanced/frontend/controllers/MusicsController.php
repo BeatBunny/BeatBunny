@@ -269,11 +269,6 @@ class MusicsController extends Controller
             $currentUser = $this->getCurrentUser();
             $modelYourAlbums = $currentProfile->albums;
 
-            if ($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor || $this->checkIfCurrentUserIsProducer() === false)) {
-                return $this->redirect(['index']);
-            }
-
-
             $model = new Musics();
             $modelGenres = Genres::find()->all();
 

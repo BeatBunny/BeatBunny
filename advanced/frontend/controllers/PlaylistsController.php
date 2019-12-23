@@ -12,6 +12,7 @@ use common\models\Profile;
 use common\models\Playlists;
 use common\models\Genres;
 use common\models\SearchPlaylists;
+use yii\db\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -164,11 +165,14 @@ class PlaylistsController extends Controller
         if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
             $currentUser = $this->getCurrentUser();
             $currentPlaylist = $this->findModel($id)->id;
-            if (!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()))
-                $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one()->delete();
+            if (!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one())){
+                $songsToDeleteFromPlaylist = PlaylistsHasMusics::find()->where(['playlists_id' => $id])->all();
+            foreach ($songsToDeleteFromPlaylist as $songFromPlaylist)
+                $songFromPlaylist->delete();
+            }
             if (!is_null(ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()))
                 $deletePlaylistFromProfileHasPlaylists = ProfileHasPlaylists::find()->where(['playlists_id' => $id])->one()->delete();
-            $this->findModel($id)->delete();
+                $this->findModel($id)->delete();
             return $this->redirect(['index']);
         }
         return $this->redirect(['site/index']);

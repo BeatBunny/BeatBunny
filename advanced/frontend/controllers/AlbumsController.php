@@ -5,6 +5,8 @@ namespace frontend\controllers;
 
 use bar\baz\source_with_namespace;
 use common\models\LoginForm;
+use common\models\Playlists;
+use common\models\PlaylistsHasMusics;
 use DeepCopy\f001\B;
 use Faker\Provider\Base;
 use Yii;
@@ -43,7 +45,7 @@ class AlbumsController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdel'],
+                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete', 'musicdel','addtoplaylist'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -65,18 +67,28 @@ class AlbumsController extends Controller
      */
     public function actionIndex()
     {
-        if (Yii::$app->user->can('accessAll')) {
-            $currentProfile = $this->getCurrentProfile();
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
             $currentUser = $this->getCurrentUser();
             $albums = $currentProfile->albums;
-            return $this->render('index', [
-                'currentProfile' => $currentProfile,
-                'currentUser' => $currentUser,
-                'albums' => $albums,
-            ]);
+            if(!is_null($currentProfile->playlists) || !empty($currentProfile->playlists)) {
+                $playlists = $currentProfile->playlists;
+                return $this->render('index', [
+                    'currentProfile' => $currentProfile,
+                    'playlists' => $playlists,
+                    'currentUser' => $currentUser,
+                    'albums' => $albums,]);
+
+            }else{
+                return $this->render('index', [
+                    'currentProfile' => $currentProfile,
+                    'currentUser' => $currentUser,
+                    'albums' => $albums,
+                ]);
+            }
         }
             return $this->redirect(['site/index']);
-    }F
+    }
 
     public function getMusicasComProdutorReturnsArray(){
         $profileHasMusics = ProfileHasMusics::find()->all();
@@ -125,36 +137,6 @@ class AlbumsController extends Controller
         return Musics::find()->where(['albums_id'=>$album])->one();
     }
 
-
-//    public function converterAlbunsArrayParaObject(){
-//        $todosAlbuns = Albums::find()->all();
-//        $todosAlbunsArrayProdutores = $this->getProducerAlbums();
-//        for ($i=0; $i < count($todosAlbuns); $i++) {
-//            if($todosAlbuns[$i]->id == $todosAlbunsArrayProdutores[$i]->id){
-//                $todosAlbuns[$i]->producerOfThisAlbum = $todosAlbunsArrayProdutores[$i]->producerOfThisAlbum;
-//            }
-//        }
-//        return $todosAlbuns;
-//    }
-//
-//    private function getProducerAlbumsIds(){
-//        $profile = $this->getCurrentProfile();
-//        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
-//        $albums[] = null;
-//        foreach ($ProfileHasAlbums as $album ) {
-//            array_push($albums, $album->albums_id);
-//        }
-//        return $albums;
-//    }
-//
-//    public function getProducerAlbums(){
-//        $arrayDeAlbumsIds[] = $this->getProducerAlbumsIds();
-//        $arrayDeAlbums = null;
-//        foreach ($arrayDeAlbumsIds as $idDoAlbum) {
-//            $arrayDeAlbums = Albums::find()->where(['id' => $idDoAlbum])->all();
-//        }
-//        return $arrayDeAlbums;
-//    }
     /**
      * Displays a single Albums model.
      * @param integer $id
@@ -175,8 +157,8 @@ class AlbumsController extends Controller
      */
     public function actionCreate()
     {
-        if (Yii::$app->user->can('accessAll')) {
-            $currentProfile = $this->getCurrentProfile();
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
             $currentUser = $this->getCurrentUser();
             $model = new Albums();
             $allgenres = Genres::find()->all();
@@ -224,13 +206,13 @@ class AlbumsController extends Controller
     }
 
     public function actionEdit(){
-        $currentProfile= $this->getCurrentProfile();
-        if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)){
-            return $this->redirect(['site/index']);
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+            $currentUser = $this->getCurrentUser();
+            $model = $currentProfile->albums();
+            return $this->render('edit', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile, 'model' => $model]);
         }
-        $currentUser = $this->getCurrentUser();
-        $model = $currentProfile->albums();
-        return $this->render('edit', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile, 'model'=> $model]);
+        return $this->redirect(['site/index']);
     }
     /**
      * Updates an existing Albums model.
@@ -241,12 +223,9 @@ class AlbumsController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (Yii::$app->user->can('accessAll')) {
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
             $currentUser = $this->getCurrentUser();
-            $currentProfile= $this->getCurrentProfile();
-            if($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)){
-                return $this->redirect(['site/index']);
-            }
             $albumsFromCurrentProfile = $currentProfile->albums;
             $modelGenres = Genres::find()->all();
             $model = $this->findModel($id);
@@ -290,11 +269,8 @@ class AlbumsController extends Controller
 
     public function actionMusicdel($album, $music)
     {
-        if (Yii::$app->user->can('accessAll')) {
-            $currentProfile = $this->getCurrentProfile();
-            if ($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)) {
-                return $this->redirect(['site/index']);
-            }
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
             $currentAlbum = $this->findModel($album);
             $currentMusic = Musics::find($music)->where(['albums_id' => $album])->one();
             $deleteMusic = $currentAlbum->unlink('musics', $currentMusic);
@@ -304,19 +280,20 @@ class AlbumsController extends Controller
     }
     
     public function dellAllMusic($album){
-        $albums=$this->findModel($album);
-        $allMusic=Musics::find()->where(['albums_id' => $albums])->all();
-        foreach ($allMusic as $currentMusic)
-            $deleteMusic=$albums->unlink('musics',$currentMusic);
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
+            $albums = $this->findModel($album);
+            $allMusic = Musics::find()->where(['albums_id' => $albums])->all();
+            foreach ($allMusic as $currentMusic)
+                $deleteMusic = $albums->unlink('musics', $currentMusic);
+        }
+        return $this->redirect(['site/index']);
     }
 
     public function actionDelete($id)
     {
-        if (Yii::$app->user->can('accessAll')) {
-            $currentProfile = $this->getCurrentProfile();
-            if ($currentProfile->isprodutor == 'N' || is_null($currentProfile->isprodutor)) {
-                return $this->redirect(['site/index']);
-            }
+        $currentProfile = $this->getCurrentProfile();
+        if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S')) {
             $currentAlbum = $this->findModel($id)->id;
             $deleteAllMusicsOnAlbum = $this->dellAllMusic($id);
             $profileHasAlbumAlbumDelete = ProfileHasAlbums::find()->where(['albums_id' => $currentAlbum])->one()->delete();
@@ -339,20 +316,34 @@ class AlbumsController extends Controller
         }
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    /**
-    ****************************************************************************************
-     **/
 
+    public function actionAddtoplaylist($musics_id, $playlists_id) {
+        if ((Yii::$app->user->can('accessAll'))) {
+            $currentUser = $this->getCurrentUser();
+            $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
+            foreach ($roles as $role) {
+                if ($role->name === 'producer') {
+                    break;
+                } else {
+                    return $this->redirect(['index']);
+                }
+            }
+            $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
 
-//    private function getProducerAlbumsIds(){
-//        $profile = $this->getCurrentProfile();
-//        $ProfileHasAlbums = ProfileHasAlbums::find()->where(['profile_id' => Yii::$app->user->id])->all();
-//        $albums[] = null;
-//        foreach ($ProfileHasAlbums as $album ) {
-//            array_push($albums, $album->albums_id);
-//        }
-//        return $albums;
-//    }
+            $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
+
+            $playlistsHasMusics = new PlaylistsHasMusics();
+
+            $playlistsHasMusics->playlists_id = $modelPlaylists->id;
+
+            $playlistsHasMusics->musics_id = $modelMusics->id;
+
+            $playlistsHasMusics->save();
+
+            return $this->redirect(['index']);
+        }
+        return $this->redirect(['site/index']);
+    }
 
     private function getCurrentUser(){
         return User::find()->where(['id'=>Yii::$app->user->id])->one();
