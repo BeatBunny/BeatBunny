@@ -8,34 +8,36 @@ class RbacController extends Controller
 {
     public function actionInit()
     {
-        $auth = Yii::$app->authManager;
-        $auth->removeAll();
-                             /**AllPages**/
-        $accessAll = $auth->createPermission('accessAll');
-        $accessAll->description = 'Acess All pages';
-        $auth->add($accessAll);
+        $authManager = Yii::$app->authManager;
+        $authManager->removeAll();
+        /**AllPages**/
+        $accessAll = $authManager->createPermission('accessAll');
+        $accessAll->description = 'Acess All pages (frontend) ';
+        $authManager->add($accessAll);
 
-                            /**PlayLists**/
-        $accessPlaylists = $auth->createPermission('accessPlaylists');
+        /**PlayLists**/
+        $accessPlaylists = $authManager->createPermission('accessPlaylists');
         $accessPlaylists->description = 'Acess Playlist';
-        $auth->add($accessPlaylists);
+        $authManager->add($accessPlaylists);
 
-        $client = $auth->createRole('client');
-        $auth->add($client);
-        $auth->addChild($client, $accessPlaylists);
+        $accessIsAdmin = $authManager->createPermission('IsAdmin');
+        $accessIsAdmin->description = 'Acess ALL';
+        $authManager->add($accessIsAdmin);
 
-        $producer = $auth->createRole('producer');
-        $auth->add($producer);
-        $auth->addChild($producer, $accessAll);
+        $client = $authManager->createRole('client');
+        $authManager->add($client);
+        $authManager->addChild($client, $accessPlaylists);
 
-        $admin = $auth->createRole('admin');
-        $auth->add($admin);
-        $auth->addChild($admin, $accessAll);
+        $producer = $authManager->createRole('producer');
+        $authManager->add($producer);
+        $authManager->addChild($producer, $accessAll);
 
-        // Assign roles to users. 1, 2 and 3 are IDs returned by IdentityInterface::getId()
-        // usually implemented in your User model.
-        $auth->assign($client, 3);
-        $auth->assign($producer, 2);
-        $auth->assign($admin, 1);
+        $admin = $authManager->createRole('admin');
+        $authManager->add($admin);
+        $authManager->addChild($admin, $accessIsAdmin);
+
+        $authManager->assign($client, 3);
+        $authManager->assign($producer, 2);
+        $authManager->assign($admin, 1);
     }
 }

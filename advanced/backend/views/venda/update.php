@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Update Venda: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Vendas', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id, 'musics_id' => $model->musics_id, 'profile_id' => $model->profile_id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="venda-update">

@@ -16,6 +16,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'valorTotal')->textInput() ?>
 
+    <?= $form->field($model, 'musics_id')->textInput() ?>
+
     <?= $form->field($model, 'profile_id')->textInput() ?>
 
     <div class="form-group">

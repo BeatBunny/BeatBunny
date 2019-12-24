@@ -6,11 +6,9 @@ use yii\helpers\Html;
 $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
-
     <div class="jumbotron">
         <h1>Backend</h1>
     </div>
-
     <div class="body-content">
 
         <div class="row textAlignCenter">
@@ -32,13 +30,6 @@ $this->title = 'My Yii Application';
                 <h2>Genres</h2>
                 <p>
                     <?= Html::a('Check Table Genres', ['/genres/index'], ['class' => 'btn btn-default']) ?>
-                </p>
-
-            </div>
-            <div class="col-lg-4 borderAllBlack">
-                <h2>LinhaVenda</h2>
-                <p>
-                    <?= Html::a('Check Table LinhaVenda', ['/linhavenda/index'], ['class' => 'btn btn-default']) ?>
                 </p>
 
             </div>
@@ -68,7 +59,6 @@ $this->title = 'My Yii Application';
                 <p>
                     <?= Html::a('Check Table Venda', ['/venda/index'], ['class' => 'btn btn-default']) ?>
                 </p>
-
             </div>
             <div class="col-lg-4 borderAllBlack">
                 <h2>Playlists Has Musics</h2>
@@ -84,21 +74,12 @@ $this->title = 'My Yii Application';
                 </p>
 
             </div>
-            <div class="col-lg-4 borderAllBlack">
-                <h2>Profile Has Musics</h2>
-                <p>
-                    <?= Html::a('Check Table Profile Has Musics', ['/profile-has-musics/index'], ['class' => 'btn btn-default']) ?>
-                </p>
-
-            </div>
-            <div class="col-lg-4 borderAllBlack">
+            <div class="col-lg-12 borderAllBlack">
                 <h2>Profile Has Playlists</h2>
                 <p>
                     <?= Html::a('Check Table Profile Has Playlists', ['/profile-has-playlists/index'], ['class' => 'btn btn-default']) ?>
                 </p>
-
             </div>
         </div>
-
     </div>
 </div>

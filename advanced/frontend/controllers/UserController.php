@@ -195,30 +195,25 @@ class UserController extends Controller
         return $this->render('settings', ['userProvider' => $currentUser, 'profileProvider' => $currentProfile]);
     }
 
-    public function actionMusicdelete($id){
+    public function actionMusicdelete($id)
+    {
         $currentUser = $this->getCurrentUser();
-        $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
-        foreach ($roles as $role) {
-            if ($role->name === 'producer') {
-                break;
-            } else{
-                return $this->goBack();
-            }
-        }
+        $getCurrentProfile = $this->getCurrentProfile();
+        if ((Yii::$app->user->can('accessAll') && ($getCurrentProfile->isprodutor == 'S')) || (Yii::$app->user->can('accessIsAdmin'))){
         $playlistsUserLogado = $this->getPlaylistsDoUser();
-        $getCurrentProfile= $this->getCurrentProfile();
-        $getCurrentMusic=Musics::find($id)->one();
-        $verificarNaPlaylist= PlaylistsHasMusics::find($getCurrentMusic)->one();
-        $verificarNaLinhaVenda=Venda::find($getCurrentMusic)->one();
-        if(count($verificarNaLinhaVenda)!=null)
-        {
-            $popup=true;
-            return $this->render('index',['popup'=>$popup, 'profileProvider'=>$getCurrentProfile,'userProvider' => $currentUser,'numberOfSongsYouHave' => $numberOfSongsYouHave,'musicsFromProducerWithUsername' => $musicsFromProducerWithUsername, 'playlistsUserLogado' => $playlistsUserLogado]);
+        $getCurrentMusic = Musics::find($id)->one();
+        $numberOfSongsYouHave = count($getCurrentProfile->musics);
+        if($verificarNaPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one())
+            $delDaPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
+        $verificarNaLinhaVenda = Venda::find($getCurrentMusic)->one();
+        if (count($verificarNaLinhaVenda) != null) {
+            $popup = true;
+            return $this->render('index', ['popup' => $popup, 'profileProvider' => $getCurrentProfile, 'userProvider' => $currentUser, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado]);
 
         }
         $delMusic = Musics::find($getCurrentMusic)->one()->delete();
         return $this->redirect(['index']);
-
+    }
     }
 }
 

@@ -11,7 +11,7 @@ use yii\helpers\Url;
 
 $this->title = 'Albums';
 $this->params['breadcrumbs'][] = $this->title;
-if ($currentProfile->isprodutor == 'S') {
+if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
     $addAlbum = Html::a('Create Album', Url::toRoute(['albums/create']), ['class' => 'btn btn-default']);
 }
 

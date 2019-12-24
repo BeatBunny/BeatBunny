@@ -6,7 +6,6 @@ use Yii;
 use common\models\Musics;
 use common\models\MusicsSearch;
 use yii\web\Controller;
-use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -21,20 +20,6 @@ class MusicsController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -62,13 +47,14 @@ class MusicsController extends Controller
     /**
      * Displays a single Musics model.
      * @param integer $id
+     * @param integer $profile_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id, $profile_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id, $profile_id),
         ]);
     }
 
@@ -82,7 +68,7 @@ class MusicsController extends Controller
         $model = new Musics();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'profile_id' => $model->profile_id]);
         }
 
         return $this->render('create', [
@@ -94,15 +80,16 @@ class MusicsController extends Controller
      * Updates an existing Musics model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
+     * @param integer $profile_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $profile_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $profile_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'profile_id' => $model->profile_id]);
         }
 
         return $this->render('update', [
@@ -114,12 +101,13 @@ class MusicsController extends Controller
      * Deletes an existing Musics model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param integer $profile_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $profile_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id, $profile_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -128,12 +116,13 @@ class MusicsController extends Controller
      * Finds the Musics model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
+     * @param integer $profile_id
      * @return Musics the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $profile_id)
     {
-        if (($model = Musics::findOne($id)) !== null) {
+        if (($model = Musics::findOne(['id' => $id, 'profile_id' => $profile_id])) !== null) {
             return $model;
         }
 

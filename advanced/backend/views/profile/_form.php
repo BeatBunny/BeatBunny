@@ -20,6 +20,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'isprodutor')->dropDownList([ 'N' => 'N', 'S' => 'S', ], ['prompt' => '']) ?>
 
+    <?= $form->field($model, 'profileimage')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'user_id')->textInput() ?>
 
     <div class="form-group">

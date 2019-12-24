@@ -24,6 +24,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'valorTotal') ?>
 
+    <?= $form->field($model, 'musics_id') ?>
+
     <?= $form->field($model, 'profile_id') ?>
 
     <div class="form-group">

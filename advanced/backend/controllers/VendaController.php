@@ -6,7 +6,6 @@ use Yii;
 use common\models\Venda;
 use common\models\VendaSearch;
 use yii\web\Controller;
-use yii\filters\AccessControl;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -21,20 +20,6 @@ class VendaController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index', 'view', 'create', 'update', 'delete'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -62,13 +47,15 @@ class VendaController extends Controller
     /**
      * Displays a single Venda model.
      * @param integer $id
+     * @param integer $musics_id
+     * @param integer $profile_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id)
+    public function actionView($id, $musics_id, $profile_id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id, $musics_id, $profile_id),
         ]);
     }
 
@@ -82,7 +69,7 @@ class VendaController extends Controller
         $model = new Venda();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'musics_id' => $model->musics_id, 'profile_id' => $model->profile_id]);
         }
 
         return $this->render('create', [
@@ -94,15 +81,17 @@ class VendaController extends Controller
      * Updates an existing Venda model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
+     * @param integer $musics_id
+     * @param integer $profile_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $musics_id, $profile_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, $musics_id, $profile_id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'musics_id' => $model->musics_id, 'profile_id' => $model->profile_id]);
         }
 
         return $this->render('update', [
@@ -114,12 +103,14 @@ class VendaController extends Controller
      * Deletes an existing Venda model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
+     * @param integer $musics_id
+     * @param integer $profile_id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete($id, $musics_id, $profile_id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel($id, $musics_id, $profile_id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -128,12 +119,14 @@ class VendaController extends Controller
      * Finds the Venda model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
+     * @param integer $musics_id
+     * @param integer $profile_id
      * @return Venda the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id, $musics_id, $profile_id)
     {
-        if (($model = Venda::findOne($id)) !== null) {
+        if (($model = Venda::findOne(['id' => $id, 'musics_id' => $musics_id, 'profile_id' => $profile_id])) !== null) {
             return $model;
         }
 

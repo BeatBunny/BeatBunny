@@ -15,7 +15,7 @@ use yii\helpers\Url;
 AppAsset::register($this);
 $isProducer=false;
 $currentProfile=Profile::find()->where(['user_id' => Yii::$app->user->id])->one();
-if (Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))
+if ((Yii::$app->user->can('accessAll') && ($currentProfile->isprodutor == 'S')) || (Yii::$app->user->can('accessIsAdmin')))
         $isProducer=true;
 ?>
 <?php $this->beginPage() ?>

@@ -13,7 +13,7 @@ $this->title = 'Your Profile';
 $this->params['breadcrumbs'][] = $this->title;
 if(isset($popup)){
     if($popup==true){
-        echo'<script>alert("Music has been already sold. You cannot delete it")</script>';
+        echo'<script>alert("Music has been already sold. You cannot delete it.")</script>';
     }
 }
 ?>
@@ -73,12 +73,11 @@ if(isset($popup)){
 
                     <h2 class="">Your Albums</h2>
                     <?php 
-                    if ($profileProvider->isprodutor == 'S')
+                    if ($profileProvider->isprodutor == 'S'|| Yii::$app->user->can('accessIsAdmin'))
                     {
 
                         if(count($profileProvider->albums) == 0){ 
                             if($numberOfSongsYouHave == 0){?>
-
 
                                 <div class="col-lg-12 ">
                                     <p>You are a producer! But you dont have any songs to create an album.<br><br><br>Want to upload some?</p><?php echo Html::a('Upload Song', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default'])?>
@@ -163,14 +162,14 @@ if(isset($popup)){
 
                 <h2 class="textAlignCenter ">Your Creations
                 <?php 
-                    if($profileProvider->isprodutor == 'S' && $numberOfSongsYouHave > 0) {
+                    if(($profileProvider->isprodutor == 'S' || Yii::$app->user->can('accessIsAdmin')) && $numberOfSongsYouHave > 0) {
                         echo Html::a('Upload Song!', Url::toRoute(['/musics/create']), ['class' => 'btn btn-default marginLeft2Percent']);
                     } ?> 
                 </h2> 
                 
                 <?php
                 $i = 0;
-                    if ($profileProvider->isprodutor == 'S')
+                    if ($profileProvider->isprodutor == 'S' || Yii::$app->user->can('accessIsAdmin'))
                     {
                         if($numberOfSongsYouHave > 0) {
                             foreach ($profileProvider->musics as $musica) {

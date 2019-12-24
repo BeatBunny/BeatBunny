@@ -17,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Venda', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -30,12 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'data',
             'valorTotal',
+            'musics_id',
             'profile_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
     <?php Pjax::end(); ?>
+
 
 </div>

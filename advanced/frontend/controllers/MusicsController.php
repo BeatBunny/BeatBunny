@@ -264,8 +264,8 @@ class MusicsController extends Controller
 
     public function actionCreate()
     {
-        if (Yii::$app->user->can('accessAll')) {
             $currentProfile = $this->getCurrentProfile();
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
             $modelYourAlbums = $currentProfile->albums;
 
@@ -360,8 +360,8 @@ class MusicsController extends Controller
      */
     public function actionUpdate($id)
     {
-        if (Yii::$app->user->can('accessAll')) {
             $currentProfile = $this->getCurrentProfile();
+        if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(Yii::$app->user->can('accessIsAdmin')))  {
             $currentUser = $this->getCurrentUser();
             $modelYourAlbums = $currentProfile->albums;
 

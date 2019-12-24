@@ -59,7 +59,7 @@ class PlaylistsController extends Controller
      */
     public function actionIndex()
     {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))){
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))){
         $currentProfile = $this->getCurrentProfile();
         $currentUser = $this->getCurrentUser();
 
@@ -91,7 +91,7 @@ class PlaylistsController extends Controller
      */
     public function actionView($id)
     {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
 
             $model = $this->findModel($id);
@@ -113,7 +113,7 @@ class PlaylistsController extends Controller
      */
     public function actionCreate()
     {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $currentProfile = $this->getCurrentProfile();
             $model = new Playlists();
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -123,8 +123,6 @@ class PlaylistsController extends Controller
                 $profileHasPlaylists->save();
                 return $this->redirect(['playlists/index']);
             }
-
-
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -141,7 +139,7 @@ class PlaylistsController extends Controller
      */
     public function actionUpdate($id)
     {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $model = $this->findModel($id);
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -162,7 +160,7 @@ class PlaylistsController extends Controller
      */
     public function actionDelete($id)
     {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
             $currentPlaylist = $this->findModel($id)->id;
             if (!is_null(PlaylistsHasMusics::find()->where(['playlists_id' => $id])->one())){
@@ -230,11 +228,11 @@ class PlaylistsController extends Controller
     }
 
     public function actionAddsong($musics_id, $playlists_id) {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $currentUser = $this->getCurrentUser();
             $roles = Yii::$app->authManager->getRolesByUser($currentUser->id);
             foreach ($roles as $role) {
-                if ($role->name === 'client' || $role->name === 'producer') {
+                if ($role->name === 'client' || $role->name === 'producer'|| $role->name ==='admin') {
                     break;
                 } else {
                     return $this->redirect(['index']);
@@ -259,7 +257,7 @@ class PlaylistsController extends Controller
 
     public function actionMusicdel($musics_id, $playlists_id)
     {
-        if ((Yii::$app->user->can('accessAll') || (Yii::$app->user->can('accessPlaylists')))) {
+        if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
             $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
             PlaylistsHasMusics::find($modelMusics)->where(['playlists_id' => $modelPlaylists])->one()->delete();
