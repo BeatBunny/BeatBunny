@@ -2,8 +2,10 @@ suite_namespace: frontend\tests\acceptance
 actor: AcceptanceTester
 modules:
     enabled:
-        - PhpBrowser:
-            url: http://localhost/beatbunny/advanced/frontend/web/
-        - \Helper\Acceptance
+        - WebDriver:
+              url: 'http://localhost/'
+              port: 80
+              browser: chrome
         - Yii2:
             part: init
+
