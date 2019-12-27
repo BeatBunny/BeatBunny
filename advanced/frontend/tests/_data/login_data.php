@@ -21,4 +21,15 @@ return [
         'updated_at' => '1548675330',
         'verification_token' => '4ch0qbfhvWwkcuWqjN8SWRq72SOw1KYT_1548675330',
     ],
+    [
+        'username' => 'olex04',
+        'auth_key' => 'tv-dbh2K_6yYqiXTfZINHHP8sGhdH3ut',
+        // Test1234
+        'password_hash' => 'tv-dbh2K_6yYqiXTfZINHHP8sGhdH3ut',
+        'email' => 'tv-dbh2K_6yYqiXTfZINHHP8sGhdH3ut',
+        'status' => '9',
+        'created_at' => '1577386748',
+        'updated_at' => '1577386748',
+        'verification_token' => '',
+    ],
 ];

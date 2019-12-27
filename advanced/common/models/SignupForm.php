@@ -25,6 +25,7 @@ class SignupForm extends Model
     {
         return [
             ['username', 'trim'],
+            ['username','match', 'pattern' => '/^[a-z]\w*$/i'],
             ['username', 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -42,7 +43,7 @@ class SignupForm extends Model
             ['nome', 'required'],
             ['nome', 'string', 'min' => 2, 'max' => 255],
 
-            ['nif', 'trim'],
+            ['nif', 'number'],
             ['nif', 'required'],
             ['nif', 'string', 'min' => 9, 'max' => 9],
         ];

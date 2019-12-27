@@ -2,6 +2,7 @@
 
 namespace frontend\tests\functional;
 
+use Codeception\Util\Locator;
 use frontend\tests\FunctionalTester;
 use common\fixtures\UserFixture;
 
@@ -23,7 +24,6 @@ class LoginCest
             ],
         ];
     }
-
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('site/login');
@@ -58,9 +58,7 @@ class LoginCest
 
     public function checkValidLogin(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
     }
+
 }

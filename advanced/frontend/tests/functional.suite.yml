@@ -1,6 +1,9 @@
 suite_namespace: frontend\tests\functional
 actor: FunctionalTester
 modules:
+    settings:
+        colors: true
     enabled:
         - Filesystem
-        - Yii2
+        - Yii2:
+           configFile: 'config/test.php'
