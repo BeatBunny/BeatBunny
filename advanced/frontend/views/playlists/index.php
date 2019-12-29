@@ -123,5 +123,5 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php } ?>
 
     <div class="row">
-        <?php echo Html::a('Create a playlist!', Url::toRoute(['/playlists/create']), ['class' => 'btn btn-info '])?>
+        <?php echo Html::a('Create a playlist!', Url::toRoute(['/playlists/create']), ['class' => 'btn btn-info', 'name' =>'Create a playlist!'])?>
     </div>

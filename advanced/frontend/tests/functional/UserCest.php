@@ -2,19 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: MadriX
- * Date: 28/12/2019
- * Time: 23:46
+ * Date: 29/12/2019
+ * Time: 20:05
  */
 
 namespace frontend\tests\functional;
 
 
-use common\fixtures\UserFixture;
+use common\fixtures\ProfileFixture;
+use common\fixtures\UserFixture as UserFixture;
 use frontend\tests\FunctionalTester;
 
-class MusicCest
+class UserCest
 {
-
     public function _fixtures()
     {
         return [
@@ -24,10 +24,9 @@ class MusicCest
             ],
         ];
     }
-
     public function _before(FunctionalTester $I)
     {
-        $I->amOnPage('site/login');
+        $I->amOnRoute('site/login');
     }
 
     protected function formParams($login, $password)
@@ -37,10 +36,20 @@ class MusicCest
             'LoginForm[password]' => $password,
         ];
     }
-//perguntar ao Stor
-//    public function checkGuestCantAcessCreate(FunctionalTester $I)
-//    {
-//        $I->amOnRoute('musics/index');
-//          $I->See('Welcome to Beat Bunny');
-//    }
+
+
+    public function checkAccessGuesst(FunctionalTester $I)
+    {
+      $I->amOnPage('user/index');
+      $I->see('Not Found');
+    }
+//Perhuntar ao Stor
+    public function checkAccessSettings(FunctionalTester $I)
+    {
+        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->see('My Stuff');
+//        $I->amOnPage('user/settings');
+//        $I->click('My Stuff');
+    }
+
 }

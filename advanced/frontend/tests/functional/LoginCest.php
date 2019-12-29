@@ -4,7 +4,7 @@ namespace frontend\tests\functional;
 
 use Codeception\Util\Locator;
 use frontend\tests\FunctionalTester;
-use common\fixtures\UserFixture;
+use common\fixtures\UserFixture as Userfixture;
 
 class LoginCest
 {
@@ -46,7 +46,7 @@ class LoginCest
 
     public function checkWrongPassword(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
+        $I->submitForm('#login-form', $this->formParams('olex04', 'wrong'));
         $I->seeValidationError('Incorrect username or password.');
     }
 
@@ -59,6 +59,7 @@ class LoginCest
     public function checkValidLogin(FunctionalTester $I)
     {
         $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->see('My Stuff');
     }
 
 }

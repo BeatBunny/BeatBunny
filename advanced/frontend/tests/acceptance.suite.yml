@@ -11,4 +11,9 @@ modules:
                "goog:chromeOptions": # additional chrome options
         - Yii2:
             part: init
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=beatbunnyproject_test'
+            user: 'root'
+            password: ''
+            cleanup: false
 

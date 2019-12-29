@@ -3,7 +3,6 @@ namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
 
-/* @var $scenario \Codeception\Scenario */
 
 class ContactCest
 {
@@ -101,8 +100,8 @@ class ContactCest
     public function checkContactSubmitCorrectData(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', [
-            'ContactForm[name]' => 'tester',
-            'ContactForm[email]' => 'tester@example.com',
+            'ContactForm[name]' => 'olex04',
+            'ContactForm[email]' => 'olex.ol.04@gmail.com',
             'ContactForm[subject]' => 'test subject',
             'ContactForm[body]' => 'test content',
             'ContactForm[verifyCode]' => 'testme',

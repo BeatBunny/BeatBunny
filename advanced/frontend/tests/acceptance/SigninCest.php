@@ -11,19 +11,19 @@ class SigninCest
     }
 
     // tests
-    public function tryToTest(AcceptanceTester $I)
-    {
-    	$I->amOnPage('/web');
-    	$I->click('Login');
-    	$I->wait(2);
-    	$I->amOnPage('/login');
-    	$I->see('Please fill out the following fields to login:');
-
-		$I->fillField('Username', 'beatbunnyproject');
-		$I->fillField('Password','beatbunnyproject');
-		$I->click('Login', '.btn');
-		$I->wait(2);
-		
-    	
-    }
+//    public function tryToTest(AcceptanceTester $I)
+//    {
+//    	$I->amOnPage('/BeatBunny/advanced/frontend/web/');
+//    	$I->click('Signup');
+//    	$I->wait(2);
+//    	$I->amOnPage('/site/signup');
+//    	$I->see('Please fill out the following fields to login:');
+//
+//		$I->fillField('Username', 'olex04');
+//		$I->fillField('Password','dnister04');
+//		$I->click('Login', '.btn');
+//		$I->wait(2);
+//
+//
+//    }
 }

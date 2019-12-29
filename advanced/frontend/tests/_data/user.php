@@ -54,5 +54,26 @@ return [
         'updated_at' => '1577482390',
         'verification_token' => '',
     ],
-
+    [
+        'username' => 'olex04',
+        'auth_key' => 'ING5Az9uXujr74i3GdZOdCnVkjpbYrzF',
+        // Test1234
+        'password_hash' => '$2y$13$QBIhIEsHa8cugRuweGShB.URyCb.Y9WlUhZg4boltdFkj1NZBxq1G',
+        'email' => 'tv-olex.ol.04@gmail.com',
+        'status' => '10',
+        'created_at' => '1577386748',
+        'updated_at' => '1577386748',
+        'verification_token' => '',
+    ],
+    [
+        'username' => 'olex004',
+        'auth_key' => 'MglprwtCz4sa47cNGgE94QcCCsJzDBuZ',
+        //BeatBunny2
+        'password_hash' => '$2y$13$eUl.vu0iO46I/xa.eO6xYuFdklVU4Me2YaBppHE5dJUWfIHI1..Tq',
+        'email' => 'olex.ol.004@gmail.com',
+        'status' => '10',
+        'created_at' => '1577482390',
+        'updated_at' => '1577482390',
+        'verification_token' => '',
+    ],
 ];

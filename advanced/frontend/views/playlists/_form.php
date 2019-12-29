@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="playlists-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'playlists-form']); ?>
 
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 

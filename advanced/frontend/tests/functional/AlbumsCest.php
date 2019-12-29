@@ -9,13 +9,37 @@
 namespace frontend\tests\functional;
 
 
+use common\fixtures\ProfileFixture;
+use common\fixtures\UserFixture as UserFixture;
 use frontend\tests\FunctionalTester;
+use yii\rbac\Assignment;
 
 class AlbumsCest
 {
+
+    public function _fixtures()
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::className(),
+                'dataFile' => codecept_data_dir() . 'login_data.php',
+            ], 'profile' => [
+                'class' => ProfileFixture::className(),
+                'dataFile' => codecept_data_dir(). 'profile.php'
+                ]
+        ];
+    }
     public function _before(FunctionalTester $I)
     {
-        $I->amOnRoute('albums/index');
+        $I->amOnRoute('site/login');
+    }
+
+    protected function formParams($login, $password)
+    {
+        return [
+            'LoginForm[username]' => $login,
+            'LoginForm[password]' => $password,
+        ];
     }
 
     public function checkGuestCantAccess(FunctionalTester $I)
@@ -23,4 +47,44 @@ class AlbumsCest
         $I->amOnPage('albums/index');
         $I->see('Not Found');
     }
+    public function checkGuestCantCreate(FunctionalTester $I)
+    {
+        $I->amOnPage('albums/create');
+        $I->see('Not Found');
+    }
+
+    public function checkGuestCantDelete(FunctionalTester $I)
+    {
+        $I->amOnPage('albums/index');
+        $I->see('Not Found');
+    }
+
+    public function checkLogedCommonUserCantOpen(FunctionalTester $I)
+    {
+        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->amOnPage('albums/index');
+        $I->see('Welcome to beatBunny');
+    }
+
+    public function checkLogedCommonUserCantCreate(FunctionalTester $I)
+    {
+        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->amOnPage('albums/create');
+        $I->see('Welcome to beatBunny');
+    }
+
+    public function checkLogedCommonUserCantDelete(FunctionalTester $I)
+    {
+        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->amOnPage('albums/delete');
+        $I->see('Not Allowed');
+    }
+
+//    public function checkLogedCanOpen(FunctionalTester $I)
+//    {
+//        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+//        $I->am('producer');
+//        $I->amOnRoute('albums/index');
+//        $I->see('Albums');
+//    }
 }

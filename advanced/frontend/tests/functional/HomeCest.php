@@ -33,12 +33,22 @@ class HomeCest
         $I->see('Please fill out the following fields to signup:');
     }
 
-//    public function checkOpenMusic(FunctionalTester $I)
+    public function checkContact(FunctionalTester $I)
+    {
+        $I->amOnPage('site/index');
+        $I->see('Welcome to beatBunny');
+        $I->seeLink('Contact');
+        $I->click('Contact');
+        $I->see('If you have business inquiries or other questions, please fill out the following form to contact us.');
+    }
+//Perguntar ao Stor
+//    public function checkMusics(FunctionalTester $I)
 //    {
 //        $I->amOnPage('site/index');
 //        $I->see('Welcome to beatBunny');
 //        $I->seeLink('Music');
 //        $I->click('Music');
-//        $I->see('Music');
+//        $I->see('Musics');
 //    }
+
 }
