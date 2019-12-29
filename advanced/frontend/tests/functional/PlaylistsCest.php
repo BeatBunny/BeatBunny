@@ -36,27 +36,29 @@ class PlaylistsCest
         ];
     }
 
-//    public function checkCreate(FunctionalTester $I)
-//    {
-//        $I->amOnRoute('site/signup');
-//        $I->submitForm($this->formId, [
-//            'SignupForm[username]' => 'olex004',
-//            'SignupForm[email]' => 'olex.ol.004@gmail.com',
-//            'SignupForm[password]' => 'dnister04',
-//            'SignupForm[nome]' => 'testes',
-//            'SignupForm[nif]' => '123456789',
-//        ]);
-//        $I->amOnPage('site/login');
-//        $I->fillField('Username','olex004');
-//        $I->fillField('Password','dnister04');
-//        $I->amOnRoute('playlists/index');
-//        $I->see('Create a playlist!');
-//        $I->click('Create a playlist!');
-//        $I->see('Nome');
-//        $I->fillField('Nome','teste');
-//        $I->click('Save');
-//        $I->see('Teste');
-//    }
+    public function checkCreate(FunctionalTester $I)
+    {
+        $I->amOnRoute('site/signup');
+        $I->submitForm($this->formId, [
+            'SignupForm[username]' => 'olex004',
+            'SignupForm[email]' => 'olex.ol.004@gmail.com',
+            'SignupForm[password]' => 'dnister04',
+            'SignupForm[nome]' => 'testes',
+            'SignupForm[nif]' => '123456789',
+        ]);
+        $I->amOnPage('site/login');
+        $I->fillField('Username','olex004');
+        $I->fillField('Password','dnister04');
+        $I->amOnRoute('playlists/index');
+        $I->see('Create a playlist!');
+        $I->click('Create a playlist!');
+        $I->see('Nome');
+        $I->fillField('Nome','teste');
+        $I->click('Save');
+        $I->see('Teste');
+    }
+
+
     public function checkGuestCantAccess(FunctionalTester $I)
     {
         $I->amOnPage('playlists/index');

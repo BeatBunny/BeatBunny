@@ -33,12 +33,12 @@ class HomeCest
         $I->see('Please fill out the following fields to signup:');
     }
 
-    public function checkOpenMusic(FunctionalTester $I)
-    {
-        $I->amOnPage('site/index');
-        $I->see('Welcome to beatBunny');
-        $I->seeLink('Music');
-        $I->click('Music');
-        $I->see('Music');
-    }
+//    public function checkOpenMusic(FunctionalTester $I)
+//    {
+//        $I->amOnPage('site/index');
+//        $I->see('Welcome to beatBunny');
+//        $I->seeLink('Music');
+//        $I->click('Music');
+//        $I->see('Music');
+//    }
 }

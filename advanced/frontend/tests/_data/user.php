@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     [
         'username' => 'okirlin',
         'auth_key' => 'iwTNae9t34OmnK6l4vT4IeaTk-YWI2Rv',
@@ -42,4 +43,16 @@ return [
         'updated_at' => '1548675330',
         'verification_token' => 'already_used_token_1548675330',
     ],
+    [
+        'username' => 'BeatBunnyAdmin2',
+        'auth_key' => 'jLiMgBtAXAlNY761GR5Y1pFzkdZQS46_',
+        //BeatBunny2
+        'password_hash' => '$2y$13$dpNubQONazKaQfdYiwtepePb17Ko829xCQlTGB4/lbceXrJvk4YIO',
+        'email' => 'beatbunnyg062@gmail.com',
+        'status' => '10',
+        'created_at' => '1577482390',
+        'updated_at' => '1577482390',
+        'verification_token' => '',
+    ],
+
 ];

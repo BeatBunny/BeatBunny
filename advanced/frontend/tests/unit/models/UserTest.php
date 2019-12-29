@@ -1,5 +1,12 @@
-<?php 
+<?php
+/**
+ * Created by PhpStorm.
+ * User: MadriX
+ * Date: 27/12/2019
+ * Time: 17:33
+ */
 namespace frontend\tests\unit\models;
+use common\fixtures\ProfileFixture;
 use common\models\User;
 use common\models\SignupForm;
 
@@ -12,6 +19,11 @@ class UserTest extends \Codeception\Test\Unit
     
     protected function _before()
     {
+        $this->tester->haveFixtures([
+            'profile' => [
+                'class' => ProfileFixture::className(),
+                'dataFile' => codecept_data_dir() . 'profile.php'
+            ]]);
     }
 
     protected function _after()
@@ -47,5 +59,7 @@ class UserTest extends \Codeception\Test\Unit
         $this->assertTrue($user->validate(['email']), 'Email tem uma letra , número ,  arroba e .com');
         return $user->email;
     }
+
+
     
 }
