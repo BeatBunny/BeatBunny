@@ -162,26 +162,19 @@ class AlbumsController extends Controller
             $currentUser = $this->getCurrentUser();
             $model = new Albums();
             $allgenres = Genres::find()->all();
-
             if ($model->load(Yii::$app->request->post())) {
-
                 $path = "uploads/";
                 if (!file_exists($path))
                     mkdir($path, 0777, true);
-
                 $getImageFile = \yii\web\UploadedFile::getInstance($model, 'albumcover');
-
                 if (!empty($getImageFile))
                     $model->albumcover = $getImageFile;
                 else
                     return $this->render('augment');
-
                 if (!file_exists($path . $currentUser->id))
                     mkdir($path . $currentUser->id, 0777, true);
-
                 $pathToAlbumCover = $path . $currentUser->id . "/";
                 $model->albumcover = $pathToAlbumCover;
-
                 $model->launchdate = date("Y/m/d");
                 if ($model->save()) {
                     if (!empty($getImageFile)) {
@@ -192,10 +185,8 @@ class AlbumsController extends Controller
                     $profileHasAlbums->profile_id = $currentProfile->id;
                     $profileHasAlbums->save();
                 }
-
                 return $this->redirect(['albums/index']);
             }
-
             return $this->render('create', [
                 'allgenres' => $allgenres,
                 'currentProfile' => $currentProfile,
@@ -244,6 +235,7 @@ class AlbumsController extends Controller
                 if(!empty($getImageFile)) {
                     $getImageFile->saveAs($pathToAlbumCover . "albumcover_" . $model->id . "." . $getImageFile->extension);
                 }
+                
                 $model->save();
                 return $this->redirect(['index']);
             }

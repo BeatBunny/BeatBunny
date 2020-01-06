@@ -71,6 +71,7 @@ class PlaylistsController extends Controller
 
             $this->getGenerosDasPlaylists($cadaUmaDasPlaylists);
         }
+
         $searchModel = new SearchPlaylists();
 
         return $this->render('index', [
@@ -221,9 +222,12 @@ class PlaylistsController extends Controller
 
             if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
                 array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
+                array_push($cadaUmaDasPlaylists->generosDaPlaylist, ", ");
             }
 
         }
+        array_pop($cadaUmaDasPlaylists->generosDaPlaylist);
+       
         return $cadaUmaDasPlaylists;
     }
 
@@ -257,11 +261,15 @@ class PlaylistsController extends Controller
 
     public function actionMusicdel($musics_id, $playlists_id)
     {
+
         if ((Yii::$app->user->can('accessAll')) || (Yii::$app->user->can('accessPlaylists')) || (Yii::$app->user->can('accessIsAdmin'))) {
             $modelMusics = Musics::find()->where(['id' => $musics_id])->one();
             $modelPlaylists = Playlists::find()->where(['id' => $playlists_id])->one();
-            PlaylistsHasMusics::find($modelMusics)->where(['playlists_id' => $modelPlaylists])->one()->delete();
+            //PlaylistsHasMusics::find($modelMusics)->where(['playlists_id' => $modelPlaylists])->one()->delete();
+            $musicaParaRetirarDaPlaylist = Musics::findOne($musics_id);
+            $modelPlaylistHasMusics = PlaylistsHasMusics::find()->where(['playlists_id' => $playlists_id])->andWhere(['musics_id' => $musics_id])->one();
 //        $deleteMusic=$modelMusics->unlink('musics',$currentMusic, $delete=true);
+            $modelPlaylistHasMusics->delete();
             return $this->redirect(['index']);
         }
         return $this->redirect(['site/index']);

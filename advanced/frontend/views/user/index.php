@@ -113,7 +113,8 @@ if(isset($popup)){
                                                 echo Html::img('@web/images/user.png', ['alt'=>"User"],[ "id"=>"userImage"]);
                                             }
                                             else{
-                                                echo Html::img('@web/images/'.$album->albumcover.'.png', ['alt'=>"Album Image"]); 
+
+                                                echo Html::img("@web/uploads/" . $userProvider->id . "/albumcover_" . $album->id . '.png'); 
                                             }
                                             ?>
                                             

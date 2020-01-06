@@ -35,6 +35,7 @@ if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(
                     <div class="row marginTop2Percent" id="<?= $album->id ?>">
                         <div class="col-lg-2 userImage textAlignCenter borderRightBlack">
                             <?= Html::img("@web/uploads/" . $currentUser->id . "/albumcover_" . $album->id . '.png'); ?>
+
                             <div class="col-lg-12"><?= $album->title ?></div>
                             <div class="col-lg-12"><?= $album->launchdate ?></div>
                             <div class="row  buttonAlignCenter">
@@ -104,7 +105,7 @@ if ((Yii::$app->user->can('accessAll')&&($currentProfile->isprodutor == 'S'))||(
                                                 <div class="row">
 
                                                     <div class="col-lg-4 textAlignRight"><p>Genre: </p></div>
-                                                    <div class="col-lg-8"><p></p></div>
+                                                    <div class="col-lg-8"><p><?= $music->genres->nome ?></p></div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-4 textAlignRight"><p>Launch Date: </p>

@@ -74,34 +74,22 @@ class UserController extends Controller
         return $playlistsDoUser;
     }
 
-    public function getGenerosDasPlaylists($cadaUmaDasPlaylists){
-        $currentProfile = $this->getCurrentProfile();
-
-        $genresDasMusicas = [];
-
-        //die();
-
+    public function getGenerosDasPlaylists($cadaUmaDasPlaylists)
+    {
         foreach ($cadaUmaDasPlaylists->musics as $musicaDaPlaylist) {
             //BaseVarDumper::dump($musicaDaPlaylist->genres->nome);
 
             if(!in_array($musicaDaPlaylist->genres->nome, $cadaUmaDasPlaylists->generosDaPlaylist)){
                 array_push($cadaUmaDasPlaylists->generosDaPlaylist, $musicaDaPlaylist->genres->nome);
+                array_push($cadaUmaDasPlaylists->generosDaPlaylist, ", ");
             }
 
         }
-
-
+        array_pop($cadaUmaDasPlaylists->generosDaPlaylist);
+       
         return $cadaUmaDasPlaylists;
     }
 
-    public function getMusicasCompradasdoUserLogado(){
-        $profileProvider = $this->getCurrentProfile();
-        $userProvider = $this->getCurrentUser();
-
-        BaseVarDumper::dump($profileProvider->vendas);
-        die();
-
-    }
 
     public function actionIndex(){
 
