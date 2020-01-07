@@ -80,27 +80,6 @@ return [
                         '{idplaylist}' => '<idplaylist:\\d+>',
                     ],
                 ],
-                ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/albums'], 'pluralize' => false,
-                    'extraPatterns' => [
-                        'GET {id}/title' => 'titlealbum', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/launchdate' => 'launchdatealbum', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/genre' => 'genrealbum', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/musics' => 'musics', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}' => 'music', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/title' => 'titlemusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/launchdate' => 'launchdatemusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/lyrics' => 'lyricsmusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/pvp' => 'pvpmusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/musicpath' => 'musicpathmusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/genre' => 'genremusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/producer' => 'producermusic', // 'xxxx' é 'actionXxxx'
-                        'GET {id}/music/{idmusic}/mp3file' => 'mp3filemusic', // 'xxxx' é 'actionXxxx'
-                    ],
-                    'tokens' => [
-                        '{id}' => '<id:\\d+>', //O standard tem que aparecer!
-                        '{idmusic}' => '<idmusic:\\d+>',
-                    ],
-                ],
                 ['class' => 'yii\rest\UrlRule', 'controller' => ['v1/playlists'], 'pluralize' => false,
                     'extraPatterns' => [
                         'GET {id}/nome' => 'nomeplaylist', // 'xxxx' é 'actionXxxx'
@@ -119,8 +98,9 @@ return [
                         'GET {id}/music/{idmusic}/mp3file' => 'mp3filemusic', // 'xxxx' é 'actionXxxx'
                         'POST playlistcreate' => 'playlistcreate', // 'xxxx' é 'actionXxxx'
                         'PUT playlistupdate/{id}' => 'playlistupdate', // 'xxxx' é 'actionXxxx'
-                        'DELETE delete/{id}' => 'playlistdelete', // 'xxxx' é 'actionXxxx'
+                        'DELETE playlistdelete/{id}' => 'playlistdelete', // 'xxxx' é 'actionXxxx'
                         'POST putsong' => 'playlistputsong', // 'xxxx' é 'actionXxxx'
+                        'DELETE removesong' => 'playlistremovesong',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!

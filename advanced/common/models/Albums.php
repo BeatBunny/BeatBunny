@@ -35,7 +35,7 @@ class Albums extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'launchdate', 'genres_id'], 'required'],
+            [['title', 'launchdate', 'genres_id', 'albumcover'], 'required'],
             [['launchdate'], 'safe'],
             [['review'], 'number'],
             [['albumcover'], 'string'],
@@ -55,7 +55,7 @@ class Albums extends \yii\db\ActiveRecord
             'title' => 'Title',
             'launchdate' => 'Launchdate',
             'review' => 'Review',
-            'albumcover' => 'Albumcover',
+            'albumcover' => 'Album Cover',
             'genres_id' => 'Genres ID',
         ];
     }

@@ -13,7 +13,7 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); 
 
-    $genresList = ArrayHelper::map($modelGenres,'id','nome'); 
+    $genresList = ArrayHelper::map($modelGenres, 'id','nome'); 
 
     $yourAlbumsList = ArrayHelper::map($modelYourAlbums, 'id','title'); ?>
 

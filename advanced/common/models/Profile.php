@@ -42,7 +42,7 @@ class Profile extends \yii\db\ActiveRecord
     {
         return [
             [['saldo', 'nif', 'user_id'], 'integer'],
-            [['nome', 'isprodutor', 'user_id'], 'required'],
+            [['nome', 'isprodutor', 'user_id', 'profileFile'], 'required'],
             [['saldoAdd'], 'integer'],
             [['profileFile'], 'file', 'extensions' => 'png'],
             [['isprodutor'], 'string'],
