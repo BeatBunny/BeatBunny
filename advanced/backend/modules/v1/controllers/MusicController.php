@@ -58,7 +58,6 @@ class MusicController extends ActiveController
         return $model->musicpath;
     }
 
-
     public function actionCovermusic($id){
         $models = new $this->modelClass;
         $model = $models::findOne($id);
@@ -81,6 +80,8 @@ class MusicController extends ActiveController
         $model = $models::findOne($id);
         return '/frontend/web/'.$model->musicpath.'music_'.$model->id.'_'.$model->title.'.mp3';
     }
+
+
 
 
 }

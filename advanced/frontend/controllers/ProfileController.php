@@ -139,10 +139,11 @@ class ProfileController extends Controller
     {
         $profileProvider = $this->getCurrentProfile();
         $model = $this->findModel($profileProvider);
-        
         if ($model->load(Yii::$app->request->post()) ) {
             $model->saldo += $model->saldoAdd;
-            $model->save();
+
+            $model->save(false);
+
             if(!is_null($link))
                 return $this->redirect($link);
             else

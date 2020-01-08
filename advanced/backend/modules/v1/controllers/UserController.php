@@ -57,6 +57,7 @@ class UserController extends ActiveController
         $profile = $modelProfile::find()->where(['user_id' => $user->id])->one();
         return $profile->playlists;
     }
+
     public function actionPlaylistmusicsget($id, $idplaylist){
         $modelPlaylists = new $this->modelPlaylists;
 
@@ -68,7 +69,6 @@ class UserController extends ActiveController
                 return $playlist->musics;
             }
         }
-
     }
 
     /*public function actionRegisteruser(){
@@ -146,5 +146,33 @@ class UserController extends ActiveController
         return $profile;
     }
 
+    public function actionGetmusicfromprofilehasproducer($id){
+        $modelUser = new $this->modelClass;
+        $modelProfile = new $this->modelProfile;
+
+        $userById = $modelUser::findOne($id);
+        if(is_null($userById))
+            return false;
+
+        $profileByUserId = $modelProfile::find()->where(['user_id' => $userById->id])->one();
+
+        return $profileByUserId->musics;
+    }
+    public function actionGetmusicfromprofilehasclient($id){
+        $modelUser = new $this->modelClass;
+        $modelProfile = new $this->modelProfile;
+
+        $userById = $modelUser::findOne($id);
+        if(is_null($userById))
+            return false;
+
+        $profileByUserId = $modelProfile::find()->where(['user_id' => $userById->id])->one();
+        $array_com_todas_as_compras = [];
+        foreach ($profileByUserId->vendas as $venda){
+            array_push($array_com_todas_as_compras, $venda->musics);
+        }
+        return $array_com_todas_as_compras;
+        return $profileByUserId->vendas;
+    }
 
 }

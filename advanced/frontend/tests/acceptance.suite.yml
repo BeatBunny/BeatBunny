@@ -5,7 +5,7 @@ modules:
         - WebDriver:
            url: 'http://localhost/'
            window_size: false # disabled in ChromeDriver
-           port: 9515
+           port: 4444
            browser: chrome
            capabilities:
                "goog:chromeOptions": # additional chrome options

@@ -74,6 +74,8 @@ return [
                         'GET {id}/playlists/{idplaylist}/musics' => 'playlistmusicsget', // 'xxxx' é 'actionXxxx'
                         'GET {id}/profile' => 'profile', // 'xxxx' é 'actionXxxx'
                         'POST register' => 'registeruser',
+                        'GET {id}/getmusicfromprofilehasproducer' => 'getmusicfromprofilehasproducer',
+                        'GET {id}/getmusicfromprofilehasclient' => 'getmusicfromprofilehasclient',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!
