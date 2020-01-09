@@ -124,8 +124,9 @@ class Playlists extends \yii\db\ActiveRecord
         $mqtt= new phpMQTT($server, $port, $client_id);
         if ($mqtt->connect(true)) {
             $mqtt->publish($canal, $msg, 0);
-            $mqtt->close();
             $mqtt->disconnect();
+            $mqtt->close();
+            
         } else {
             file_put_contents("debug.output", "Time out!");
         }
