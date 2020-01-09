@@ -1,7 +1,6 @@
 <?php
 
 namespace common\models;
-use app\mosquitto\phpMQTT;
 use yii\helpers\BaseVarDumper;
 use yii\helpers\Json;
 
