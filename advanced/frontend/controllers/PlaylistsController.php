@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use app\mosquitto\phpMQTT;
 use common\models\PlaylistsHasMusics;
 use common\models\ProfileHasPlaylists;
 use Faker\Provider\Base;
