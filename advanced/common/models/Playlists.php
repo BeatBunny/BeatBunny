@@ -1,6 +1,7 @@
 <?php
 
 namespace common\models;
+use yii\db\Connection;
 use yii\helpers\BaseVarDumper;
 use yii\helpers\Json;
 
@@ -97,21 +98,22 @@ class Playlists extends \yii\db\ActiveRecord
 
     public function afterSave($insert, $changedAttributes)
     {
+
         parent::afterSave($insert, $changedAttributes);
-        $id = $this->id;
-        $nome = $this->nome;
-        $ispublica = $this->ispublica;
-        $creationdate = $this->creationdate;
-        $myObj=new Playlists();
-        $myObj->id=$id;
-        $myObj->creationdate =$creationdate;
-        $myObj->ispublica =$ispublica;
-        $myObj->nome=$nome;
-        $myJSON = Json::encode($myObj);
-        if($insert) {
-            $this->FazPublish("INSERT", $myJSON);
-        } else
-            $this->FazPublish("UPDATE",$myJSON);
+            $id = $this->id;
+            $nome = $this->nome;
+            $ispublica = $this->ispublica;
+            $creationdate = $this->creationdate;
+            $myObj = new Playlists();
+            $myObj->id = $id;
+            $myObj->creationdate = $creationdate;
+            $myObj->ispublica = $ispublica;
+            $myObj->nome = $nome;
+            $myJSON = Json::encode($myObj);
+            if ($insert) {
+                $this->FazPublish("INSERT", $myJSON);
+            } else
+                $this->FazPublish("UPDATE", $myJSON);
     }
 
     public function FazPublish($canal, $msg)
@@ -122,14 +124,18 @@ class Playlists extends \yii\db\ActiveRecord
         $password = "";
         $client_id = uniqid();
         $mqtt= new phpMQTT($server, $port, $client_id);
-        if ($mqtt->connect(true)) {
-            $mqtt->publish($canal, $msg, 0);
-            $mqtt->disconnect();
-            $mqtt->close();
-            
-        } else {
-            file_put_contents("debug.output", "Time out!");
-        }
+       try {
+           if ($mqtt->connect(true)) {
+               $mqtt->publish($canal, $msg, 1);
+               $mqtt->disconnect();
+               $mqtt->close();
+
+           } else {
+               file_put_contents("debug.output", "Time out!");
+           }
+       }catch (\Exception $X){
+
+       }
     }
 
     public function afterDelete()
