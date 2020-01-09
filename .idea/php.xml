@@ -110,6 +110,7 @@
       <path value="$PROJECT_DIR$/advanced/vendor/bower-asset/fastclick" />
       <path value="$PROJECT_DIR$/advanced/vendor/facebook/webdriver" />
       <path value="$PROJECT_DIR$/advanced/vendor/bower-asset/morris.js" />
+      <path value="$PROJECT_DIR$/advanced/vendor/immusen/yii2-swoole-mqtt" />
     </include_path>
   </component>
   <component name="PhpUnit">

@@ -1,6 +1,8 @@
 <?php
 
 namespace backend\modules\v1\controllers;
+use app\mosquitto\phpMQTT;
+use common\models\User;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 use Yii;
@@ -52,6 +54,7 @@ class PlaylistsController extends ActiveController
         return $musicsFromPlaylist->musics;
         
     }
+
 
     public function actionNomeplaylist($id){
         $models = new $this->modelClass;

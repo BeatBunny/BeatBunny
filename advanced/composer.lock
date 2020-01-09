@@ -4,19 +4,19 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "499d96d8aed0b6bd379df02ea333bf10",
+    "content-hash": "c13bfa34e9dbabc368e37cf32b83fd5e",
     "packages": [
         {
             "name": "bower-asset/admin-lte",
             "version": "v2.4.18",
             "source": {
                 "type": "git",
-                "url": "git@github.com:almasaeed2010/AdminLTE.git",
+                "url": "https://github.com/ColorlibHQ/AdminLTE.git",
                 "reference": "e7ffa67a4649dc08d2018708a38604a6c0a02ab6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/almasaeed2010/AdminLTE/zipball/e7ffa67a4649dc08d2018708a38604a6c0a02ab6",
+                "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/e7ffa67a4649dc08d2018708a38604a6c0a02ab6",
                 "reference": "e7ffa67a4649dc08d2018708a38604a6c0a02ab6"
             },
             "require": {
@@ -1147,6 +1147,53 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
+        },
+        {
+            "name": "immusen/yii2-swoole-mqtt",
+            "version": "v1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/immusen/yii2-swoole-mqtt.git",
+                "reference": "dbd315b7a12c77193fd016968ec0fc10a7ef3028"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/immusen/yii2-swoole-mqtt/zipball/dbd315b7a12c77193fd016968ec0fc10a7ef3028",
+                "reference": "dbd315b7a12c77193fd016968ec0fc10a7ef3028",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "immusen\\mqtt\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "immusen",
+                    "email": "immusen@gmail.com"
+                }
+            ],
+            "description": "MQTT server for Yii2 base on swoole 4, Resolve topic as a route reflect into controller/action/param, And support redis pub/sub to trigger async task from your web application",
+            "keywords": [
+                "async",
+                "extension",
+                "iot",
+                "mqtt",
+                "mqtt server",
+                "pub sub",
+                "redis",
+                "swoole",
+                "yii2"
+            ],
+            "time": "2019-01-21T03:23:24+00:00"
         },
         {
             "name": "psr/http-message",

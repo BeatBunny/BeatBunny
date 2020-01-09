@@ -1,8 +1,9 @@
 <?php
 
 namespace common\models;
-
-use Yii;
+use app\mosquitto\phpMQTT;
+use yii\helpers\BaseVarDumper;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%playlists}}".
@@ -84,6 +85,57 @@ class Playlists extends \yii\db\ActiveRecord
     public function getProfiles()
     {
         return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('{{%profile_has_playlists}}', ['playlists_id' => 'id']);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $id = $this->id;
+        $nome = $this->nome;
+        $ispublica = $this->ispublica;
+        $creationdate = $this->creationdate;
+        $myObj=new Playlists();
+        $myObj->id=$id;
+        $myObj->creationdate =$creationdate;
+        $myObj->ispublica =$ispublica;
+        $myObj->nome=$nome;
+        $myJSON = Json::encode($myObj);
+        if($insert) {
+            $this->FazPublish("INSERT", $myJSON);
+        } else
+            $this->FazPublish("UPDATE",$myJSON);
+    }
+
+    /**
+     * @param $canal
+     * @param $msg
+     */
+    public function FazPublish($canal, $msg)
+    {
+        $server = '127.0.0.1';
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = uniqid();
+            $mqtt = new phpMQTT($server, $port, $client_id);
+            if ($mqtt->connect(true)) {
+                $mqtt->publish($canal, $msg, 0);
+                $mqtt->close();
+                $mqtt->disconnect();
+            } else {
+                file_put_contents("debug.output", "Time out!");
+            }
+    }
+
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $prod_id= $this->id;
+        $myObj=new Playlists();
+        $myObj->id=$prod_id;
+        $myJSON = Json::encode($myObj);
+        $this->FazPublish("DELETE",$myJSON);
     }
 
     /**
