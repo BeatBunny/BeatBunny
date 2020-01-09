@@ -76,6 +76,8 @@ return [
                         'POST register' => 'registeruser',
                         'GET {id}/getmusicfromprofilehasproducer' => 'getmusicfromprofilehasproducer',
                         'GET {id}/getmusicfromprofilehasclient' => 'getmusicfromprofilehasclient',
+                        'POST buysong' => 'buysong',
+                        'PUT savesettings' => 'savesettings',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!

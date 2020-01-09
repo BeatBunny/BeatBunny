@@ -3,11 +3,14 @@
 namespace backend\modules\v1\controllers;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
+use yii\base\Exception;
 use Yii;
 
 class UserController extends ActiveController 
 {
 	public $modelClass = 'common\models\User';
+    public $modelMusics = 'common\models\Musics';
+    public $modelVendas = 'common\models\Venda';
 	public $modelProfile = 'common\models\Profile';
     public $modelPlaylists = 'common\models\Playlists';
 	public $modelSignin = 'common\models\Signupform';
@@ -172,7 +175,76 @@ class UserController extends ActiveController
             array_push($array_com_todas_as_compras, $venda->musics);
         }
         return $array_com_todas_as_compras;
-        return $profileByUserId->vendas;
     }
+
+    public function actionBuysong(){
+        $modelUser = new $this->modelClass;
+        $modelProfiles = new $this->modelProfile;
+        $modelMusic = new $this->modelMusics;
+
+        $idUser = Yii::$app->request->post('idUser');
+        $idMusicaParaComprar = Yii::$app->request->post('idMusicaParaComprar');
+
+        $musicaEmQuestao = $modelMusic::findOne($idMusicaParaComprar);
+        if(is_null($musicaEmQuestao))
+            throw new Exception("Music doesn't exist");
+            
+
+        $profileEmQuestao = $modelProfiles::find()->where(['user_id' => $idUser])->one();
+
+        if(is_null($profileEmQuestao))
+            throw new Exception("User doesn't exist");
+
+
+        foreach ($profileEmQuestao->vendas as $venda)
+            if($venda->musics->id == $musicaEmQuestao->id)
+                throw new Exception("You already have purchased this music");
+
+
+        if($profileEmQuestao->saldo < $musicaEmQuestao->pvp)
+            throw new Exception("Balance doesn't allow this purchase");
+
+        $profileEmQuestao->saldo = $profileEmQuestao->saldo - $musicaEmQuestao->pvp;
+
+        $modelVenda = new $this->modelVendas;
+
+        $modelVenda->data = date("Y/m/d");
+        $modelVenda->valorTotal = $musicaEmQuestao->pvp;
+        $modelVenda->profile_id = $profileEmQuestao->id;
+        $modelVenda->musics_id = $musicaEmQuestao->id;
+
+        
+        if($modelVenda->save()){
+            $profileEmQuestao->save(false);
+            return true;
+        }
+        
+        return false;
+
+    }
+
+    public function actionSavesettings(){
+        $idUser = Yii::$app->request->post('idUser');
+        $modelProfiles = new $this->modelProfile;
+
+        $profileEmQuestao = $modelProfiles::find()->where(['user_id' => $idUser])->one();
+
+        if(is_null($profileEmQuestao))
+            throw new Exception("User doesn't exist");
+
+
+        $nomeNovo = Yii::$app->request->post('nomeNovo');
+        $nifNovo = Yii::$app->request->post('nifNovo');
+
+        $profileEmQuestao->nome = $nomeNovo;
+        $profileEmQuestao->nif = $nifNovo;
+
+        if($profileEmQuestao->save(false))
+            return $profileEmQuestao;
+
+        return false;
+    }
+
+
 
 }
