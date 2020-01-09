@@ -86,6 +86,15 @@ class Playlists extends \yii\db\ActiveRecord
         return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('{{%profile_has_playlists}}', ['playlists_id' => 'id']);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return PlaylistsQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PlaylistsQuery(get_called_class());
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -105,10 +114,6 @@ class Playlists extends \yii\db\ActiveRecord
             $this->FazPublish("UPDATE",$myJSON);
     }
 
-    /**
-     * @param $canal
-     * @param $msg
-     */
     public function FazPublish($canal, $msg)
     {
         $server = '127.0.0.1';
@@ -116,16 +121,15 @@ class Playlists extends \yii\db\ActiveRecord
         $username = "";
         $password = "";
         $client_id = uniqid();
-            $mqtt = new phpMQTT($server, $port, $client_id);
-            if ($mqtt->connect(true)) {
-                $mqtt->publish($canal, $msg, 0);
-                $mqtt->close();
-                $mqtt->disconnect();
-            } else {
-                file_put_contents("debug.output", "Time out!");
-            }
+        $mqtt= new phpMQTT($server, $port, $client_id);
+        if ($mqtt->connect(true)) {
+            $mqtt->publish($canal, $msg, 0);
+            $mqtt->close();
+            $mqtt->disconnect();
+        } else {
+            file_put_contents("debug.output", "Time out!");
+        }
     }
-
 
     public function afterDelete()
     {
@@ -135,14 +139,5 @@ class Playlists extends \yii\db\ActiveRecord
         $myObj->id=$prod_id;
         $myJSON = Json::encode($myObj);
         $this->FazPublish("DELETE",$myJSON);
-    }
-
-    /**
-     * {@inheritdoc}
-     * @return PlaylistsQuery the active query used by this AR class.
-     */
-    public static function find()
-    {
-        return new PlaylistsQuery(get_called_class());
     }
 }
