@@ -2,6 +2,7 @@
 
 return [
     [
+        'id' =>'1',
         'saldo' => '0',
         'nome' => 'BeatBunnyAdmin2',
         'nif' => '123456789',
@@ -10,6 +11,7 @@ return [
         'user_id' => '1',
     ],
     [
+        'id' =>'2',
         'saldo' => '0',
         'nome' => 'olex04',
         'nif' => '123456789',

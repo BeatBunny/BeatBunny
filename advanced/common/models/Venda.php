@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%venda}}".
@@ -78,5 +79,60 @@ class Venda extends \yii\db\ActiveRecord
     public static function find()
     {
         return new VendaQuery(get_called_class());
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $id = $this->id;
+        $data = $this->data;
+        $valortotal = $this->valorTotal;
+        $musics_id =$this->musics_id;
+        $profile_id =$this->profile_id;
+
+        $myObj = new Venda();
+        $myObj->id = $id;
+        $myObj->data = $data;
+        $myObj->valorTotal =$valortotal;
+        $myObj->musics_id = $musics_id;
+        $myObj->profile_id =$profile_id;
+
+        $myJSON = Json::encode($myObj);
+        if ($insert) {
+            $this->FazPublish("INSERT", $myJSON);
+        } else
+            $this->FazPublish("UPDATE", $myJSON);
+    }
+
+    public function FazPublish($canal, $msg)
+    {
+        $server = '127.0.0.1';
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = uniqid();
+        $mqtt= new phpMQTT($server, $port, $client_id);
+        try {
+            $msg="O Cliente Comprou uma musica";
+            if ($mqtt->connect(true)) {
+                $mqtt->publish($canal, $msg, 1);
+                $mqtt->disconnect();
+                $mqtt->close();
+
+            } else {
+                file_put_contents("debug.output", "Time out!");
+            }
+        }catch (\Exception $X)
+        {}
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $prod_id= $this->id;
+        $myObj=new Venda();
+        $myObj->id=$prod_id;
+        $myJSON = Json::encode($myObj);
+        $this->FazPublish("DELETE",$myJSON);
     }
 }

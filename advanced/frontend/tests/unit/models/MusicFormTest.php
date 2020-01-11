@@ -11,6 +11,7 @@ use common\fixtures\IvaFixture as IvaFixture;
 use common\fixtures\MusicsFixture as MusicsFixture;
 use common\fixtures\UserFixture as UserFixture;
 use common\models\Musics;
+use common\models\Profile;
 
 class MusicFormTest extends \Codeception\Test\Unit
 {
@@ -20,10 +21,7 @@ class MusicFormTest extends \Codeception\Test\Unit
     public function _before()
     {
         $this->tester->haveFixtures([
-            'music' => [
-                'class' => MusicsFixture::className(),
-                'dataFile' => codecept_data_dir() . 'musics.php'
-            ],'albums' => [
+            'albums' => [
                 'class' => AlbumFixture::className(),
                 'dataFile' => codecept_data_dir() . 'albums.php'
             ], 'profiles' => [
@@ -85,7 +83,6 @@ class MusicFormTest extends \Codeception\Test\Unit
     public function testMusicAlbumIdValidation()
     {
         $model = new Musics();
-
         $model->albums_id = 's#"#d';
         $this->assertFalse($model->validate(['albums_id']));
         $model->albums_id = '1';
@@ -95,8 +92,16 @@ class MusicFormTest extends \Codeception\Test\Unit
 
     public function testMusicInputTrueValidation()
     {
-        $model = new Musics();
-        $model->attributes = [
+        $this->tester->haveRecord('common\models\Profile',[
+            'id' =>'1',
+            'saldo' => '0',
+            'nome' => 'BeatBunnyAdmin2',
+            'nif' => '123456789',
+            'isprodutor' => 'N',
+            'profileimage' => '',
+            'user_id' => '1',
+        ]);
+        $this->tester->haveRecord('common\models\Musics',[
             'title' => $this->testMusicTitleValidation(),
             'launchdate' => '2019-12-24',
             'rating' => $this->testMusicRatingValidation(),
@@ -106,11 +111,8 @@ class MusicFormTest extends \Codeception\Test\Unit
             'musicpath' => '',
             'albums_id' =>$this->testMusicAlbumIdValidation(),
             'genres_id' => $this->testMusicGenresIdValidation(),
-        ];
-        $model->save();
-
-        $this->tester->seeRecord('common\models\Musics', array( 'title' => $this->testMusicTitleValidation()));
+            'profile_id' => '1',
+        ]);
+        $this->tester->seeRecord('common\models\Musics', array('title' => $this->testMusicTitleValidation()));
     }
-
-
 }

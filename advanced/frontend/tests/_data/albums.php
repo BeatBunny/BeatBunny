@@ -7,8 +7,9 @@
  */
 return [
     [
-        'title' => 'teste',
-        'launchdate' => '2019-12-24',
+        'id'=>'1',
+        'title' => 'xxx',
+        'launchdate' => '2019-12-28',
         'review' => '0',
         'albumcover' => ' ',
         'genres_id' => '1',

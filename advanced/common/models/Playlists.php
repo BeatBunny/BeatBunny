@@ -84,7 +84,9 @@ class Playlists extends \yii\db\ActiveRecord
      */
     public function getProfiles()
     {
+
         return $this->hasMany(Profile::className(), ['id' => 'profile_id'])->viaTable('{{%profile_has_playlists}}', ['playlists_id' => 'id']);
+
     }
 
     /**
@@ -114,6 +116,7 @@ class Playlists extends \yii\db\ActiveRecord
                 $this->FazPublish("INSERT", $myJSON);
             } else
                 $this->FazPublish("UPDATE", $myJSON);
+
     }
 
     public function FazPublish($canal, $msg)
@@ -133,8 +136,8 @@ class Playlists extends \yii\db\ActiveRecord
            } else {
                file_put_contents("debug.output", "Time out!");
            }
-       }catch (\Exception $X){
-
+       }catch (\Exception $X)
+       {
        }
     }
 

@@ -7,8 +7,6 @@
  */
 
 namespace frontend\tests\functional;
-
-
 use common\fixtures\ProfileFixture;
 use common\fixtures\UserFixture as UserFixture;
 use frontend\tests\FunctionalTester;
@@ -16,13 +14,12 @@ use yii\rbac\Assignment;
 
 class AlbumsCest
 {
-
     public function _fixtures()
     {
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'login_data.php',
+                'dataFile' => codecept_data_dir() . 'user.php',
             ], 'profile' => [
                 'class' => ProfileFixture::className(),
                 'dataFile' => codecept_data_dir(). 'profile.php'
@@ -84,7 +81,7 @@ class AlbumsCest
 //    {
 //        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
 //        $I->am('producer');
-//        $I->amOnRoute('albums/index');
-//        $I->see('Albums');
+//        $I->amOnPage('albums/index');
+//        $I->see('Create Album');
 //    }
 }

@@ -20,7 +20,7 @@ class MusicCest
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'login_data.php',
+                'dataFile' => codecept_data_dir() . 'user.php',
             ],
         ];
     }

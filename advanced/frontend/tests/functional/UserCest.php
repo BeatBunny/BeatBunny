@@ -43,13 +43,6 @@ class UserCest
       $I->amOnPage('user/index');
       $I->see('Not Found');
     }
-//Perhuntar ao Stor
-    public function checkAccessSettings(FunctionalTester $I)
-    {
-        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
-        $I->see('My Stuff');
-//        $I->amOnPage('user/settings');
-//        $I->click('My Stuff');
-    }
+
 
 }

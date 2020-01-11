@@ -41,7 +41,7 @@ class HomeCest
         $I->click('Contact');
         $I->see('If you have business inquiries or other questions, please fill out the following form to contact us.');
     }
-//Perguntar ao Stor
+
 //    public function checkMusics(FunctionalTester $I)
 //    {
 //        $I->amOnPage('site/index');

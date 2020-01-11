@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%musics}}".
@@ -149,4 +150,9 @@ class Musics extends \yii\db\ActiveRecord
     {
         return new MusicsQuery(get_called_class());
     }
+
+
+
+
 }
+
