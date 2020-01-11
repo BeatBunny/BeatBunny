@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%playlists}}".
@@ -106,4 +107,56 @@ class Playlists extends \yii\db\ActiveRecord
     {
         return new PlaylistsQuery(get_called_class());
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $id = $this->id;
+        $nome = $this->nome;
+        $ispublica = $this->ispublica;
+
+        $myObj = new Playlists();
+        $myObj->id = $id;
+        $myObj->nome = $nome;
+        $myObj->ispublica = $ispublica;
+
+        $myJSON = Json::encode($myObj);
+        if ($insert) {
+            $this->FazPublish("INSERT_Um_Utilizador_Comprou_Uma_Playlist", $myJSON);
+        }else{
+            $this->FazPublish("UPDATE_Uma_Das_Suas_Playlists_Foi_Atualizada", $myJSON);
+        }
+    }
+
+
+    public function FazPublish($canal, $msg)
+    {
+        $server = '127.0.0.1';
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = uniqid();
+        $mqtt= new phpMQTT($server, $port, $client_id);
+        try {
+            if ($mqtt->connect(true)) {
+                $mqtt->publish($canal, $msg, 1);
+                $mqtt->disconnect();
+                $mqtt->close();
+            } else {
+                file_put_contents("debug.output", "Time out!");
+            }
+        }catch (\Exception $X)
+        {}
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $prod_id= $this->id;
+        $myObj=new Playlists();
+        $myObj->id=$prod_id;
+        $myJSON = Json::encode($myObj);
+        $this->FazPublish("DELETE_Uma_Das_Suas_Playlists_Foi_Eliminada",$myJSON);
+    }
+
 }

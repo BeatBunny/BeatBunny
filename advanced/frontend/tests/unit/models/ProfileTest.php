@@ -74,17 +74,17 @@ class ProfileTest extends \Codeception\Test\Unit
     }
 
 
-//    public function testInsertProfile(){
-//        $profile = new Profile();
-//        $profile->attributes = [
-//            'nome' => $this->testProfileNomeValidation(),
-//            'nif' => $this->testProfileNIFValidation(),
-//            'saldo' => $this->testProfileSaldoValidation(),
-//            'user_id' => $this->testProfileIDUserValidation(),
-//        ];
-//        $profile->save();
-//        $this->tester->haveRecord('common\models\Profile' ,array( 'name' => 'Ricardo Duarte'));
-//    }
+    public function testInsertProfile(){
+        $profile = new Profile();
+        $profile->attributes = [
+            'nome' => $this->testProfileNomeValidation(),
+            'nif' => $this->testProfileNIFValidation(),
+            'saldo' => $this->testProfileSaldoValidation(),
+            'user_id' => $this->testProfileIDUserValidation(),
+        ];
+        $profile->save();
+        $this->tester->haveRecord('common\models\Profile' ,array( 'name' => 'Ricardo Duarte'));
+    }
 
 
 

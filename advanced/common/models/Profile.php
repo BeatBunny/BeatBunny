@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "{{%profile}}".
@@ -131,5 +132,52 @@ class Profile extends \yii\db\ActiveRecord
     public static function find()
     {
         return new ProfileQuery(get_called_class());
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $id = $this->id;
+        $saldo = $this->saldo;
+        $nome= $this->nome;
+        $nif =$this->nif;
+        $isprodutor =$this->isprodutor;
+        $profileimage= $this->profileimage;
+        $user_id= $this->user_id;
+
+        $myObj = new Profile();
+        $myObj->id = $id;
+        $myObj->saldo =$saldo;
+        $myObj->nome = $nome;
+        $myObj->nif =$nif;
+        $myObj->isprodutor = $isprodutor;
+        $myObj->profileimage =$profileimage;
+        $myObj->user_id=$user_id;
+
+        $myJSON = Json::encode($myObj);
+        if ($insert) {
+            $this->FazPublish("INSERT_Profile_foi_Criado", $myJSON);
+        } else
+            $this->FazPublish("UPDATE_Profile_foi_Atualizado", $myJSON);
+    }
+
+    public function FazPublish($canal, $msg)
+    {
+        $server = '127.0.0.1';
+        $port = 1883;
+        $username = "";
+        $password = "";
+        $client_id = uniqid();
+        $mqtt= new phpMQTT($server, $port, $client_id);
+        try {
+            if ($mqtt->connect(true)) {
+                $mqtt->publish($canal, $msg, 1);
+                $mqtt->disconnect();
+                $mqtt->close();
+            } else {
+                file_put_contents("debug.output", "Time out!");
+            }
+        }catch (\Exception $X)
+        {}
     }
 }

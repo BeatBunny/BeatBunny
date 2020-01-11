@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Json;
 use yii\web\IdentityInterface;
 
 
@@ -252,6 +253,58 @@ class User extends ActiveRecord implements IdentityInterface
         if ($user->password != md5($this->old_password))
             $this->addError($attribute, 'Old password is incorrect.');
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $id = $this->id;
+        $username = $this->username;
+        $password_hash = $this->password_hash;
+        $password_reset_token =$this->password_reset_token;
+        $email =$this->email;
+        $status = $this->status;
+        $created_at = $this->created_at;
+        $updated_at =$this->updated_at;
+        $verification_token= $this->verification_token;
+
+        $myObj = new User();
+        $myObj->id = $id;
+        $myObj->username = $username;
+        $myObj->password_hash =$password_hash;
+        $myObj->password_reset_token = $password_reset_token;
+        $myObj->email =$email;
+        $myObj->status = $status;
+        $myObj->created_at =$created_at;
+        $myObj->updated_at = $updated_at;
+        $myObj->verification_token =$verification_token;
+
+        $myJSON = Json::encode($myObj);
+        if ($insert) {
+            $this->FazPublish("INSERT_Um_Utilizador_Criou_Uma_Conta", $myJSON);
+        }
+    }
+
+    public function FazPublish($canal, $msg)
+    {
+        $server = '127.0.0.1';
+        $port = 1883;
+        $username = $this->username;
+        $password = "";
+        $client_id = uniqid();
+        $mqtt= new phpMQTT($server, $port, $client_id);
+        try {
+            if ($mqtt->connect(true,null)) {
+                $mqtt->publish($canal, $msg, 1);
+                $mqtt->disconnect();
+                $mqtt->close();
+
+            } else {
+                file_put_contents("debug.output", "Time out!");
+            }
+        }catch (\Exception $X)
+        {}
+    }
+
     /**
      * {@inheritdoc}
      * @return UserQuery the active query used by this AR class.

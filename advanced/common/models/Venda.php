@@ -87,22 +87,21 @@ class Venda extends \yii\db\ActiveRecord
         $id = $this->id;
         $data = $this->data;
         $valortotal = $this->valorTotal;
-        $musics_id =$this->musics_id;
-        $profile_id =$this->profile_id;
+        $musics_id = $this->musics_id;
+        $profile_id = $this->profile_id;
 
         $myObj = new Venda();
         $myObj->id = $id;
         $myObj->data = $data;
-        $myObj->valorTotal =$valortotal;
+        $myObj->valorTotal = $valortotal;
         $myObj->musics_id = $musics_id;
-        $myObj->profile_id =$profile_id;
+        $myObj->profile_id = $profile_id;
 
         $myJSON = Json::encode($myObj);
-        if ($insert) {
-            $this->FazPublish("INSERT", $myJSON);
-        } else
-            $this->FazPublish("UPDATE", $myJSON);
+        if ($insert)
+            $this->FazPublish("INSERT_Um_Utilizador_Comprou_Uma_Musica", $myJSON);
     }
+
 
     public function FazPublish($canal, $msg)
     {
@@ -113,26 +112,14 @@ class Venda extends \yii\db\ActiveRecord
         $client_id = uniqid();
         $mqtt= new phpMQTT($server, $port, $client_id);
         try {
-            $msg="O Cliente Comprou uma musica";
             if ($mqtt->connect(true)) {
                 $mqtt->publish($canal, $msg, 1);
                 $mqtt->disconnect();
                 $mqtt->close();
-
             } else {
                 file_put_contents("debug.output", "Time out!");
             }
         }catch (\Exception $X)
         {}
-    }
-
-    public function afterDelete()
-    {
-        parent::afterDelete();
-        $prod_id= $this->id;
-        $myObj=new Venda();
-        $myObj->id=$prod_id;
-        $myJSON = Json::encode($myObj);
-        $this->FazPublish("DELETE",$myJSON);
     }
 }
