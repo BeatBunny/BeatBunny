@@ -247,7 +247,7 @@ class MusicsController extends Controller
         
         $newVenda->save();
 
-        $currentProfile->save();
+        $currentProfile->save(false);
 
         return $this->redirect(['/user/index']);
     }
