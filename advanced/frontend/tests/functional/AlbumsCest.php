@@ -19,7 +19,7 @@ class AlbumsCest
         return [
             'user' => [
                 'class' => UserFixture::className(),
-                'dataFile' => codecept_data_dir() . 'user.php',
+                'dataFile' => codecept_data_dir() . 'login_data.php',
             ], 'profile' => [
                 'class' => ProfileFixture::className(),
                 'dataFile' => codecept_data_dir(). 'profile.php'
@@ -58,14 +58,18 @@ class AlbumsCest
 
     public function checkLogedCommonUserCantOpen(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
         $I->amOnPage('albums/index');
         $I->see('Welcome to beatBunny');
     }
 
     public function checkLogedCommonUserCantCreate(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
         $I->amOnPage('albums/create');
         $I->see('Welcome to beatBunny');
     }
@@ -77,11 +81,5 @@ class AlbumsCest
         $I->see('Not Allowed');
     }
 
-//    public function checkLogedCanOpen(FunctionalTester $I)
-//    {
-//        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
-//        $I->am('producer');
-//        $I->amOnPage('albums/index');
-//        $I->see('Create Album');
-//    }
+
 }

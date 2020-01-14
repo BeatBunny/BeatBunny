@@ -7,9 +7,20 @@
  */
 
 namespace frontend\tests\acceptance;
+use common\fixtures\UserFixture as UserFixture;
 use frontend\tests\AcceptanceTester;
+
 class SignupAndLoginCest
 {
+    public function _fixtures()
+    {
+        return [
+            'user' => [
+                'class' => UserFixture::className(),
+                'dataFile' => codecept_data_dir() . 'user.php',
+            ],
+        ];
+    }
     public function _before(AcceptanceTester $I)
     {
     }
@@ -35,7 +46,7 @@ class SignupAndLoginCest
         $I->wait(2);
         $I->amOnPage('/BeatBunny/advanced/frontend/web/site/login');
         $I->wait(2);
-        $I->fillField('Username', 'olex0004');
+        $I->fillField('Username', 'olex04');
         $I->fillField('Password','dnister04');
         $I->wait(2);
         $I->click('login-button');

@@ -48,8 +48,8 @@ class ContactCest
     public function checkContactSubmitNoSubject(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', [
-            'ContactForm[name]' => 'Teste',
-            'ContactForm[email]' => 'tester@gmail.com',
+            'ContactForm[name]' => 'olex04',
+            'ContactForm[email]' => 'olex.ol.04@gmail.com',
             'ContactForm[subject]' => '',
             'ContactForm[body]' => 'test content',
             'ContactForm[verifyCode]' => 'testme',
@@ -66,8 +66,8 @@ class ContactCest
     public function checkContactSubmitNoBody(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', [
-            'ContactForm[name]' => 'Teste',
-            'ContactForm[email]' => 'tester@gmail.com',
+            'ContactForm[name]' => 'olex04',
+            'ContactForm[email]' => 'olex.ol.04@gmail.com',
             'ContactForm[subject]' => 'Teste Sub',
             'ContactForm[body]' => '',
             'ContactForm[verifyCode]' => 'testme',
@@ -84,8 +84,8 @@ class ContactCest
     public function checkContactSubmitNotCorrectEmail(FunctionalTester $I)
     {
         $I->submitForm('#contact-form', [
-            'ContactForm[name]' => 'tester',
-            'ContactForm[email]' => 'tester.email',
+            'ContactForm[name]' => 'olex04',
+            'ContactForm[email]' => 'ol.com',
             'ContactForm[subject]' => 'test subject',
             'ContactForm[body]' => 'test content',
             'ContactForm[verifyCode]' => 'testme',

@@ -26,19 +26,15 @@ class LoginCest
             ]
         ];
     }
-    
+
     /**
      * @param FunctionalTester $I
      */
     public function loginUser(FunctionalTester $I)
     {
-        $I->amOnPage('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
-        $I->click('login-button');
-
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+        $I->amOnPage('site/login');
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
     }
 }

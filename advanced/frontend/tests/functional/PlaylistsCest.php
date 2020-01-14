@@ -28,19 +28,7 @@ class PlaylistsCest
     {
         $I->amOnRoute('site/login');
     }
-    protected function formParams($login, $password)
-    {
-        return [
-            'LoginForm[username]' => $login,
-            'LoginForm[password]' => $password,
-        ];
-    }
 
-    protected function createPlaylistParams($nome){
-        return [
-          'Playlists[nome]' => $nome,
-        ];
-    }
 
     public function checkGuestCantAccess(FunctionalTester $I)
     {
@@ -62,14 +50,18 @@ class PlaylistsCest
 
     public function checkLogedUserCanAcessPlaylistsAndCreate(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
         $I->amOnPage('playlists/create');
         $I->see('Create Playlists');
     }
 
     public function checkLogedUserCantDeletePlaylistsIfNotExist(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
         $I->amOnPage('playlists/delete');
         $I->see('Not Allowed');
     }

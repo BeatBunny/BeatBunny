@@ -58,7 +58,9 @@ class LoginCest
 
     public function checkValidLogin(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('olex04', 'dnister04'));
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
         $I->see('My Stuff');
     }
 

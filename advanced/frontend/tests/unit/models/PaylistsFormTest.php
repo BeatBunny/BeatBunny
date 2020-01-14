@@ -16,11 +16,6 @@ class PaylistsFormTest extends \Codeception\Test\Unit
 
     public function _before()
     {
-        $this->tester->haveFixtures([
-            'playlists' => [
-                'class' => PlaylistsFixture::className(),
-            ],
-        ]);
     }
 
     public function testPlaylistTitleValidation()

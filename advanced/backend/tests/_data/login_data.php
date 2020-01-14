@@ -10,4 +10,15 @@ return [
         'updated_at' => '1392559490',
         'email' => 'sfriesen@jenkins.info',
     ],
+    [
+    'username' => 'olex04',
+    'auth_key' => 'TZ_WW06OoVdMM_yI2mxhrK6k996UkBK6',
+    'password_hash' => '$2y$13$pbORvTa2T09PfpKhN02Ec.j2cxYztWAS4mB4c7Lvmsvy4AHHSno/G',
+    //dnister04
+    'email' => 'tv-olex.ol.04@gmail.com',
+    'status' => '10',
+    'created_at' => '1577386748',
+    'updated_at' => '1577386748',
+    'verification_token' => '',
+],
 ];

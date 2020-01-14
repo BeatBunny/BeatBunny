@@ -16,6 +16,6 @@ class AboutCest
         $I->amOnRoute('site/about');
         $I->see('Be a Producer!');
         $I->click('Be a Producer!');
-        $I->see('Contact');
+        $I->see('Name');
     }
 }

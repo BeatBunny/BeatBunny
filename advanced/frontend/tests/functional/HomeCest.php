@@ -41,14 +41,13 @@ class HomeCest
         $I->click('Contact');
         $I->see('If you have business inquiries or other questions, please fill out the following form to contact us.');
     }
-
-//    public function checkMusics(FunctionalTester $I)
-//    {
-//        $I->amOnPage('site/index');
-//        $I->see('Welcome to beatBunny');
-//        $I->seeLink('Music');
-//        $I->click('Music');
-//        $I->see('Musics');
-//    }
+    public function checkLogin(FunctionalTester $I)
+    {
+        $I->amOnPage('site/index');
+        $I->see('Welcome to beatBunny');
+        $I->seeLink('Login');
+        $I->click('Login');
+        $I->see('Please fill out the following fields to login:');
+    }
 
 }

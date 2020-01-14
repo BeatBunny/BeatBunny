@@ -22,27 +22,37 @@ class UserCest
                 'class' => UserFixture::className(),
                 'dataFile' => codecept_data_dir() . 'login_data.php',
             ],
+            'profile' => [
+                'class' =>ProfileFixture::className(),
+                'dataFile'=> codecept_data_dir(). 'profile.php',
+            ]
         ];
     }
+
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('site/login');
     }
 
-    protected function formParams($login, $password)
-    {
-        return [
-            'LoginForm[username]' => $login,
-            'LoginForm[password]' => $password,
-        ];
-    }
 
-
-    public function checkAccessGuesst(FunctionalTester $I)
+    public function checkAccessGuest(FunctionalTester $I)
     {
       $I->amOnPage('user/index');
       $I->see('Not Found');
     }
-
-
+    public function checkAccesssSettingsGuest(FunctionalTester $I)
+    {
+        $I->amOnPage('user/settings');
+        $I->see('Not Found');
+    }
+    public function checkAccessWallet(FunctionalTester $I){
+        $I->amOnPage("profile/wallet");
+        $I->see("Not Found");
+    }
+    public function checkWalletLogin(FunctionalTester $I){
+        $I->fillField('input[name="LoginForm[username]"]', 'olex04');
+        $I->fillField('input[name="LoginForm[password]"]', 'dnister04');
+        $I->click('button[name="login-button"]');
+        $I->amOnPage("profile/wallet");
+    }
 }
