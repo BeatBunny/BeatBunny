@@ -78,6 +78,7 @@ return [
                         'GET {id}/getmusicfromprofilehasclient' => 'getmusicfromprofilehasclient',
                         'POST buysong' => 'buysong',
                         'PUT savesettings' => 'savesettings',
+                        'GET {id}/saldoprofile' => 'saldoprofile',
                     ],
                     'tokens' => [
                         '{id}' => '<id:\\d+>', //O standard tem que aparecer!

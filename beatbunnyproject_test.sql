@@ -19,11 +19,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `beatbunnyproject`
+-- Database: `beatbunnyproject_test`
 --
 
-CREATE DATABASE IF NOT EXISTS beatbunnyproject;
-USE beatbunnyproject;
+CREATE DATABASE IF NOT EXISTS beatbunnyproject_test;
+USE beatbunnyproject_test;
 -- --------------------------------------------------------
 
 --
@@ -57,14 +57,7 @@ CREATE TABLE IF NOT EXISTS `albums` (
   `genres_id` int(10) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_albums_genres1_idx` (`genres_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `albums`
---
-
-INSERT INTO `albums` (`id`, `title`, `launchdate`, `review`, `albumcover`, `genres_id`) VALUES
-(74, 'Teste', '2019-12-28', NULL, 'uploads/28/', 1);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -101,8 +94,6 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('client', '41', 1578751176),
 ('client', '44', 1578758463),
 ('client', '45', 1578775924),
-('client', '46', 1578782525),
-('client', '47', 1579033074),
 ('producer', '2', 1577397448),
 ('producer', '28', 1577404568),
 ('producer', '29', 1577411732),
@@ -191,14 +182,7 @@ CREATE TABLE IF NOT EXISTS `genres` (
   `nome` varchar(45) COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `nome_UNIQUE` (`nome`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `genres`
---
-
-INSERT INTO `genres` (`id`, `nome`) VALUES
-(1, 'Rock');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -223,22 +207,11 @@ DROP TABLE IF EXISTS `leitura_sensores`;
 CREATE TABLE IF NOT EXISTS `leitura_sensores` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `temperatura` float NOT NULL,
-  `humidade` decimal(10,0) NOT NULL,
+  `humidade` float NOT NULL,
   `luminosidade` float NOT NULL,
   `descricao` varchar(254) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `leitura_sensores`
---
-
-INSERT INTO `leitura_sensores` (`id`, `temperatura`, `humidade`, `luminosidade`, `descricao`) VALUES
-(1, 12.55, '50', 123.4, 'Descricao 1'),
-(2, 15.36, '90', 124.51, 'Descricao 2'),
-(3, 200, '41', 96, 'Descricao 3'),
-(4, 9, '50', 123.4, 'Descricao 4'),
-(5, 60, '50', 96, 'Descricao 5');
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -252,15 +225,6 @@ CREATE TABLE IF NOT EXISTS `migration` (
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `migration`
---
-
-INSERT INTO `migration` (`version`, `apply_time`) VALUES
-('m130506_102106_rbac_init', 1577397448),
-('m130557_052038_rbac_add_index_on_auth_assignment_user_id', 1577397448),
-('m180524_201442_init', 1577397448);
 
 -- --------------------------------------------------------
 
@@ -287,15 +251,7 @@ CREATE TABLE IF NOT EXISTS `musics` (
   KEY `fk_musics_albums1_idx` (`albums_id`),
   KEY `fk_musics_iva1_idx` (`iva_id`),
   KEY `fk_musics_profile1_idx` (`profile_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `musics`
---
-
-INSERT INTO `musics` (`id`, `title`, `launchdate`, `rating`, `lyrics`, `pvp`, `musiccover`, `musicpath`, `genres_id`, `albums_id`, `iva_id`, `profile_id`) VALUES
-(20, 'Cafeina', '2020-01-11', NULL, '', 22, 'uploads/36/', 'uploads/36/', 1, NULL, NULL, 29),
-(21, 'piruka', '2020-01-11', NULL, '', 32, 'uploads/36/', 'uploads/36/', 1, NULL, NULL, 29);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -323,17 +279,7 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `ispublica` enum('S','N') COLLATE latin1_bin DEFAULT 'N',
   `creationdate` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=149 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `playlists`
---
-
-INSERT INTO `playlists` (`id`, `nome`, `ispublica`, `creationdate`) VALUES
-(136, 'NomePlaylist', 'N', '2020-01-11'),
-(137, 'Playlist do BeatBunnyAdmin3', 'N', '2020-01-14'),
-(139, 'Mais outra playlusts', 'N', '2020-01-16'),
-(148, 'Playlist__1', 'N', '2020-01-18');
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -349,18 +295,6 @@ CREATE TABLE IF NOT EXISTS `playlists_has_musics` (
   KEY `fk_playlists_has_musics_musics1_idx` (`musics_id`),
   KEY `fk_playlists_has_musics_playlists1_idx` (`playlists_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `playlists_has_musics`
---
-
-INSERT INTO `playlists_has_musics` (`playlists_id`, `musics_id`) VALUES
-(136, 20),
-(137, 20),
-(148, 20),
-(136, 21),
-(139, 21),
-(148, 21);
 
 -- --------------------------------------------------------
 
@@ -380,17 +314,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   PRIMARY KEY (`id`,`user_id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `fk_profile_user1_idx` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `profile`
---
-
-INSERT INTO `profile` (`id`, `saldo`, `nome`, `nif`, `isprodutor`, `profileimage`, `user_id`) VALUES
-(29, 300, 'NovoNome', 321321321, 'N', NULL, 36),
-(36, 12, 'test', 111111111, 'N', NULL, 45),
-(37, 0, 'BeatBunny', 123456789, 'N', NULL, 46),
-(38, 43, 'BeatBunnyAdmin3', 123456789, 'N', NULL, 47);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 -- --------------------------------------------------------
 
@@ -421,16 +345,6 @@ CREATE TABLE IF NOT EXISTS `profile_has_playlists` (
   KEY `fk_profile_has_playlists_playlists1_idx` (`playlists_id`),
   KEY `fk_profile_has_playlists_profile1_idx` (`profile_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
-
---
--- Extraindo dados da tabela `profile_has_playlists`
---
-
-INSERT INTO `profile_has_playlists` (`profile_id`, `playlists_id`) VALUES
-(29, 136),
-(38, 137),
-(29, 139),
-(36, 148);
 
 -- --------------------------------------------------------
 
@@ -467,17 +381,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Extraindo dados da tabela `user`
---
-
-INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`, `verification_token`) VALUES
-(36, 'BeatBunnyAdmin', 'nX0APpVUUU8bc9Lqqw6c8nhv1EBvVlOp', '$2y$13$DJARzGrUAm7onnm7sdeu.eV8/quc0saQ2im4BUajvMwNhcokVKpWG', NULL, 'teste@gmail.com', 10, 1578482095, 1578482095, NULL),
-(45, 'testuser', 'p4VkAQGqAQAA9hQio4ogkeXrlgz1E1fP', '$2y$13$MUJNAXOxungK9l.XA2kVdenraUL3OyFIveF2dpXvzPukKizfdjbvu', NULL, 'testuserIsAlsoAPass@gmail.com', 10, 1578775922, 1578775922, NULL),
-(46, 'BeatBunnyAdmin2', 'iFRuucgHEupnUzWz2HXre410gq7FMwG9', '$2y$13$gGCWFTCXtLmBJqq1QPODBuqWpMz.LdYoYnFc6Zx.etjFL3oUBCHj2', NULL, 'BunnyBeatG6@gmail.com', 10, 1578782525, 1578782525, NULL),
-(47, 'BeatBunnyAdmin3', 'aQnZRLqE--FHT-x1sBjeaXFaxbJXXYVV', '$2y$13$W2aNM691iChmJ9X0q92XFe8JRdyPCtpajLFlUh471/VpJg1/qZPYm', NULL, 'BeatBunnyAdmin3@gmail.com', 10, 1579033074, 1579033074, NULL);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -495,16 +399,14 @@ CREATE TABLE IF NOT EXISTS `venda` (
   PRIMARY KEY (`id`,`musics_id`,`profile_id`),
   KEY `fk_venda_musics1_idx` (`musics_id`),
   KEY `fk_venda_profile1_idx` (`profile_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Extraindo dados da tabela `venda`
 --
 
 INSERT INTO `venda` (`id`, `data`, `valorTotal`, `musics_id`, `profile_id`) VALUES
-(1, '2020-01-11 00:00:00', 32, 21, 36),
-(3, '2020-01-14 00:00:00', 22, 20, 38),
-(8, '2020-01-17 00:00:00', 22, 20, 36);
+(1, '2020-01-11 00:00:00', 32, 21, 36);
 
 --
 -- Constraints for dumped tables
@@ -557,13 +459,6 @@ ALTER TABLE `profile_has_albums`
 ALTER TABLE `profile_has_playlists`
   ADD CONSTRAINT `fk_profile_has_playlists_playlists1` FOREIGN KEY (`playlists_id`) REFERENCES `playlists` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_profile_has_playlists_profile1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Limitadores para a tabela `venda`
---
-ALTER TABLE `venda`
-  ADD CONSTRAINT `fk_venda_musics1` FOREIGN KEY (`musics_id`) REFERENCES `musics` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_venda_profile1` FOREIGN KEY (`profile_id`) REFERENCES `profile` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

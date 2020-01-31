@@ -188,20 +188,20 @@ class UserController extends Controller
         $currentUser = $this->getCurrentUser();
         $getCurrentProfile = $this->getCurrentProfile();
         if ((Yii::$app->user->can('accessAll') && ($getCurrentProfile->isprodutor == 'S')) || (Yii::$app->user->can('accessIsAdmin'))){
-        $playlistsUserLogado = $this->getPlaylistsDoUser();
-        $getCurrentMusic = Musics::find($id)->one();
-        $numberOfSongsYouHave = count($getCurrentProfile->musics);
-        if($verificarNaPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one())
-            $delDaPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
-        $verificarNaLinhaVenda = Venda::find($getCurrentMusic)->one();
-        if (count($verificarNaLinhaVenda) != null) {
-            $popup = true;
-            return $this->render('index', ['popup' => $popup, 'profileProvider' => $getCurrentProfile, 'userProvider' => $currentUser, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado]);
+          $playlistsUserLogado = $this->getPlaylistsDoUser();
+          $getCurrentMusic = Musics::find($id)->one();
+          $numberOfSongsYouHave = count($getCurrentProfile->musics);
+          if($verificarNaPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one())
+              $delDaPlaylist = PlaylistsHasMusics::find($getCurrentMusic)->one()->delete();
+          $verificarNaLinhaVenda = Venda::find($getCurrentMusic)->one();
+          if (count($verificarNaLinhaVenda) != null) {
+              $popup = true;
+              return $this->render('index', ['popup' => $popup, 'profileProvider' => $getCurrentProfile, 'userProvider' => $currentUser, 'numberOfSongsYouHave' => $numberOfSongsYouHave, 'playlistsUserLogado' => $playlistsUserLogado]);
 
-        }
-        $delMusic = Musics::find($getCurrentMusic)->one()->delete();
-        return $this->redirect(['index']);
-    }
+          }
+          $delMusic = Musics::find($getCurrentMusic)->one()->delete();
+          return $this->redirect(['index']);
+      }
     }
 }
 

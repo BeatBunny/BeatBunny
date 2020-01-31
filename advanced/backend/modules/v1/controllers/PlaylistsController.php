@@ -173,9 +173,9 @@ class PlaylistsController extends ActiveController
         $ret = $model->deleteAll(['id' => $id]);
 
         if($ret)
-            return true;
+            return ['SaveError' => true];
         
-        return false;
+        return ['SaveError' => false];
     }
 
     public function actionPlaylistputsong(){
@@ -188,13 +188,13 @@ class PlaylistsController extends ActiveController
         $playlistParaInserir = $model::findOne($id);
         
         if(is_null($playlistParaInserir))
-            return false;
+            return ['SaveError' => false];
         
         $idmusic = Yii::$app->request->post('idMusic');        
         $musicaParaInserirNaPlaylist = $modelmusica::findOne($idmusic);
 
         if(is_null($musicaParaInserirNaPlaylist))
-            return false;
+            return ['SaveError' => false];
 
         $modelPHM->playlists_id = $playlistParaInserir->id;
         $modelPHM->musics_id = $musicaParaInserirNaPlaylist->id;

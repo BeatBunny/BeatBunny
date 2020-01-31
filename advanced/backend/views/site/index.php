@@ -80,6 +80,12 @@ $this->title = 'My Yii Application';
                     <?= Html::a('Check Table Profile Has Playlists', ['/profile-has-playlists/index'], ['class' => 'btn btn-default']) ?>
                 </p>
             </div>
+            <div class="col-lg-12 borderAllBlack">
+                <h2>Leitura Sensores - Defesa...</h2>
+                <p>
+                    <?= Html::a('Check Table Leitura Sensores', ['/leitura-sensores/index'], ['class' => 'btn btn-default']) ?>
+                </p>
+            </div>
         </div>
     </div>
 </div>

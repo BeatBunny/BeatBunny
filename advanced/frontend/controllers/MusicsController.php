@@ -239,6 +239,7 @@ class MusicsController extends Controller
 
         $currentProfile->saldo = $currentProfile->saldo-$model->pvp;
 
+
         $newVenda = new Venda();
         $newVenda->data = date("Y/m/d");
         $newVenda->valorTotal = $model->pvp;
@@ -247,7 +248,7 @@ class MusicsController extends Controller
         
         $newVenda->save();
 
-        $currentProfile->save();
+        $currentProfile->save(false);
 
         return $this->redirect(['/user/index']);
     }

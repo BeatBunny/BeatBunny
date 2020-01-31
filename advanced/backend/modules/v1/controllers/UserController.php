@@ -131,9 +131,13 @@ class UserController extends ActiveController
         return $model->nome;
     }
     public function actionSaldoprofile($id){
-        $modelProfile = new $this->modelClass;
-        $model = $modelProfile::findOne($id);
-        return $model->saldo;
+        $modelsUser = new $this->modelClass;
+        $modelsProfile = new $this->modelProfile;
+
+        $user = $modelsUser->findOne($id);
+        $profile = $modelsProfile::find()->where(['user_id' => $user->id])->one();
+
+        return ['saldo' => $profile->saldo];
     }
     public function actionProfileimage($id){
         $modelProfile = new $this->modelClass;
@@ -187,22 +191,22 @@ class UserController extends ActiveController
 
         $musicaEmQuestao = $modelMusic::findOne($idMusicaParaComprar);
         if(is_null($musicaEmQuestao))
-            throw new Exception("Music doesn't exist");
+            return ['SaveError' => "Music doesn't exist"];
             
 
         $profileEmQuestao = $modelProfiles::find()->where(['user_id' => $idUser])->one();
 
         if(is_null($profileEmQuestao))
-            throw new Exception("User doesn't exist");
+            return ['SaveError' => "User doesn't exist"];
 
 
         foreach ($profileEmQuestao->vendas as $venda)
             if($venda->musics->id == $musicaEmQuestao->id)
-                throw new Exception("You already have purchased this music");
+            return ['SaveError' => "You already have purchased this music"];
 
 
         if($profileEmQuestao->saldo < $musicaEmQuestao->pvp)
-            throw new Exception("Balance doesn't allow this purchase");
+            return ['SaveError' => "Your balance isn't enough for this purchase"];
 
         $profileEmQuestao->saldo = $profileEmQuestao->saldo - $musicaEmQuestao->pvp;
 
@@ -216,7 +220,7 @@ class UserController extends ActiveController
         
         if($modelVenda->save()){
             $profileEmQuestao->save(false);
-            return true;
+            return ['SaveError' => "Music Bought"];
         }
         
         return false;
